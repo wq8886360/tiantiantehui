@@ -1,15 +1,35 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+
+//主入口
+import Index from '@/view/index'
+//登录注册
+import User from '@/view/login/entry'
+import Login from '@/view/login/login'
+import Sms from '@/view/login/sms'
+import Regist from '@/view/login/regist'
+import userSet from '@/view/login/set'
+
 
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: HelloWorld
-    }
-  ]
+	routes: [
+		{
+			path: '/',
+		  	name: 'index',
+		  	component: Index
+		},
+		{
+			path: '/user',
+			component: User,
+			children: [
+				{path: 'login',component: Login},
+				{path: 'sms',component: Sms},
+				{path: 'regist',component: Regist},
+				{path: 'set', component: userSet}
+			],
+			redirect: '/user/login'
+		}
+	]
 })
