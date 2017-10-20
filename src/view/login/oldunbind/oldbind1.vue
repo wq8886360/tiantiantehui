@@ -2,7 +2,7 @@
 	<div class="login">
 		<i class="icon-close"></i>
 		<div class="logo">
-			<h1>绑定手机号</h1>
+			<h1 style="font-size:0.8rem;color:#000;margin-top:0.9rem;padding-left:0.27rem;">绑定手机号</h1>
 		</div>
 		<div class="form">
 			<!-- 验证码登录方式 -->
@@ -27,7 +27,7 @@ export default {
 		return {
 			time: 1
 		}
-	}
+	},
 	methods:{
 		Time(){
 			var timestamp = Math.random();
