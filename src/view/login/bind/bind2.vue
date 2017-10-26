@@ -7,15 +7,6 @@
 			<x-button mini class="btn">重新获取</x-button>
 		</div>
 		<vue-input-code span-size="0.53rem" type="number" :number="4" height="50px" span-color="#000" input-color="#000" input-size="24px" :code="code"></vue-input-code>
-		<div class="psw bm">
-			<input class="sl-input" type="password" placeholder="请输入密码">
-		</div>
-		<div class="againpsw bm">
-			<input class="sl-input" type="password" placeholder="请重新输入一遍密码">
-		</div>
-		<div class="nickname bm">
-			<input class="sl-input" type="text" placeholder="请输入您的昵称">
-		</div>
 		<x-button class="sub" type="warn">绑定</x-button>
 	</div>
 </template>

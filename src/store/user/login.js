@@ -31,7 +31,7 @@ const actions = {
 	    }
 	},
 	CODESTATE({commit, state}, codenum){
-		sendSmsCode({mobile: state.tel, /*vcode: state.codenum*/}).then((response) => {
+		sendSmsCode({mobile: state.tel, vcode: state.codenum}).then((response) => {
 			console.log(response)
 			let res = response;
 			if(res.data.success){

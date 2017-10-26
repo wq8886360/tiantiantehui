@@ -9,7 +9,16 @@ import Login from '@/view/login/login'
 import Sms from '@/view/login/sms'
 import Regist from '@/view/login/regist'
 import userSet from '@/view/login/set'
-import Oldbind from '@/view/login/oldunbind/oldbind1' //无上级老用户绑定
+import Oldbind1 from '@/view/login/oldunbind/oldbind1' //无上级老用户绑定
+import Oldbind2 from '@/view/login/oldunbind/oldbind2'
+import Newbind1 from '@/view/login/newunbind/newbind1' //无上级新用户绑定
+import Newbind2 from '@/view/login/newunbind/newbind2'
+import Bind1 from '@/view/login/bind/bind1' //有上级用户绑定
+import Bind2 from '@/view/login/bind/bind2'
+import Forget1 from '@/view/login/forget/forget1' //忘记密码
+import Forget2 from '@/view/login/forget/forget2'
+
+
 
 
 Vue.use(Router)
@@ -29,7 +38,14 @@ export default new Router({
 				{path: 'sms',component: Sms},
 				{path: 'regist',component: Regist},
                 {path: 'set', component: userSet},
-                {path: 'oldbind', component: Oldbind}
+                {path: 'oldbind1', component: Oldbind1},
+                {path: 'oldbind2', component: Oldbind2},
+                {path: 'newbind1', component: Newbind1},
+                {path: 'newbind2', component: Newbind2},
+                {path: 'bind1', component: Bind1},
+                {path: 'bind2', component: Bind2},
+                {path: 'forget1', component: Forget1},
+                {path: 'forget2', component: Forget2}
 			],
 			redirect: '/user/login'
 		}

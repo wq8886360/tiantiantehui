@@ -2,8 +2,8 @@
 	<div class="tabbar">
 		<div><router-link to="/list">首页</router-link></div>
 		<div><router-link to="/list">分类</router-link></div>
-		<div><router-link to="/list">购物车</router-link></div>
-		<div><router-link to="/user">我的</router-link></div>
+		<div><router-link to="/car">购物车</router-link></div>
+		<div><router-link to="/person">个人中心</router-link></div>
 	</div>
 </template>
 <script>

@@ -7,46 +7,38 @@
 			<x-button :disabled="disabled" @click.native="countdown" mini class="btn">{{text}}</x-button>
 		</div>
 		<vue-input-code span-size="0.53rem" type="number" :number="4" height="50px" span-color="#000" input-color="#000" input-size="24px" :code="code"></vue-input-code>
-        <div class="psw bm">
-			<input class="sl-input" :disabled="dis" v-model="pwd" type="password" v-validate="'required|pwd'" name="密码" placeholder="请输入密码">
+		<div class="psw bm">
+			<input class="sl-input" v-validate="'required|pwd'" v-model="pwd" name="密码" :disabled="dis" type="password" placeholder="请输入密码">
             <i class="sl-error" v-show="errors.has('密码')">{{errors.first('密码')}}</i>
-		</div>
-		<div class="againpsw bm">
-			<input class="sl-input" :disabled="dis" v-validate="'required|pwd'" v-model="pwdagain" name="再次输入密码" type="password" placeholder="请重新输入一遍密码">
-            <i class="sl-error" v-show="errors.has('再次输入密码')">{{errors.first('再次输入密码')}}</i>
-            <i class="sl-error" v-show="againState">两次密码输入不相同</i>
         </div>
-		<div class="nickname bm">
-			<input class="sl-input" :disabled="dis" v-model="nickname" v-validate="'required'" type="text" name="昵称" placeholder="请输入您的昵称">
-            <i class="sl-error" v-show="errors.has('昵称')">{{errors.first('昵称')}}</i>
-		</div>
-		<x-button class="sub" novalidate :disabled="dis" @click.native="submit" type="warn">完成</x-button>
+		<div class="againpsw bm">
+			<input class="sl-input" v-validate="'required|pwd'" name="确认密码" v-model="pwdagain" :disabled="dis" type="password" placeholder="请重新输入一遍密码">
+            <i class="sl-error" v-show="errors.has('确认密码')">{{errors.first('确认密码')}}</i>
+            <i class="sl-error" v-if="againState">两次密码输入不相同</i>
+        </div>
+		<x-button class="sub" @click.native="submit" :disabled="dis" type="warn">完成</x-button>
 	</div>
 </template>
 <script>
-import { XButton, Alert } from 'vux';
+import { XButton } from 'vux';
+import { sendSmsCode, findPwd } from '../../../http/api.js'
 import VueInputCode from 'vue-input-code'
-import { sendSmsCode, index } from '../../http/api'
-import Cookie from "js-cookie";
 export default{
 	components: {
 		XButton,
-        VueInputCode,
-        Alert,
-    },
+		VueInputCode
+	},
 	data(){
 		return {
-            tel: null,
-            vcode: null, //图文验证码
-            referId: null,
-            time: 60,//倒计时时间
+			tel: null,
             code: [],
-            pwd: '',
-            pwdagain: '',
-            againState: false,
+            vcode: null,
+            resCode: null,
+            time: 60,
             dis: true,
-            resCode: '',
-            nickname: null,
+            againState: false,
+            pwd: null,
+            pwdagain: null
 		}
     },
     computed: {
@@ -59,9 +51,8 @@ export default{
     },
     created(){
         let data = JSON.parse(this.$route.query.data);
-        this.tel = data.tel;
-        this.vcode = data.code;
-        this.referId = data.referId;
+        this.tel = data.mobile;
+        this.vcode = data.vcode;
         this.countdown();
     },
     watch: {
@@ -102,32 +93,6 @@ export default{
 		back(){
 			this.$router.go(-1);
         },
-        submit(){
-            var self = this
-            this.$validator.validateAll().then((result) => {
-                if (result) {
-                    if(this.pwd == this.pwdagain){
-                        let code = this.code.join("")
-                        let params = {
-                            mobile: this.tel,
-                            mobile_code: code,
-                            code: this.referId,
-                            password: this.pwd,
-                            nickname: this.nickname
-                        }
-                        console.log(params)
-                        index(params).then((response) => {
-                            let res = response;
-                            console.log(res)
-                            if(res.data.code == 1000){
-                                this.$router.push({path: Cookie.get('to')})
-                            }
-                        })
-                    }
-                    return;
-                }
-            });
-        },
         countdown(){
             sendSmsCode({mobile: this.tel,vcode: this.vcode}).then((response) => {
                 console.log(response)
@@ -148,6 +113,30 @@ export default{
                     },1000)
                 }
             })
+        },
+        submit(){
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    if(this.pwd == this.pwdagain){
+                        let code = this.code.join("")
+                        let params = {
+                            mobile: this.tel,
+                            password: this.pwd,
+                            pwd: this.pwdagain,
+                            code: code
+                        }
+                        console.log(params)
+                        findPwd(params).then((response) => {
+                            let res = response;
+                            console.log(res)
+                            if(res.data.code == 1000){
+                                this.$router.push({path: '/user/login'})
+                            }
+                        })
+                    }
+                    return;
+                }
+            });
         }
 	}
 }

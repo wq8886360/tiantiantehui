@@ -1,72 +1,93 @@
 <template>
-	<div class="regist">
-		<i class="icon-back" @click="back"></i>
-		<div class="logo">
-			<img src="../../assets/img/login_logo.png" alt="">
-		</div>
-		<div class="form">
-			<div class="referrer" style="margin-top:0">
-				<input class="sl-input" v-model="referId" type="text" placeholder="请输入推荐人ID">
-				<x-button mini class="btn" @click.native="referrerShow = true">随机选择推荐人</x-button>
-			</div>
-			<div class="tel">
-				<input class="sl-input" v-model="tel" type="tel" placeholder="请输入手机号">
-			</div>
-			<div class="code">
-				<input class="sl-input" v-model="code" type="tel" placeholder="请输入验证码">
-				<img :src="'http://v20-api.shunliandongli.com/member/Common/vcode?time='+time" @click="timer" alt="">
-			</div>
-		</div>
-		<!-- 推荐人列表 -->
-		<div class="referrerList" v-if="referrerShow">
-			<i class="icon-back" @click="referrerShow = false"></i>
-			<button class="change">换一批</button>
-			<h1 class="title">选择推荐人</h1>
-			<div class="mainlist">
-				<div class="box" @click="detail(index)" v-for='(item,index) in 9'>
-					<img class="choice" src="../../assets/img/choice.png" alt="">
-					<div class="img"><img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3318583382,2915743720&fm=27&gp=0.jpg" alt=""></div>
-					<p class="name">拉斯维加斯拉斯维加斯</p>
-					<div class="label">
-						<img class="v" src="../../assets/img/v2.png" alt="">
-						<div class="identity">
-							<img src="../../assets/img/jingyingdaoshi.png" alt="">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="choose">
-				<x-button class="sl-button" type="warn">确定</x-button>
-			</div>
-		</div>
+    <div class="regist">
+        <i class="icon-back" @click="back"></i>
+        <div class="logo">
+            <img src="../../assets/img/login_logo.png" alt="">
+        </div>
+        <div class="form">
+            <div class="referrer" style="margin-top:0">
+                <input class="sl-input" v-model="nickname" v-validate="'required'" name="推荐人ID" type="text" placeholder="请输入推荐人ID">
+                <i class="sl-error" v-show="errors.has('推荐人ID')">{{errors.first('推荐人ID')}}</i>
+                <i class="sl-error" v-if="referIdState">无效的邀请码</i>
+                <x-button mini class="btn" @click.native="referrerShow = true">随机选择推荐人</x-button>
+            </div>
+            <div class="tel">
+                <input class="sl-input"  v-model="tel" v-validate="'required|tel'" name="手机号" type="tel" placeholder="请输入手机号">
+                <i class="sl-error" v-show="errors.has('手机号')">{{errors.first('手机号')}}</i>
+                <i class="sl-error" v-if="telState">账号已被注册</i>
+            </div>
+            <div class="code">
+                <input :disabled="disabledOne&&disabledTwo?false:true" class="sl-input" v-model="code" type="tel" placeholder="请输入验证码">
+                <img :src="'http://v20-api.shunliandongli.com/member/Common/vcode?time='+time" @click="timer" alt="">
+                <i class="sl-error" v-if="codeerror">验证码错误</i>
+            </div>
+        </div>
+        <!-- 推荐人列表 -->
+        <div class="referrerList" v-if="referrerShow">
+            <i class="icon-back" @click="referrerShow = false"></i>
+            <button class="change" @click="replace">换一批</button>
+            <h1 class="title">选择推荐人</h1>
+            <div class="mainlist">
+                <div class="box" @click="detail(index)" v-for='(item,index) in referList.list'>
+                    <img v-if="index == choiceIndexSure" class="choice" src="../../assets/img/choice.png" alt="">
+                    <div class="img"><img :src="item.avatar" alt=""></div>
+                    <p class="name">{{item.nickname}}</p>
+                    <div class="label">
+                        <img v-if="item.level == 'V0'" class="v" src="../../assets/img/V0.png" alt="">
+                        <img v-if="item.level == 'V1'" class="v" src="../../assets/img/V0.png" alt="">
+                        <img v-if="item.level == 'V2'" class="v" src="../../assets/img/V0.png" alt="">
+                        <img v-if="item.level == 'V3'" class="v" src="../../assets/img/V0.png" alt="">
+                        <img v-if="item.level == 'V4'" class="v" src="../../assets/img/V0.png" alt="">
+                        <img v-if="item.level == 'V5'" class="v" src="../../assets/img/V0.png" alt="">
+                        <div class="identity">
+                            <img v-if="item.member_role == 2" src="../../assets/img/jingyingdaoshi.png" alt="">
+                            <img v-if="item.member_role == 1" src="../../assets/img/changkejingying.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="choose">
+                <x-button class="sl-button" @click.native="results" type="warn">确定</x-button>
+            </div>
+        </div>
 
-		<!-- 推荐人详情 -->
-		<div class="detail" v-if="detailShow">
-			<div class="content">
-				<div class="top">
-					<img class="avtor" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3318583382,2915743720&fm=27&gp=0.jpg" alt="">
-				</div>
-				<p class="username">史蒂夫绝地反击打飞机的肌肤</p>
-				<div style="margin:0.4rem 0;">
-					<img src="../../assets/img/v3.png" style="height:0.37rem;width: 0.51rem" alt="">
-					<img src="../../assets/img/jingyingdaoshi.png" style="height:0.37rem;width: 1.2rem" alt="">
-				</div>
-				<div style="border-top:1px dashed #e4e4e4;width:100%;"></div>
+        <!-- 推荐人详情 -->
+        <div class="detail" v-if="detailShow">
+            <div class="content">
+                <div class="top">
+                    <img class="avtor" :src="referList['list'][choiceIndex]['avatar']" alt="">
+                </div>
+                <p class="username">{{referList['list'][choiceIndex]['nickname']}}</p>
+                <div style="margin:0.4rem 0;">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V0'" class="v" src="../../assets/img/V0.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V1'" class="v" src="../../assets/img/V0.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V2'" class="v" src="../../assets/img/V0.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V3'" class="v" src="../../assets/img/V0.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V4'" class="v" src="../../assets/img/V0.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V5'" class="v" src="../../assets/img/V0.png" alt="">
 
-				<div class="info">
-					<p><i>注册时间：</i>2017-12-03</p>
-					<p><i>热度：</i>998</p>
-				</div>
-				<div class="btnch">
-					<x-button class="sl-button" type="warn" @click.native="detailShow = false">选择</x-button>
-					<x-button type="default"  @click.native="detailShow = false">不选择</x-button>
-				</div>
-			</div>
-		</div>
-	</div>
+
+                    <img style="height:0.37rem;width: 1.2rem"  v-if="referList['list'][choiceIndex]['member_role'] == 2" src="../../assets/img/jingyingdaoshi.png" alt="">
+                    <img style="height:0.37rem;width: 1.2rem"  v-if="referList['list'][choiceIndex]['member_role'] == 1" src="../../assets/img/changkejingying.png" alt="">
+
+                </div>
+                <div style="border-top:1px dashed #e4e4e4;width:100%;"></div>
+
+                <div class="info">
+                    <p><i>注册时间：</i>{{referList['list'][choiceIndex]['regtime']}}</p>
+                    <p><i>热度：</i>{{referList['list'][choiceIndex]['heat']}}</p>
+                </div>
+                <div class="btnch">
+                    <x-button class="sl-button" type="warn" @click.native="choose">选择</x-button>
+                    <x-button type="default"  @click.native="noChoose">不选择</x-button>
+                </div>
+            </div>
+        </div>
+    </div>    
 </template>
 <script>
 import { XButton } from 'vux';
+import { checkMobile, checkCode, codeList, CommoncheckCode, sendSmsCode, getOauthUrl } from '../../http/api'
 export default{
 	components: {
 		XButton
@@ -76,30 +97,140 @@ export default{
 			time: 1,
 			referId: null,
 			tel: null,
-			code: null,
+            code: null,
+            referList: null,
 			referrerShow: false,
-			detailShow: false
+            detailShow: false,
+            referIdState: false,
+            codeerror: false,
+            telState: false,
+            page: 1,
+            disabledOne: false,
+            disabledTwo: false,
+            nickname: '',
+
+            choiceIndex: null,
+            choiceIndexSure: null
 		}
 	},
 	methods:{
 		back(){
 			this.$router.go(-1);
-		},
+        },
 		timer(){
 			this.time = Math.random();
 		},
 		detail(index){
+            this.choiceIndex = index;
 			this.detailShow = true;
-		}
-	},
+        },
+        // 确认选择
+        choose(){
+            this.detailShow = false
+            this.choiceIndexSure = this.choiceIndex
+        },
+        // 最后选择结果
+        results(){
+            this.referrerShow = false;
+            if(this.choiceIndexSure >= 0){
+                this.referId = this.referList.list[this.choiceIndexSure].code;
+                this.nickname = this.referList.list[this.choiceIndexSure].nickname;
+            }
+        },
+        noChoose(){
+            this.detailShow = false;
+            this.choiceIndexSure = null;
+        },
+        replace(){
+            this.page++;
+            this.api_refer(9,this.page);
+        }, 
+        api_refer(size,page){
+            codeList({pageSize: size,page:page}).then((response) => {
+                console.log(response)
+                let res = response;
+                if(res.data.data.list.length != 0){
+                    this.referList = res.data.data;
+                }else{
+                    this.page = 1;
+                    this.api_refer(9,this.page)
+                }
+            })
+        }
+    },
+    created(){
+        this.api_refer(9,1)
+        getOauthUrl({callback_url:'http://v20-vue.shunliandongli.com/#/user/regist'}).then((response) => {
+            console.log(response)
+            window.location.href = response.data.data.url;
+        })
+    },  
 	watch:{
 		'code': {
 			handler: function() {
 				if(this.code.length == 4){
-					this.$router.push({path: '/user/set', query:{tel: this.tel}})
+                    CommoncheckCode({vcode: this.code}).then((response) => {
+                        console.log(response)
+                        let res = response;
+                        if(res.data.code == 1000){
+                            this.codeerror =false;
+                            let data = {
+                                referId: this.referId,
+                                tel: this.tel,
+                                code: this.code
+                            }
+                            this.$router.push({path: '/user/set', query:{data: JSON.stringify(data)}})
+                        }else{
+                            this.timer();
+                            this.code = '';
+                            this.codeerror = true;
+                        }
+                    })
+                    // sendSmsCode({mobile: }).then((response) => {
+
+                    // })
+					//this.$router.push({path: '/user/set', query:{tel: this.tel}})
 				}
 			}
-		}
+        },
+        'referId': {
+            handler: function() {
+                if(this.referId){
+                    checkCode({code: this.referId}).then((response) => {
+                        let res = response;
+                        if(res.data.code == 2011){
+                            this.referIdState = true; 
+                            this.disabledOne = false  
+                        }else{
+                            this.referIdState = false;
+                            this.disabledOne = true
+                        }
+                    })
+                }else{
+                    this.referIdState = false;
+                    this.disabledOne = false;
+                }
+            }
+        },
+        'tel': {
+            handler: function() {
+                if(/^[1][3,4,5,7,8][0-9]{9}$/.test(this.tel)){
+                    checkMobile({mobile: this.tel}).then((response) => {
+                        let res = response;
+                        if(res.data.code == 2001){
+                            this.telState = true;
+                            this.disabledTwo = false;
+                        }else{
+                            this.telState = false;
+                            this.disabledTwo = true;
+                        }
+                    })
+                }else{
+                    this.telState = false;
+                    this.disabledTwo = false;
+                }
+            }
+        }
 	}
 }
 </script>
@@ -248,7 +379,8 @@ export default{
 					overflow: hidden;
 					text-overflow:ellipsis;
 					white-space: nowrap;
-					width: 2.13rem;
+                    width: 2.13rem;
+                    text-align: center;
 				}
 			}
 		}
