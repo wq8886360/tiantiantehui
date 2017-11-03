@@ -13,3 +13,4 @@ export const findPwd = params => post('/member/userinfo/findPwd', params); //找
 export const getOauthUrl = params => get("/member/oauth/getOauthUrl", params); //微信授权
 export const wechat = params => post('/member/oauth/wechat', params); //拉取用户信息
 export const logout = params => post('/member/login/logout', params); //推出登录
+export const storeIndex = params => get("/store/index", params); //店铺首页

@@ -8,7 +8,9 @@ import Cookie from "js-cookie";
 import './validate.js'
 import '@/assets/css/component/index.less' //样式模块入口文件
 import '@/assets/font/font.css' //icon
+import VueAwesomeSwiper from 'vue-awesome-swiper'
 
+Vue.use(VueAwesomeSwiper)
 import  { AlertPlugin, ToastPlugin } from 'vux'
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
