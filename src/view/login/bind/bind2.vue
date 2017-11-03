@@ -4,30 +4,146 @@
 		<h1>验证码已发送到</h1>
 		<div class="userTel">
 			<p>{{tel}}</p>
-			<x-button mini class="btn">重新获取</x-button>
+			<x-button :disabled="disabled" @click.native="countdown" mini class="btn">{{text}}</x-button>
 		</div>
 		<vue-input-code span-size="0.53rem" type="number" :number="4" height="50px" span-color="#000" input-color="#000" input-size="24px" :code="code"></vue-input-code>
-		<x-button class="sub" type="warn">绑定</x-button>
+        <div class="psw bm">
+			<input class="sl-input" :disabled="dis" v-model="pwd" type="password" v-validate="'required|pwd'" name="密码" placeholder="请输入密码">
+            <i class="sl-error" v-show="errors.has('密码')">{{errors.first('密码')}}</i>
+		</div>
+		<div class="againpsw bm">
+			<input class="sl-input" :disabled="dis" v-validate="'required|pwd'" v-model="pwdagain" name="再次输入密码" type="password" placeholder="请重新输入一遍密码">
+            <i class="sl-error" v-show="errors.has('再次输入密码')">{{errors.first('再次输入密码')}}</i>
+            <i class="sl-error" v-show="againState">两次密码输入不相同</i>
+        </div>
+		<div class="nickname bm">
+			<input class="sl-input" :disabled="dis" v-model="nickname" v-validate="'required'" type="text" name="昵称" placeholder="请输入您的昵称">
+            <i class="sl-error" v-show="errors.has('昵称')">{{errors.first('昵称')}}</i>
+		</div>
+		<x-button class="sub" novalidate :disabled="dis" @click.native="submit" type="warn">完成</x-button>
 	</div>
 </template>
 <script>
-import { XButton } from 'vux';
+import { XButton, Alert } from 'vux';
 import VueInputCode from 'vue-input-code'
+import { sendSmsCode, index } from '../../../http/api'
+import Cookie from "js-cookie";
 export default{
 	components: {
 		XButton,
-		VueInputCode
-	},
+        VueInputCode,
+        Alert,
+    },
 	data(){
 		return {
-			tel: this.$route.query.tel,
-			code: []
+            tel: null,
+            vcode: null, //图文验证码
+            referId: null,
+            time: 60,//倒计时时间
+            code: [],
+            pwd: '',
+            pwdagain: '',
+            againState: false,
+            dis: true,
+            resCode: '',
+            nickname: null,
+            unique_sign: null
 		}
-	},
+    },
+    computed: {
+        text: function () {
+            return this.time > 0 ? this.time + 's' : '获取验证码';
+        },
+        disabled: function () {
+            return this.time > 0 ? true : false;
+        }
+    },
+    created(){
+        let data = JSON.parse(this.$route.query.data);
+        this.tel = data.mobile;
+        this.vcode = data.vcode;
+        this.unique_sign = data.unique_sign;
+        this.countdown();
+    },
+    watch: {
+        'code': {
+            handler: function() {
+                if(this.code.length == 4){
+                    let codestr = this.code.join("");
+                    if(codestr == this.resCode){
+                        this.dis = false;
+                    }else{
+                        this.dis = true;
+                        this.$vux.toast.text('验证码输入错误', 'middle')
+                    }
+                }else{
+                    this.dis = true;
+                }
+            },
+            deep: true
+        },
+        'pwdagain': {
+            handler: function() {
+                if(/(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{8,16}$/.test(this.pwdagain)){
+                    if(this.pwdagain == this.pwd){
+                        this.againState = false;
+                    }else{
+                        this.againState = true;
+                    }
+                }else{
+                    this.againState = false;
+                }
+            }
+        }
+    },
 	methods:{
 		back(){
 			this.$router.go(-1);
-		}
+        },
+        submit(){
+            var self = this
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    if(this.pwd == this.pwdagain){
+                        let code = this.code.join("")
+                        let params = {
+                            mobile: this.tel,
+                            mobile_code: code,
+                            code: this.referId,
+                            password: this.pwd,
+                            nickname: this.nickname,
+                            unique_sign: this.unique_sign
+                        }
+                        console.log(params)
+                        index(params).then((response) => {
+                            let res = response;
+                            console.log(res)
+                            if(res.data.code == 1000){
+                                this.$router.push({path: Cookie.get('to')})
+                            }
+                        })
+                    }
+                    return;
+                }
+            });
+        },
+        countdown(){
+            sendSmsCode({mobile: this.tel,vcode: this.vcode}).then((response) => {
+                console.log(response)
+                if(response.data.code == 1000 ){
+                    this.resCode = response.data.data;
+
+                    this.time = 60;
+                    var _this = this;
+                    var timer = setInterval(function(){
+                        _this.time--;
+                        if(_this.time<0){
+                            clearInterval(timer)
+                        }
+                    },1000)
+                }
+            })
+        }
 	}
 }
 </script>

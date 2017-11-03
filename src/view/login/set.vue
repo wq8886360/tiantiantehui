@@ -73,10 +73,7 @@ export default{
                         this.dis = false;
                     }else{
                         this.dis = true;
-                        this.$vux.alert.show({
-                            title: '错误',
-                            content: '验证码输入错误'
-                        })
+                        this.$vux.toast.text('验证码输入错误', 'middle')
                     }
                 }else{
                     this.dis = true;
@@ -133,10 +130,6 @@ export default{
                 console.log(response)
                 if(response.data.code == 1000 ){
                     this.resCode = response.data.data;
-                    this.$vux.alert.show({
-                        title: '验证码发送成功',
-                        content: response.data.data
-                    })
 
                     this.time = 60;
                     var _this = this;

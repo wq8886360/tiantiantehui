@@ -4,23 +4,24 @@ import router from "../router/index.js";
 import qs from "qs";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = "http://v20-api.shunliandongli.com"; //开发
+axios.defaults.baseURL = "http://v20-front-api.shunliandongli.com"; //开发
 // axios.defaults.baseURL = 'http://v20-testseller.shunliandongli.com'; //测试
 axios.defaults.timeout = 5000;
 axios.defaults.headers = {
-  "Content-Type": "application/x-www-form-urlencoded"
+  "Content-Type": "application/x-www-form-urlencoded",
 };
 
 // request全局拦截
-// axios.interceptors.request.use(config => {
-// 	let token = Cookie.get("token");
-// 	if (token) {
-//     	config.headers['X-Token'] = token;
-//   	}
-// 	return config
-// },error => {
-// 	return Promise.reject(error)
-// })
+axios.interceptors.request.use(config => {
+    if(config.method === 'post') {
+        config.data += '&client_type=wechat'
+    } else if(config.method === 'get') {
+        config.params['client_type'] = 'wechat'
+    }
+	return config
+},error => {
+	return Promise.reject(error)
+})
 
 // response全局拦截
 // axios.interceptors.response.use(

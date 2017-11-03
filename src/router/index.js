@@ -17,7 +17,13 @@ import Bind1 from '@/view/login/bind/bind1' //有上级用户绑定
 import Bind2 from '@/view/login/bind/bind2'
 import Forget1 from '@/view/login/forget/forget1' //忘记密码
 import Forget2 from '@/view/login/forget/forget2'
+import Authorise from '@/view/wx/authorise' //微信授权
 
+
+
+//测试
+import Car from '@/view/test/car'
+import Person from '@/view/test/person'
 
 
 
@@ -28,7 +34,17 @@ export default new Router({
 		{
 			path: '/',
 		  	name: 'index',
-		  	component: Index
+              component: Index,
+              children: [
+                {
+                    path: 'car',
+                    component: Car
+                },
+                {
+                    path: 'person',
+                    component: Person
+                }
+              ]
 		},
 		{
 			path: '/user',
@@ -45,9 +61,10 @@ export default new Router({
                 {path: 'bind1', component: Bind1},
                 {path: 'bind2', component: Bind2},
                 {path: 'forget1', component: Forget1},
-                {path: 'forget2', component: Forget2}
+                {path: 'forget2', component: Forget2},
+                {path: 'authorise', component: Authorise}
 			],
 			redirect: '/user/login'
-		}
+        },
 	]
 })

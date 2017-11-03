@@ -15,7 +15,7 @@
 
 				<div class="verificationCode">
 					<input :disabled="codedis" class="sl-input" v-model="vcode" type="tel"  placeholder="请输入验证码">
-					<img :src="'http://v20-api.shunliandongli.com/member/Common/vcode?time='+time" @click="Time" alt="">
+					<img :src="'http://v20-front-api.shunliandongli.com/member/Common/vcode?time='+time" @click="Time" alt="">
 				</div>
 				<i class="sl-error" v-if="vcodeState">您输入的验证码有误，请重试</i>
 			</div>
@@ -23,7 +23,7 @@
 	</div>
 </template>
 <script>
-import { CommoncheckCode } from '../../../http/api.js'
+import { CommoncheckCode, checkMobile } from '../../../http/api.js'
 export default {
 	data(){
 		return {
@@ -38,7 +38,13 @@ export default {
         'tel': {
             handler: function(){
                 if(/^[1][3,4,5,7,8][0-9]{9}$/.test(this.tel)){
-                    this.codedis = false;
+                    checkMobile({mobile: this.tel}).then((response) => {
+                        if(response.data.code != 2001){
+                            this.$vux.toast.text('账号未注册', 'middle')
+                        }else{
+                            this.codedis = false;
+                        }
+                    })
                 }else{
                     this.codedis = true;
                 }

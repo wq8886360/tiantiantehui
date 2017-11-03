@@ -14,7 +14,7 @@
 
 				<div class="verificationCode">
 					<input class="sl-input" type="tel"  placeholder="请输入验证码">
-					<img :src="'http://v20-api.shunliandongli.com/member/Common/vcode?time='+time" @click="Time" alt="">
+					<img :src="'http://v20-front-api.shunliandongli.com/member/Common/vcode?time='+time" @click="Time" alt="">
 				</div>
 				<!-- <i class="sl-error">您输入的验证码有误，请重试</i> -->
 			</div>

@@ -17,12 +17,12 @@
 
                         <div class="verificationCode">
                             <input class="sl-input" v-model="code" type="tel" :disabled="codedis"  placeholder="请输入验证码">
-                            <img :src="'http://v20-api.shunliandongli.com/member/Common/vcode?time='+time" @click="Time" alt="">
+                            <img :src="'http://v20-front-api.shunliandongli.com/member/Common/vcode?time='+time" @click="Time" alt="">
                         </div>
                         <i class="sl-error" v-if="codeState">您输入的验证码有误，请重试</i>
 
                         <div class="login_type">
-                            <div class="left"><i class="icon-CN_tencent-wechat"></i>微信登录</div>
+                            <div class="left" @click="wx_login"><i class="icon-CN_tencent-wechat"></i>微信登录</div>
                             <div class="right"><router-link to="/user/regist">新用户注册</router-link></div>
                         </div>
 
@@ -40,7 +40,7 @@
                             <i class="sl-error" v-show="errors.has('密码')">{{errors.first('密码')}}</i>
                         </div>
                         <div class="login_type">
-                            <div class="left"><i class="icon-CN_tencent-wechat"></i>微信登录</div>
+                            <div class="left" @click="wx_login"><i class="icon-CN_tencent-wechat"></i>微信登录</div>
                             <div class="right"><router-link to="/user/regist">新用户注册</router-link></div>
                         </div>
                         <x-button :disabled="!(username && password)" class="sl-button loginBtn" @click.native="login" type="warn">登录</x-button>
@@ -63,7 +63,7 @@
 </template>
 <script>
 import { XButton, Swiper, SwiperItem } from 'vux'
-import { CommoncheckCode, loginindex } from '../../http/api.js'
+import { CommoncheckCode, loginindex, checkMobile, getOauthUrl, wechat, callback_uri } from '../../http/api.js'
 import Cookie from "js-cookie";
 export default {
 	components: {
@@ -108,16 +108,14 @@ export default {
             loginindex(params).then((response) => {
                 console.log(response)
                 if(response.data.code != 1000){
-                    this.loginerrmsg = response.data.message;
-                    var _this = this;
-                    this.err_msg = true;
-                    setTimeout(function() {
-                        _this.err_msg = false;
-                    },1000)
+                    this.$vux.toast.text(response.data.message, 'middle')
                 }else{
                     this.$router.push({path: Cookie.get('to')})
                 }
             })
+        },
+        wx_login(){
+            this.$router.push({path: '/user/authorise'})
         },
         close(){
             this.$router.push({path: Cookie.get('from')})
@@ -127,7 +125,14 @@ export default {
         'tel': {
             handler: function(){
                 if(/^[1][3,4,5,7,8][0-9]{9}$/.test(this.tel)){
-                    this.codedis = false;
+                    checkMobile({mobile: this.tel}).then((response) => {
+                        console.log(response)
+                        if(response.data.code != 2001){
+                            this.$vux.toast.text('账号未注册', 'middle')
+                        }else{
+                            this.codedis = false;
+                        }
+                    })
                 }else{
                     this.codedis = true;
                 }
@@ -153,7 +158,7 @@ export default {
         }
 	},
 	created(){
-
+        
 	}
 }
 </script>
@@ -196,7 +201,7 @@ export default {
 					position: absolute;
 					right: 0;
 					top: 0;
-					height: 1rem;
+                    height: 1rem;
 				}
 			}
         }

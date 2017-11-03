@@ -6,7 +6,7 @@
         </div>
         <div class="form">
             <div class="referrer" style="margin-top:0">
-                <input class="sl-input" v-model="nickname" v-validate="'required'" name="推荐人ID" type="text" placeholder="请输入推荐人ID">
+                <input class="sl-input" v-model="referId" v-validate="'required'" name="推荐人ID" type="text" placeholder="请输入推荐人ID">
                 <i class="sl-error" v-show="errors.has('推荐人ID')">{{errors.first('推荐人ID')}}</i>
                 <i class="sl-error" v-if="referIdState">无效的邀请码</i>
                 <x-button mini class="btn" @click.native="referrerShow = true">随机选择推荐人</x-button>
@@ -18,7 +18,7 @@
             </div>
             <div class="code">
                 <input :disabled="disabledOne&&disabledTwo?false:true" class="sl-input" v-model="code" type="tel" placeholder="请输入验证码">
-                <img :src="'http://v20-api.shunliandongli.com/member/Common/vcode?time='+time" @click="timer" alt="">
+                <img :src="'http://v20-front-api.shunliandongli.com/member/Common/vcode?time='+time" @click="timer" alt="">
                 <i class="sl-error" v-if="codeerror">验证码错误</i>
             </div>
         </div>
@@ -34,11 +34,12 @@
                     <p class="name">{{item.nickname}}</p>
                     <div class="label">
                         <img v-if="item.level == 'V0'" class="v" src="../../assets/img/V0.png" alt="">
-                        <img v-if="item.level == 'V1'" class="v" src="../../assets/img/V0.png" alt="">
-                        <img v-if="item.level == 'V2'" class="v" src="../../assets/img/V0.png" alt="">
-                        <img v-if="item.level == 'V3'" class="v" src="../../assets/img/V0.png" alt="">
-                        <img v-if="item.level == 'V4'" class="v" src="../../assets/img/V0.png" alt="">
-                        <img v-if="item.level == 'V5'" class="v" src="../../assets/img/V0.png" alt="">
+                        <img v-if="item.level == 'V1'" class="v" src="../../assets/img/V1.png" alt="">
+                        <img v-if="item.level == 'V2'" class="v" src="../../assets/img/V2.png" alt="">
+                        <img v-if="item.level == 'V3'" class="v" src="../../assets/img/V3.png" alt="">
+                        <img v-if="item.level == 'V4'" class="v" src="../../assets/img/V4.png" alt="">
+                        <img v-if="item.level == 'V5'" class="v" src="../../assets/img/V5.png" alt="">
+                        <img v-if="item.level == 'V6'" class="v" src="../../assets/img/V6.png" alt="">
                         <div class="identity">
                             <img v-if="item.member_role == 2" src="../../assets/img/jingyingdaoshi.png" alt="">
                             <img v-if="item.member_role == 1" src="../../assets/img/changkejingying.png" alt="">
@@ -59,13 +60,13 @@
                 </div>
                 <p class="username">{{referList['list'][choiceIndex]['nickname']}}</p>
                 <div style="margin:0.4rem 0;">
-                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V0'" class="v" src="../../assets/img/V0.png" alt="">
-                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V1'" class="v" src="../../assets/img/V0.png" alt="">
-                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V2'" class="v" src="../../assets/img/V0.png" alt="">
-                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V3'" class="v" src="../../assets/img/V0.png" alt="">
-                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V4'" class="v" src="../../assets/img/V0.png" alt="">
-                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V5'" class="v" src="../../assets/img/V0.png" alt="">
-
+                    <img style="height:0.37rem;width: 0.51rem" class="v" :src="require('../../assets/img/'+referList['list'][choiceIndex]['level']+'.png')" alt="">
+                    <!-- <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V1'" class="v" src="../../assets/img/V1.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V2'" class="v" src="../../assets/img/V2.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V3'" class="v" src="../../assets/img/V3.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V4'" class="v" src="../../assets/img/V4.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V5'" class="v" src="../../assets/img/V5.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V6'" class="v" src="../../assets/img/V6.png" alt=""> -->
 
                     <img style="height:0.37rem;width: 1.2rem"  v-if="referList['list'][choiceIndex]['member_role'] == 2" src="../../assets/img/jingyingdaoshi.png" alt="">
                     <img style="height:0.37rem;width: 1.2rem"  v-if="referList['list'][choiceIndex]['member_role'] == 1" src="../../assets/img/changkejingying.png" alt="">
@@ -160,10 +161,10 @@ export default{
     },
     created(){
         this.api_refer(9,1)
-        getOauthUrl({callback_url:'http://v20-vue.shunliandongli.com/#/user/regist'}).then((response) => {
+        /*getOauthUrl({callback_url:'http://v20-vue.shunliandongli.com/#/user/login'}).then((response) => {
             console.log(response)
             window.location.href = response.data.data.url;
-        })
+        })*/
     },  
 	watch:{
 		'code': {
@@ -200,7 +201,7 @@ export default{
                         let res = response;
                         if(res.data.code == 2011){
                             this.referIdState = true; 
-                            this.disabledOne = false  
+                            this.disabledOne = false; 
                         }else{
                             this.referIdState = false;
                             this.disabledOne = true
