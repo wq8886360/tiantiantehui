@@ -160,24 +160,12 @@
 				    			<i>3</i>
 				    		</div>
 				    </swiper-slide>
-<!-- 				    <swiper-slide>
-		<img src="http://v20-wx.shunliandongli.com/joinin/20170824/20170824140723361h.jpg" alt="">
-	 	<div class='textBox'></div>
-	 	<p>你还待会发哦是发送</p>
-</swiper-slide>
-<swiper-slide>
-		<img src="http://v20-wx.shunliandongli.com/joinin/20170824/20170824140723361h.jpg" alt="">
-		<div class='textBox'></div>
-		<p>你还待会发哦是发送</p>
-</swiper-slide> -->
-				    <!-- Optional controls -->
-				   <!--  <div class="swiper-pagination"  slot="pagination"></div> -->
-				    <!-- <div class="swiper-button-prev" slot="button-prev"></div>
-				    <div class="swiper-button-next" slot="button-next"></div> -->
-				    <!--  <div class="swiper-scrollbar"   slot="scrollbar"></div> --> 
 				</swiper>
 			</div>
 		</div>
+	</div>
+	<div class="store storeNoInfo"   v-else>
+		<p>没有商品id</p>
 	</div>
 </template>
 <script>
@@ -205,10 +193,8 @@ export default{
         	},
         	domain: '', //域名地址
         	storeInfo:'',//店铺的信息
-        	num:'1',
-        	number:'26',
-        	response:'',
-
+        	num:'1',//点击tab切换
+        	storeId:'',//店铺的id
 		}
 	},
 	components: {
@@ -219,31 +205,52 @@ export default{
 		tabSelect(sort){
 			console.log(sort)
 			this.num=sort
-		}
+		},
+		getStoreInfo(){
+			storeIndex({storeId:this.storeId}).then((response)=>{
+				if(response.data.code==1000){
+					console.log(response)
+					this.storeInfo=response.data.data
+					this.domain = response.data.data.baseUrl
+					console.log(this.domain,'this.domain')
+				}
+			})
+    	},
 	},
 	created() {
-		console.log(111)
-/*		storeIndex({storeId:this.number}).then((response)=>{
-			if(response.data.code==1000){
-				console.log(response)
-				this.storeInfo=response.data.data
-				this.domain = response.data.data.baseUrl
+		if(location.href.split('?').length<=1){
+		}else{
+			if(location.href.split('?')[1].split('=').length<=1){
+			}else{
+				this.storeId=location.href.split('?')[1].split('=')[1]
+				this.getStoreInfo()
 			}
 			
-		})*/
-		this.response={"code":1000,"message":"成功","data":{"decoration_id":"14","block_id":"49","head":{"decoration_id":"14","decoration_name":"我的小店huwanghao1","store_id":"26","decoration_banner":"http:\/\/v20-wx.shunliandongli.com\/joinin\/20170918\/20170918110234531z.jpg","decoration_logo":"http:\/\/v20-wx.shunliandongli.com\/uploads\/20171009\/20171009102329893s.png"},"body":[{"block_module_type":"1","name":"双列排版","title":"双列排版","rule":{"goods_count":"2","min_price":"","max_price":"","order_by":"new","category_id":""},"data":[{"id":"134","title":"这里是标题","thumb":"\/goods\/20170912\/20170912143433206d.jpg","price":"111.00","url":"http:\/\/v20-wx.shunliandongli.com\/goods\/134"},{"id":"133","title":"1111","thumb":"\/goods\/20170912\/20170912144410279v.jpg","price":"111.00","url":"http:\/\/v20-wx.shunliandongli.com\/goods\/133"}],"goods_ids":"","module_type":"1"},{"block_module_type":"2","name":"单列排版","title":"单列排版","rule":{"goods_count":"2","min_price":"","max_price":"","order_by":"new","category_id":""},"data":[{"id":"134","title":"这里是标题","thumb":"\/goods\/20170912\/20170912143433206d.jpg","price":"111.00","url":"http:\/\/v20-wx.shunliandongli.com\/goods\/134"},{"id":"133","title":"1111","thumb":"\/goods\/20170912\/20170912144410279v.jpg","price":"111.00","url":"http:\/\/v20-wx.shunliandongli.com\/goods\/133"}],"goods_ids":"","module_type":"1"}],"baseUrl":"http:\/\/v20-wx.shunliandongli.com"},"agent":"Mozilla\/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit\/601.1.46 (KHTML, like Gecko) Version\/9.0 Mobile\/13B143 Safari\/601.1 wechatdevtools\/1.01.171019 MicroMessenger\/6.5.7 Language\/zh_CN webview\/{{webviewID}} webdebugger port\/9974","client_type":"ios"}
-		console.log(this.response)
-
-				this.storeInfo=this.response.data
-				this.domain = this.response.data.baseUrl
-
-
-		
+		}
 	}
 }
 </script>
 <style>
 /* -----------轮播图------------------ */
+#app{height:100%;}
+html,body{
+	height:100%;
+}
+.storeNoInfo{
+	position:relative;
+	height:100%;
+}
+.storeNoInfo p{
+	text-align: center;
+	width:100%;
+	height:0.5rem;
+	line-height:0.5rem; 
+	font-size:0.366667rem;
+	position:absolute;
+	top:50%;
+	margin-top:-0.25rem;
+
+}
 .banner{
 	width:100%;
 	padding:0.066667rem 0;
