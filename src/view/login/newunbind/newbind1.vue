@@ -25,8 +25,8 @@
         <!-- 推荐人列表 -->
         <div class="referrerList" v-if="referrerShow">
             <i class="icon-back" @click="referrerShow = false"></i>
-            <button class="change" @click="replace">换一批</button>
-            <h1 class="title">选择推荐人</h1>
+            <span class="change" @click="replace">换一批</span>
+            <h1 class="title" style="text-align: left;">选择推荐人</h1>
             <div class="mainlist">
                 <div class="box" @click="detail(index)" v-for='(item,index) in referList.list'>
                     <img v-if="index == choiceIndexSure" class="choice" src="../../../assets/img/choice.png" alt="">
@@ -315,10 +315,13 @@ export default{
 		height: 100vh;
 		background: #fff;
 		box-sizing: border-box;
-		padding: 0 0.67rem;
+        padding: 0 0.67rem;
+        .mainlist::-webkit-scrollbar {display:none}
 		.mainlist{
 			display: flex;
-			flex-wrap: wrap;
+            flex-wrap: wrap;
+            height: 65%;
+            overflow: scroll;
 			margin-top: 0.93rem;
 			justify-content: space-between;
 			.box{

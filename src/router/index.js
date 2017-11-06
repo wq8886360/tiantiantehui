@@ -18,7 +18,7 @@ import Bind2 from '@/view/login/bind/bind2'
 import Forget1 from '@/view/login/forget/forget1' //忘记密码
 import Forget2 from '@/view/login/forget/forget2'
 import Authorise from '@/view/wx/authorise' //微信授权
-import storeIndex from '@/view/storeIndex/store.vue' //
+import storeIndex from '@/view/storeIndex/store.vue' // 店铺首页
 
 
 

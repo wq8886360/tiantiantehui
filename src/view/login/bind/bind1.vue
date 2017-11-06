@@ -2,7 +2,7 @@
 	<div class="login">
 		<i @click="back" class="icon-back"></i>
 		<div class="logo">
-			<h1 style="font-size:0.8rem;color:#000;margin-top:0.9rem;padding-left:0.27rem;text-algin:center">绑定手机号</h1>
+			<h1 style="font-size:0.8rem;color:#000;margin-top:0.9rem;padding-left:0.27rem;text-align:left;">绑定手机号</h1>
 		</div>
 		<div class="form">
 			<!-- 验证码登录方式 -->
@@ -31,7 +31,7 @@ export default {
             time: 1,
             tel: null,
             code: null,
-            codedis: true
+            codedis: true,
 		}
     },
     watch:{
@@ -55,7 +55,6 @@ export default {
             handler: function() {
                 if(this.code.length == 4){
                     CommoncheckCode({vcode: this.code}).then((response) => {
-                        console.log(response)
                         let data = {
                             mobile: this.tel,
                             vcode: this.code,
@@ -100,7 +99,7 @@ export default {
 	.logo{
 		height: 4.27rem;
 		padding: 0.4rem;
-		box-sizing: border-box;
+        box-sizing: border-box;
 	}
 	.form{
 		padding: 0 0.67rem;

@@ -33,5 +33,13 @@ Validator.extend('pwd', {
       return /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{8,16}$/.test(value);
     }
 });
+Validator.extend('nbsp', {
+    messages: {
+      zh_CN:field => '密码不能包含空格'
+    },
+    validate: value => {
+      return /^\S+$/.test(value);
+    }
+});
 
 Vue.use(VeeValidate,config);

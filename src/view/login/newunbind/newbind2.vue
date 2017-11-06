@@ -52,7 +52,7 @@ export default{
     },
     computed: {
         text: function () {
-            return this.time > 0 ? this.time + 's' : '获取验证码';
+            return this.time > 0 ? this.time + 's' : '重新获取';
         },
         disabled: function () {
             return this.time > 0 ? true : false;

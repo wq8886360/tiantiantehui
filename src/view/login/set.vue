@@ -8,16 +8,16 @@
 		</div>
 		<vue-input-code span-size="0.53rem" type="number" :number="4" height="50px" span-color="#000" input-color="#000" input-size="24px" :code="code"></vue-input-code>
         <div class="psw bm">
-			<input class="sl-input" :disabled="dis" v-model="pwd" type="password" v-validate="'required|pwd'" name="密码" placeholder="请输入密码">
+			<input class="sl-input" :disabled="dis" v-model="pwd" type="password" v-validate="'required|pwd|nbsp'" name="密码" placeholder="请输入密码">
             <i class="sl-error" v-show="errors.has('密码')">{{errors.first('密码')}}</i>
 		</div>
 		<div class="againpsw bm">
-			<input class="sl-input" :disabled="dis" v-validate="'required|pwd'" v-model="pwdagain" name="再次输入密码" type="password" placeholder="请重新输入一遍密码">
+			<input class="sl-input" :disabled="dis" v-validate="'required|pwd|nbsp'" v-model="pwdagain" name="再次输入密码" type="password" placeholder="请重新输入一遍密码">
             <i class="sl-error" v-show="errors.has('再次输入密码')">{{errors.first('再次输入密码')}}</i>
             <i class="sl-error" v-show="againState">两次密码输入不相同</i>
         </div>
 		<div class="nickname bm">
-			<input class="sl-input" :disabled="dis" v-model="nickname" v-validate="'required'" type="text" name="昵称" placeholder="请输入您的昵称">
+			<input class="sl-input" :disabled="dis" maxlength="24" v-model="nickname" v-validate="'required'" type="text" name="昵称" placeholder="请输入您的昵称">
             <i class="sl-error" v-show="errors.has('昵称')">{{errors.first('昵称')}}</i>
 		</div>
 		<x-button class="sub" novalidate :disabled="dis" @click.native="submit" type="warn">完成</x-button>
@@ -51,7 +51,7 @@ export default{
     },
     computed: {
         text: function () {
-            return this.time > 0 ? this.time + 's' : '获取验证码';
+            return this.time > 0 ? this.time + 's' : '重新获取';
         },
         disabled: function () {
             return this.time > 0 ? true : false;
@@ -83,8 +83,8 @@ export default{
         },
         'pwdagain': {
             handler: function() {
-                if(/(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{8,16}$/.test(this.pwdagain)){
-                    if(this.pwdagain == this.pwd){
+                if(/(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^.{8,16}$/.test(this.pwdagain) && /^\S+$/.test(this.pwdagain)){
+                    if(this.pwdagain === this.pwd){
                         this.againState = false;
                     }else{
                         this.againState = true;
@@ -112,10 +112,8 @@ export default{
                             password: this.pwd,
                             nickname: this.nickname
                         }
-                        console.log(params)
                         index(params).then((response) => {
                             let res = response;
-                            console.log(res)
                             if(res.data.code == 1000){
                                 this.$router.push({path: Cookie.get('to')})
                             }

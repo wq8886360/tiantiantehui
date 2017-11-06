@@ -25,8 +25,8 @@
         <!-- 推荐人列表 -->
         <div class="referrerList" v-if="referrerShow">
             <i class="icon-back" @click="referrerShow = false"></i>
-            <button class="change" @click="replace">换一批</button>
-            <h1 class="title">选择推荐人</h1>
+            <span class="change" @click="replace">换一批</span>
+            <h1 class="title" style="text-align: left;">选择推荐人</h1>
             <div class="mainlist">
                 <div class="box" @click="detail(index)" v-for='(item,index) in referList.list'>
                     <img v-if="index == choiceIndexSure" class="choice" src="../../assets/img/choice.png" alt="">
@@ -87,11 +87,11 @@
     </div>    
 </template>
 <script>
-import { XButton } from 'vux';
+import { XButton } from 'vux'
 import { checkMobile, checkCode, codeList, CommoncheckCode, sendSmsCode, getOauthUrl } from '../../http/api'
 export default{
 	components: {
-		XButton
+        XButton,
 	},
 	data(){
 		return {
@@ -111,7 +111,7 @@ export default{
             nickname: '',
 
             choiceIndex: null,
-            choiceIndexSure: null
+            choiceIndexSure: null,
 		}
 	},
 	methods:{
@@ -143,12 +143,12 @@ export default{
             this.choiceIndexSure = null;
         },
         replace(){
+            this.choiceIndexSure = null;
             this.page++;
             this.api_refer(9,this.page);
         }, 
         api_refer(size,page){
             codeList({pageSize: size,page:page}).then((response) => {
-                console.log(response)
                 let res = response;
                 if(res.data.data.list.length != 0){
                     this.referList = res.data.data;
@@ -171,7 +171,6 @@ export default{
 			handler: function() {
 				if(this.code.length == 4){
                     CommoncheckCode({vcode: this.code}).then((response) => {
-                        console.log(response)
                         let res = response;
                         if(res.data.code == 1000){
                             this.codeerror =false;
@@ -187,10 +186,6 @@ export default{
                             this.codeerror = true;
                         }
                     })
-                    // sendSmsCode({mobile: }).then((response) => {
-
-                    // })
-					//this.$router.push({path: '/user/set', query:{tel: this.tel}})
 				}
 			}
         },
@@ -244,6 +239,9 @@ export default{
 	font-weight: 700;
 }
 .regist{
+    .weui-btn:after{
+        border: none!important;
+    }
 	position: relative;
 	.logo{
 		height: 4.27rem;
@@ -253,7 +251,7 @@ export default{
 		img{
 			width: 2.13rem;
 			height: 2.13rem;
-			margin-top: 0.67rem;
+            margin-top: 0.67rem;
 		}
 	}
 	.detail{
@@ -314,11 +312,15 @@ export default{
 		height: 100vh;
 		background: #fff;
 		box-sizing: border-box;
-		padding: 0 0.67rem;
+        padding: 0 0.67rem;
+        .mainlist::-webkit-scrollbar {display:none}
 		.mainlist{
 			display: flex;
 			flex-wrap: wrap;
-			margin-top: 0.93rem;
+            margin-top: 0.93rem;
+            height: 65%;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
 			justify-content: space-between;
 			.box{
 				width: 33.3%;
@@ -393,11 +395,11 @@ export default{
 		}
 		.title{
 			font-size: 0.8rem;
-			text-align: center;
-			padding-top: 0.85rem;
+			padding-top: 1.3rem;
 		}
 		.choose{
-			margin-top: 0.67rem;
+            margin-top: 0.67rem;
+            margin-bottom: 0.67rem;
 		}
 	}
 	.form{
@@ -410,10 +412,13 @@ export default{
 			position: relative;
 			.btn{
 				position: absolute;
-				right: 0.09rem;
+				right: 0rem;
 				top: 0.1rem;
 				border: none!important;
-			}
+            }
+            .weui-btn_mini{
+                padding: 0 0.2rem;
+            }
 		}
 		.code{
 			position: relative;

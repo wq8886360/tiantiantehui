@@ -58,7 +58,7 @@
             <div class="sl_error_box" v-if="err_msg">
                 <div class="sl_error_msg">{{loginerrmsg}}</div>
             </div>
-        </transition>    
+        </transition>
 	</div>
 </template>
 <script>
@@ -69,13 +69,13 @@ export default {
 	components: {
         XButton,
         Swiper,
-        SwiperItem
+        SwiperItem,
 	},
 	data(){
 		return {
 			//方式1数据
 			tel: null,
-			code: null,
+			code: '',
             codedis: true,
             time: 1,
             codeState: false,
@@ -84,11 +84,12 @@ export default {
             err_msg: false,
             index:  0,
 
-            loginerrmsg: ''
+            loginerrmsg: '',
 		}
     },
     methods: {
         Time(){
+            this.code = '';
             var timestamp = Math.random();
 		    this.time = timestamp;
         },
@@ -106,7 +107,6 @@ export default {
                 password: this.password
             }
             loginindex(params).then((response) => {
-                console.log(response)
                 if(response.data.code != 1000){
                     this.$vux.toast.text(response.data.message, 'middle')
                 }else{
@@ -142,7 +142,6 @@ export default {
             handler: function() {
                 if(this.code.length == 4){
                     CommoncheckCode({vcode: this.code}).then((response) => {
-                        console.log(response)
                         let data = {
                             mobile: this.tel,
                             vcode: this.code
@@ -151,6 +150,7 @@ export default {
                             this.$router.push({path: '/user/sms',query: {data: JSON.stringify(data)}})
                         }else{
                             this.codeState = true;
+                            this.Time()
                         }
                     })
                 }
@@ -158,7 +158,6 @@ export default {
         }
 	},
 	created(){
-        
 	}
 }
 </script>
