@@ -17,8 +17,14 @@ import Bind1 from '@/view/login/bind/bind1' //有上级用户绑定
 import Bind2 from '@/view/login/bind/bind2'
 import Forget1 from '@/view/login/forget/forget1' //忘记密码
 import Forget2 from '@/view/login/forget/forget2'
+
 import Authorise from '@/view/wx/authorise' //微信授权
-import storeIndex from '@/view/storeIndex/store.vue' // 店铺首页
+
+import Store from '@/view/shop/store.vue' // 店铺
+
+//商品
+import Default from '@/view/good/default' //入口页面
+import Goodsdetails from '@/view/good/goodsdetails' //商品详情
 
 
 
@@ -35,8 +41,8 @@ export default new Router({
 		{
 			path: '/',
 		  	name: 'index',
-              component: Index,
-              children: [
+            component: Index,
+            children: [
                 {
                     path: 'car',
                     component: Car
@@ -45,7 +51,7 @@ export default new Router({
                     path: 'person',
                     component: Person
                 }
-              ]
+            ]
 		},
 		{
 			path: '/user',
@@ -68,9 +74,18 @@ export default new Router({
 			redirect: '/user/login'
         },
         {
-            path: '/storeIndex',
-            name: 'storeIndex',
-            component: storeIndex 
+            path: '/good',
+            component: Default,
+            children: [
+                {path: 'detail',component: Goodsdetails}
+            ],
+        },
+        {
+            path: '/store',
+            component: Default,
+            children: [
+                {path: 'home',component: Store}
+            ],
         }
 	]
 })

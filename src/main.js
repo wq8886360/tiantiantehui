@@ -24,7 +24,7 @@ router.beforeEach((to, from, next) => {
     const token = Cookie.get("user_token");
     //访问私有页面
     if(routerPrivate.indexOf(to.fullPath) != -1){
-        //user_token
+        //user_token校验
         if (token) {
             next()
         }else{
