@@ -27,7 +27,7 @@ export default {
 .loginState{
     width: 100vw;
     height: 100vh;
-    
+    background: transparent;
 }
 .loading_d{
     width:76px;
