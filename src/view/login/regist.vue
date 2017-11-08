@@ -68,6 +68,7 @@
                     <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V5'" class="v" src="../../assets/img/V5.png" alt="">
                     <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V6'" class="v" src="../../assets/img/V6.png" alt=""> -->
 
+
                     <img style="height:0.37rem;width: 1.2rem"  v-if="referList['list'][choiceIndex]['member_role'] == 2" src="../../assets/img/jingyingdaoshi.png" alt="">
                     <img style="height:0.37rem;width: 1.2rem"  v-if="referList['list'][choiceIndex]['member_role'] == 1" src="../../assets/img/changkejingying.png" alt="">
 
