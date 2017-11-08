@@ -36,6 +36,9 @@ export default{
 	methods:{
 		back(){
 			this.$router.go(-1);
+		},
+		bakc2(){
+			console.log(123)
 		}
 	}
 }
