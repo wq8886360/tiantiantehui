@@ -3,12 +3,15 @@
 		<!-- 商品banner -->
 		<swiper dots-position='center' :aspect-ratio="1/1">
 			<swiper-item v-for="(item, index) in pics" :key="index">
-				<img class="bannerimg" :src="img_baseurl+item" alt="">
+				<img class="bannerimg" :src="item" alt="">
 			</swiper-item>
 		</swiper>
 		<!-- 商品标题描述信息 -->
 		<div class="information">
-			
+			<div class="title div_box">
+				<div class="text">道具收费绝世独地方都十分的舒服立就放肆的风景是对方觉得司法局来得及发</div>
+				<div class="collect">ddd</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -24,7 +27,6 @@ export default{
 		return {
 			data: null,
 			goods_id: 54, //商品ID
-			img_baseurl: '', //图片域名
 			pics: null, //banner列表
 		}
 	},
@@ -35,7 +37,6 @@ export default{
 				let res = response.data;
 				if(res.code === 1000){
 					this.data = res.data;
-					this.img_baseurl = res.data.img_baseurl;
 					this.pics = res.data.pics;
 				}
 			})
@@ -48,11 +49,5 @@ export default{
 }
 </script>
 <style lang="less">
-.goodsdetails{
-	background: #F7F7F7;
-	.bannerimg{
-		width: 100%;
-		height: 100%;
-	}
-}
+@import '../../assets/css/component/goodsdetails.less';
 </style>
