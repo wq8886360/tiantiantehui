@@ -21,6 +21,7 @@ export default {
             return theRequest;
         }
         var Request = GetRequest();
+        alert(Request['code'])
         if(Request['code']){
             console.log(Request['code'])
             wechat({code: Request['code']}).then((response) => {
