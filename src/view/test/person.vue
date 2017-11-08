@@ -11,12 +11,8 @@ export default {
     },
     methods: {
         out(){
-            logout().then((response) => {
-                console.log(response)
-                if(response.data.code == 1000){
-                    this.$router.push({path: "/"})
-                }
-            })
+            Cookie.remove("token");
+            this.$router.push({path: "/"})
         }
     }
 }

@@ -21,7 +21,8 @@ Vue.config.productionTip = false
 //const routerList = ['/user/login','/user/sms','/user/regist','/user/set','/user/oldbind1','/user/oldbind2','/user/newbind1','/user/newbind2','/user/bind1','/user/bind2','/user/forget1','/user/forget2'];
 const routerPrivate = ['/person','/car'];
 router.beforeEach((to, from, next) => {
-    const token = Cookie.get("user_token");
+    store.dispatch('CLOSTLOAD')
+    const token = Cookie.get("token");
     //访问私有页面
     if(routerPrivate.indexOf(to.fullPath) != -1){
         //user_token校验

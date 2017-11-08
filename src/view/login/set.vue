@@ -17,7 +17,7 @@
             <i class="sl-error" v-show="againState">两次密码输入不相同</i>
         </div>
 		<div class="nickname bm">
-			<input class="sl-input" :disabled="dis" maxlength="24" v-model="nickname" v-validate="'required'" type="text" name="昵称" placeholder="请输入您的昵称">
+			<input class="sl-input" :disabled="dis" v-model="nickname" v-validate="'required'" type="text" name="昵称" placeholder="请输入您的昵称">
             <i class="sl-error" v-show="errors.has('昵称')">{{errors.first('昵称')}}</i>
 		</div>
 		<x-button class="sub" novalidate :disabled="dis" @click.native="submit" type="warn">完成</x-button>

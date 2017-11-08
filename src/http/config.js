@@ -3,6 +3,7 @@ import router from "../router/index.js";
 //import Cookie from "js-cookie";
 import qs from "qs";
 import store from "@/store/index.js"
+import Cookie from "js-cookie";
 
 
 axios.defaults.withCredentials = true;
@@ -16,10 +17,18 @@ axios.defaults.headers = {
 var timer = null;
 // request全局拦截
 axios.interceptors.request.use(config => {
+    //
+    const token = Cookie.get("token");
     if(config.method === 'post') {
-        config.data += '&client_type=wechat'
+      if(token){
+        config.data += `&token=${token}`
+      }
+      config.data += '&client_type=wechat'
     } else if(config.method === 'get') {
-        config.params['client_type'] = 'wechat'
+      if(token){
+        config.params['token'] = token;
+      }
+      config.params['client_type'] = 'wechat'
     }
 
     //请求超过1s显示加载动画
@@ -34,15 +43,22 @@ axios.interceptors.request.use(config => {
 //response全局拦截
 axios.interceptors.response.use(
   response => {
-    // code处理
-    const code = response.data.code;
-
+    let res = response; 
 
     //全局loading状态
-    if(response.status == 200){
+    if(res.status == 200){
         //清除动画
         clearTimeout(timer);
         store.dispatch('CLOSTLOAD')
+
+        // 
+        let code = res.data.code;
+        if(code === 1000){
+          if(res.data.data.token){
+            let time = res.data.data.token_expires_in/(60*60*24)
+            Cookie.set('token', res.data.data.token, { expires: time });
+          }
+        }
     }
     return response
   },
