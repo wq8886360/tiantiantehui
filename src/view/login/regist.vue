@@ -60,13 +60,12 @@
                 </div>
                 <p class="username">{{referList['list'][choiceIndex]['nickname']}}</p>
                 <div style="margin:0.4rem 0;">
-                    <img style="height:0.37rem;width: 0.51rem" class="v" :src="require('../../assets/img/'+referList['list'][choiceIndex]['level']+'.png')" alt="">
-                    <!-- <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V1'" class="v" src="../../assets/img/V1.png" alt="">
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V1'" class="v" src="../../assets/img/V1.png" alt="">
                     <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V2'" class="v" src="../../assets/img/V2.png" alt="">
                     <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V3'" class="v" src="../../assets/img/V3.png" alt="">
                     <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V4'" class="v" src="../../assets/img/V4.png" alt="">
                     <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V5'" class="v" src="../../assets/img/V5.png" alt="">
-                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V6'" class="v" src="../../assets/img/V6.png" alt=""> -->
+                    <img style="height:0.37rem;width: 0.51rem" v-if="referList['list'][choiceIndex]['level'] == 'V6'" class="v" src="../../assets/img/V6.png" alt="">
 
 
                     <img style="height:0.37rem;width: 1.2rem"  v-if="referList['list'][choiceIndex]['member_role'] == 2" src="../../assets/img/jingyingdaoshi.png" alt="">
