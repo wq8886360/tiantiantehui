@@ -128,11 +128,11 @@
 					    		<img :src="domain+items.thumb" alt="">
 					    		<div class='textBox'></div>
 					    		<p>{{items.description}}</p>
-					    		<div class='curcleNum'>	
+					    		<!-- <div class='curcleNum'>	
 					    			<span>1</span>
 					    			<b>/</b>
 					    			<i>3</i>
-					    		</div>
+					    		</div> -->
 					    </swiper-slide>
 					</swiper>
 				</div>
@@ -158,7 +158,7 @@ export default{
 	          	direction : 'horizontal',
 	          	grabCursor : true,
 	          	setWrapperSize :true,
-	          	autoHeight: true,//自动轮播
+	          	autoHeight: true,
 	          	paginationClickable :true,
 	          	autoplayDisableOnInteraction : false,//鼠标划过还能自动滚动
 	          	mousewheelControl : true,//能让鼠标滑轮滚动
@@ -196,12 +196,6 @@ export default{
 	width:100%;
 	background:white;
 }
-
-
-
-
-
-
 
 /* -----------轮播图------------------ */
 #app{height:100%;}
@@ -272,14 +266,21 @@ html,body{
 .banner .curcleNum span{
 	float:left;
 	display:inline-block;
+	position:absolute;
+	left:0;
+
 }
 .banner .curcleNum b{
 	float:left;
-	padding-left:0.013333rem;
+	position:absolute;
+	left:0.21rem;
+	height:100%;
 }
 .banner .curcleNum i{
 	float:left;
 	font-size:10p;
+	position:absolute;
+	left:0.4rem;
 }
 /* -------- 三列图片------------- */
 	.Threepicture{
@@ -577,7 +578,6 @@ html,body{
 	}
 	.store .CouponsBox{
 		background:#f7f7f7;
-		padding-bottom:0.613333rem;
 		border-top:0.013333rem solid #EEEEEE;
 	}
 	.store .CouponsBox .CouponsList::-webkit-scrollbar{width:0px}

@@ -6,18 +6,18 @@
 			<div class="coverInfo">
 				<div class='search'>
 					<div class='inputBox'></div>
-					<input type="text">
+					<input type="text" placeholder="搜索店铺内商品">
 					<div class='classify'><img src="../../assets/img/classify.png" alt=""></span><b>分类</b></div>
-					
 				</div>
 				<div class="storeMes">
 					<div class='storeImg'><img :src='storeInfo.head.decoration_logo' alt=""></div>
 					<div class='storeName'><p>{{storeInfo.head.decoration_name}}</p><p>店铺等级</p></div>
 					<div class='attention'>
-						<div>
+						<div @click='attentionClick'>
 							<img v-if='attention' src="../../assets/img/attentionRed.png" alt="">
 							<img v-else src="../../assets/img/attentionWhite.png" alt="">
-							<span :class="{ 'select': attention}">关注</span>
+							<span v-if='attention' class='select'>已关注</span>
+							<span v-else >关注</span>
 						</div>
 						<p>1999人</p>
 
@@ -31,7 +31,7 @@
       		<tab-item @on-item-click="onItemClick"><p>12</p><p class='text'>促销</p></tab-item>
       		<tab-item @on-item-click="onItemClick"><p>12</p><p class='text'>新品</p></tab-item>
     	</tab>
-		<div class='backgroundBox'>E
+		<div class='backgroundBox'>
 			
 		</div> 
 		<div class='components'>
@@ -41,13 +41,26 @@
 			<newGoods v-if='index==3'></newGoods>
 		</div>
 		<div class='footer'>
+			<div class='footLeft'>
+				<div><img src="../../assets/img/sort.png" alt=""></div>
+				<p>店铺分类</p>
+			</div>
+			<div  class='footCenter'>
+				店铺简介
+			</div>
+			<div  class='footRight'>
+				<div>
+					<img src="../../assets/img/xiaoxi.png" alt="">
+				</div>
+				<p>客服</p>
+			</div>
 		</div>
 		
 	</div>	
 </template>
 <script>
 import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem } from 'vux'
-import {storeIndex} from '../../http/api.js'
+import {storeIndex,addMark,delMark} from '../../http/api.js'
 import newGoods from './newGoods';
 import promotion from './promotion';
 import storeGoods from './storeGoods';
@@ -95,6 +108,20 @@ export default{
       		console.log('on item click:', index)
       		this.index=index
     	},
+    	//点击关注
+    	attentionClick(){
+    		this.attention=!this.attention
+    		if(this.attention){
+    			delMark({storeId:this.storeId}).then((response)=>{
+    				console.log(response)
+				})	
+    		}else{
+    			addMark({storeId:this.storeId}).then((response)=>{
+    				console.log(response)
+				})	
+    		}
+
+    	}
 	},
 	created() {
 		if(location.href.split('?').length<=1){
@@ -115,6 +142,63 @@ export default{
 
 /* -----------------头部------------------- */
 .store{
+	.footer{
+		display: flex;
+		.footLeft{
+			float:left;
+			height:100%;
+			width:4.253333rem;
+			border-right:1px solid #D8D8D8;
+			text-align: center;
+			div{
+				width:0.386667rem;
+				height:100%;
+				float:left;
+				margin-left:1.026667rem;
+				margin-right:0.266667rem;
+				img{
+					width:100%;
+				}
+			}
+			p{
+				float:left;
+			}
+		}
+		.footCenter{
+			float:left;
+			height:100%;
+			width:4.253333rem;
+			text-align: center;
+			border-right:1px solid #D8D8D8;
+		}
+		.footRight{
+			float:left;
+			height:100%;
+			flex:1;
+			position:relative;
+			div{
+				position:absolute;
+				top:-0.24rem;
+				left:0.533333rem;
+				width:0.426667rem;
+				height:0.426667rem;
+				img{
+					width:100%;
+					height:100%;
+				}
+			}
+			p{
+				position:absolute;
+				top:0.24rem;
+				left:0.453333rem;
+				font-size:0.28rem;
+				height:0.28rem;
+				line-height:0.28rem;
+				margin-top:0.106667rem;
+			}
+		}
+
+	}
 	.storeHeader{
 		height:2.8rem;
 		position:relative;
@@ -298,46 +382,4 @@ export default{
 
 
 
-
-/* ----------------切换条-------------------
-	.store .backgroundBox{
-		background:#f7f7f7;
-	}
-	.store .storeTab{
-		overflow:hidden;
-	}
-
-	.store .storeTab li{
-		width:25%;
-		height:1.466667rem;
-		float:left;
-		box-sizing: border-box;
-		padding-top:0.16rem;
-		font-size:0.32rem;
-		box-sizing: border-box;
-border-bottom:0.053333rem solid #fb0036;
-	}
-	.store .storeTab .tabActive{
-		color:red;
-		border-bottom:0.053333rem solid #fb0036;
-	}
-	.store .storeTab li span{
-		display:block;
-		width:1.333333rem;
-		height:0.506667rem;
-		margin:0 auto;
-		text-align: center;
-		font-size:0.4rem;
-
-	}
-	.store .storeTab li p{
-		text-align: center;
-		height:0.666667rem;
-		line-height:0.666667rem; 
-	}
-	.store .storeTab li:first-child img{
-		width:0.56rem;
-		height:0.506667rem;
-	} */
-	
 </style>
