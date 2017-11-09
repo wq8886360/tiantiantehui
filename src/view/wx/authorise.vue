@@ -23,7 +23,6 @@ export default {
         var Request = GetRequest();
         alert(Request['code'])
         if(Request['code']){
-            console.log(Request['code'])
             wechat({code: Request['code']}).then((response) => {
                 console.log(response)
                 let res = response;

@@ -1,5 +1,5 @@
 <template>
-	<div class="goodsdetails">
+	<div class="goodsdetails" v-if="data">
 		<!-- 商品banner -->
 		<swiper dots-position='center' :aspect-ratio="1/1">
 			<swiper-item v-for="(item, index) in pics" :key="index">
@@ -7,26 +7,47 @@
 			</swiper-item>
 		</swiper>
 		<!-- 商品标题描述信息 -->
-		<div class="information">
-			<div class="title div_box">
-				<div class="text">道具收费绝世独地方都十分的舒服立就放肆的风景是对方觉得司法局来得及发</div>
-				<div class="collect">ddd</div>
+		<div class="information div_box">
+			<!-- 标题、收藏功能 -->
+			<div class="title">
+				<div class="text">{{data.title}}</div>
+				<div class="collect">
+					<div class="border1px"></div>
+				</div>
+			</div>
+			<!-- 价格、标签 -->
+			<div class="price">
+				<span class="newprice">¥{{data['price']}}</span>
+				<del class="oldprice">¥{{data['market_price']}}</del>
+				<img src="../../assets/img/newProduct.png" alt="">
+				<img src="../../assets/img/hotstyle.png" alt="">
+				<img src="../../assets/img/Hotsell.png" alt="">
+			</div>
+			<!-- 销售量 -->
+			<div class="sales">
+				<flexbox :gutter="0" wrap="wrap">
+					<flexbox-item :span="1/3"><p class="textleft" v-if="data['free_shipping'] == 1">包邮</p></flexbox-item>
+					<flexbox-item :span="1/3"><p class="textcenter">已售{{data['goods_data']['sales']}}件</p></flexbox-item>
+					<flexbox-item :span="1/3"><p class="textright">浙江金华</p></flexbox-item>
+				</flexbox>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
-import { Swiper, SwiperItem } from 'vux'
+import { Swiper, SwiperItem, Flexbox, FlexboxItem } from 'vux'
 import { goodsdetail } from '../../http/api.js'
 export default{
 	components: {
 		Swiper,
 		SwiperItem,
+		Flexbox,
+		FlexboxItem
 	},
 	data(){
 		return {
 			data: null,
-			goods_id: 54, //商品ID
+			goods_id: 56, //商品ID
 			pics: null, //banner列表
 		}
 	},

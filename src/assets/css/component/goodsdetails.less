@@ -1,10 +1,68 @@
 .goodsdetails{
-	font-size: 0.4rem;
+	
+	font-size: 0.32rem;
 	.div_box{
 		padding: 0.33rem 0.27rem;
 	}
 	.bannerimg{
 		width: 100%;
 		height: 100%;
+	}
+	.information{
+		/*商品标题*/
+		.title{
+			position: relative;
+			height: 0.85rem;
+			.text{
+				font-size: 0.4rem;
+				position: relative;
+				padding-right: 1.2rem;
+				line-height: 0.48rem;
+				overflow:hidden; 
+				text-overflow:ellipsis;
+				display:-webkit-box; 
+				-webkit-box-orient:vertical;
+				-webkit-line-clamp:2;
+			}
+			.collect{
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 0.85rem;
+				height: 0.85rem;
+				.border1px{
+					height: 0.85rem;
+					width: 1px;
+					position: absolute;
+					left: 0;
+					top: 0;
+					background: #AAAAAA;
+				}
+			}
+		}
+		/*商品价格*/ 
+		.price{
+			margin-top: 0.33rem;
+			margin-bottom:  0.33rem;
+			img{
+				width: 0.67rem;
+				height: 0.37rem;
+			}
+			.newprice{
+				font-size: 0.45rem;
+				color: #FB0036;
+			}
+			.oldprice{
+				font-size: 0.29rem;
+				color: #858585;
+				margin: 0 0.13rem;
+			}
+		}
+		/*销量*/
+		.sales{
+			p{
+				color: #858585;
+			}
+		} 
 	}
 }
