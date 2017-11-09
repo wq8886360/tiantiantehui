@@ -12,7 +12,7 @@
 				<div class="attention">
 					<div class="attention_z">
 						
-						<span class="attention_zt">关注111</span>
+						<span class="attention_zt">关注</span>
 					</div>
 				</div>
 			</div>
