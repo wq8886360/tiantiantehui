@@ -86,12 +86,11 @@ export default new Router({
         {
             path: '/store',
             component: Store,
-            /*children: [
-                {path: 'home',component:Home},
-                {path: 'newGoods',component: NewGoods},
-                {path: 'promotion',component:Promotion},
-                {path: 'storeGoods',component: StoreGoods},
-            ],*/
+    
+        },
+        {
+            path: '/profile',
+            component: Profile,
         }
 	]
 })
