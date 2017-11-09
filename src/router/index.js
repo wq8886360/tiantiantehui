@@ -79,9 +79,9 @@ export default new Router({
         {
             path: '/good',
             component: Default,
-          /*  children: [
+            children: [
                 {path: 'detail',component: Goodsdetails}
-            ],*/
+            ],
         },
         {
             path: '/store',

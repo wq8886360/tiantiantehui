@@ -28,7 +28,7 @@
 				<flexbox :gutter="0" wrap="wrap">
 					<flexbox-item :span="1/3"><p class="textleft" v-if="data['free_shipping'] == 1">包邮</p></flexbox-item>
 					<flexbox-item :span="1/3"><p class="textcenter">已售{{data['goods_data']['sales']}}件</p></flexbox-item>
-					<flexbox-item :span="1/3"><p class="textright">浙江金华</p></flexbox-item>
+					<flexbox-item :span="1/3"><p class="textright">{{data['area']}}</p></flexbox-item>
 				</flexbox>
 			</div>
 		</div>
@@ -47,7 +47,7 @@ export default{
 	data(){
 		return {
 			data: null,
-			goods_id: 56, //商品ID
+			goods_id: 148, //商品ID
 			pics: null, //banner列表
 		}
 	},

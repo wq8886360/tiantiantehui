@@ -33,3 +33,6 @@
 .icon-CN_tencent-wechat:before {
   content: "\e902";
 }
+.icon-right:before {
+  content: "\e903";
+}
