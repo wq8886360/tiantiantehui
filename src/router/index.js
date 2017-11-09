@@ -25,6 +25,8 @@ import NewGoods from '@/view/shop/newGoods.vue' // 店铺新品
 import Home from '@/view/shop/home.vue' // 店铺新品
 import StoreGoods from '@/view/shop/storeGoods.vue' // 店铺宝贝
 import Promotion from '@/view/shop/promotion.vue' // 店铺新品
+import Profile from '@/view/shop/profile' //店铺简介
+
 //商品
 import Default from '@/view/good/default' //入口页面
 import Goodsdetails from '@/view/good/goodsdetails' //商品详情
