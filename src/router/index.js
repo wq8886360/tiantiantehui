@@ -21,7 +21,10 @@ import Forget2 from '@/view/login/forget/forget2'
 import Authorise from '@/view/wx/authorise' //微信授权
 
 import Store from '@/view/shop/store.vue' // 店铺
-
+import NewGoods from '@/view/shop/newGoods.vue' // 店铺新品
+import Home from '@/view/shop/home.vue' // 店铺新品
+import StoreGoods from '@/view/shop/storeGoods.vue' // 店铺宝贝
+import Promotion from '@/view/shop/promotion.vue' // 店铺新品
 //商品
 import Default from '@/view/good/default' //入口页面
 import Goodsdetails from '@/view/good/goodsdetails' //商品详情
@@ -76,16 +79,19 @@ export default new Router({
         {
             path: '/good',
             component: Default,
-            children: [
+          /*  children: [
                 {path: 'detail',component: Goodsdetails}
-            ],
+            ],*/
         },
         {
             path: '/store',
-            component: Default,
-            children: [
-                {path: 'home',component: Store}
-            ],
+            component: Store,
+            /*children: [
+                {path: 'home',component:Home},
+                {path: 'newGoods',component: NewGoods},
+                {path: 'promotion',component:Promotion},
+                {path: 'storeGoods',component: StoreGoods},
+            ],*/
         }
 	]
 })
