@@ -68,6 +68,7 @@
 			</div>
 		</div>
 
+
 	</div>
 </template>
 <script>
@@ -82,13 +83,13 @@ export default {
 .storeGoods{
 	.fourFlex{
 		display:flex;
-		border-top:0.013333rem solid #EEEEEE;
+		border-top:1px solid #EEEEEE;
 		li{
 			flex:1;
 			height:1.173333rem;
 			line-height:1.173333rem;
 			text-align: center;
-			background:#F7F7F7;
+			background:white;
 			color:#1C1B20;
 			font-size: 0.373333rem;
 			i{

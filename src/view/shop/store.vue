@@ -1,5 +1,5 @@
 <template>
-	<div class="store">
+	<div class="store" v-if='storeInfo'>
 		<div class='storeHeader'>
 			<div class='backImg'><img :src='storeInfo.head.decoration_banner' alt=""></div>
 			<div class='cover'></div>
@@ -7,7 +7,7 @@
 				<div class='search'>
 					<div class='inputBox'></div>
 					<input type="text" placeholder="搜索店铺内商品">
-					<div class='classify'><img src="../../assets/img/classify.png" alt=""></span><b>分类</b></div>
+					<div class='classify' @click='goToSort'><img src="../../assets/img/classify.png" alt=""></span><b>分类</b></div>
 				</div>
 				<div class="storeMes">
 					<div class='storeImg'><img :src='storeInfo.head.decoration_logo' alt=""></div>
@@ -40,23 +40,28 @@
 		 	<promotion v-if='index==2'></promotion>
 			<newGoods v-if='index==3'></newGoods>
 		</div>
-		<div class='footer'>
-			<div class='footLeft'>
-				<div><img src="../../assets/img/sort.png" alt=""></div>
-				<p>店铺分类</p>
+		<div class='footerBottom'>
+			<!-- <div class='footerLeft'>
+				<div>
+					<img src="../../assets/img/sort.png" alt="">
+				</div>
+				<p>宝贝分类</p>
 			</div>
-			<div  class='footCenter'>
+			<div class='footerCenter'>
 				店铺简介
 			</div>
-			<div  class='footRight'>
+			<div class='footerRight'>
 				<div>
 					<img src="../../assets/img/xiaoxi.png" alt="">
 				</div>
 				<p>客服</p>
-			</div>
+			</div> -->
+			<foot></foot>
 		</div>
-		
 	</div>	
+	<div class="store storeNoInfo"   v-else>
+		<p>没有商品id</p>
+	</div>
 </template>
 <script>
 import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem } from 'vux'
@@ -65,6 +70,7 @@ import newGoods from './newGoods';
 import promotion from './promotion';
 import storeGoods from './storeGoods';
 import home from './home';
+import foot from './foot';
 export default{
 	name: 'carrousel',
 	components: {
@@ -72,6 +78,7 @@ export default{
         'promotion':promotion,
         'storeGoods':storeGoods,
         'home':home,
+        'foot':foot,
         Tab,
     	TabItem,
     	Sticky,
@@ -110,18 +117,29 @@ export default{
     	},
     	//点击关注
     	attentionClick(){
-    		this.attention=!this.attention
+    		
     		if(this.attention){
     			delMark({storeId:this.storeId}).then((response)=>{
     				console.log(response)
+    				if(response.data.code=1000){
+						this.attention=!this.attention
+    				}
 				})	
     		}else{
     			addMark({storeId:this.storeId}).then((response)=>{
     				console.log(response)
-				})	
-    		}
+    				if(response.data.code=1000){
+						this.attention=!this.attention
+    				}
+				})
 
+    		}
+    	},
+    	//点击分类
+    	goToSort(){
+    		this.$router.push({path:"/sort",query:{storeId:this.storeId}})
     	}
+
 	},
 	created() {
 		if(location.href.split('?').length<=1){
@@ -138,66 +156,40 @@ export default{
 }
 </script>
 <style  lang="less">
-
-
 /* -----------------头部------------------- */
-.store{
-	.footer{
-		display: flex;
-		.footLeft{
-			float:left;
-			height:100%;
-			width:4.253333rem;
-			border-right:1px solid #D8D8D8;
-			text-align: center;
-			div{
-				width:0.386667rem;
-				height:100%;
-				float:left;
-				margin-left:1.026667rem;
-				margin-right:0.266667rem;
-				img{
-					width:100%;
-				}
-			}
-			p{
-				float:left;
-			}
-		}
-		.footCenter{
-			float:left;
-			height:100%;
-			width:4.253333rem;
-			text-align: center;
-			border-right:1px solid #D8D8D8;
-		}
-		.footRight{
-			float:left;
-			height:100%;
-			flex:1;
-			position:relative;
-			div{
-				position:absolute;
-				top:-0.24rem;
-				left:0.533333rem;
-				width:0.426667rem;
-				height:0.426667rem;
-				img{
-					width:100%;
-					height:100%;
-				}
-			}
-			p{
-				position:absolute;
-				top:0.24rem;
-				left:0.453333rem;
-				font-size:0.28rem;
-				height:0.28rem;
-				line-height:0.28rem;
-				margin-top:0.106667rem;
-			}
-		}
+#app{
+	height:100%;
+}
+html,body{
+	height:100%;
+}
+.storeNoInfo{
+	position:relative;
+	height:100%;
+	p{
+		text-align: center;
+		width:100%;
+		height:0.5rem;
+		line-height:0.5rem; 
+		font-size:0.366667rem;
+		position:absolute;
+		top:50%;
+		margin-top:-0.25rem;
 
+	}
+}
+.store{
+	.footerBottom{
+		position:fixed;
+		bottom:0;
+		display:flex;
+		height:1.333333rem;
+		box-sizing: border-box;
+		padding:0.48rem 0;
+		width:100%;
+		background:white;
+		border-top:1px solid #EEEEEE;
+		z-index:10000;
 	}
 	.storeHeader{
 		height:2.8rem;
