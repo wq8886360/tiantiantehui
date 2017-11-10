@@ -66,6 +66,21 @@
 			<span></span>
 			<i class="icon-right right"></i>
 		</div>
+		<div class="line"></div>
+		<!-- 选择 -->
+		<div class="div_box choose">
+			<div class="label">选择</div>
+			<span>颜色</span>
+			<span>尺码</span>
+			<i class="icon-right right"></i>
+		</div>
+		<div class="line"></div>
+		<!-- 服务 -->
+		<div class="div_box service">
+			<span><img src="../../assets/img/support.png" alt="">7天无理由退后</span>
+			<span><img src="../../assets/img/support.png" alt="">正品保障</span>
+			<span><img src="../../assets/img/support.png" alt="">24小时发货</span>
+		</div>
 	</div>
 </template>
 <script>
