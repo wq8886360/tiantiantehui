@@ -67,37 +67,12 @@
 				</ul>
 			</div>
 		</div>
-		<tab>
-      		<tab-item selected @on-item-click="onItemClick"><span>店铺首页</span></tab-item>
-      		<tab-item @on-item-click="onItemClick"><span>店铺宝贝</span></tab-item>
-      		<tab-item @on-item-click="onItemClick"><span>促销</span></tab-item>
-      		<tab-item @on-item-click="onItemClick"><span>新品</span></tab-item>
-    	</tab>
 
 	</div>
 </template>
 <script>
-import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem } from 'vux'
+
 export default {
-  	components: {
-    	Tab,
-    	TabItem,
-    	Sticky,
-    	Divider,
-    	XButton,
-    	Swiper,
-    	SwiperItem
-  	},
-  	data () {
-    	return {
-		    index: 0,
-    	}
-  	},
-  	methods: {
-    	onItemClick (index) {
-      		console.log('on item click:', index)
-    	},
-  	}
 }
 	
 </script>
@@ -213,10 +188,11 @@ export default {
 					}
 				}
 			}
-		}	
+		}
 	}
 	
 }
+
 
 
 </style>

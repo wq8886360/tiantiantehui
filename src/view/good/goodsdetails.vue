@@ -32,6 +32,40 @@
 				</flexbox>
 			</div>
 		</div>
+		<!-- 领券 -->
+		<div class="voucher div_box">
+			<div class="label">领券</div>
+			<div class="voucherlist">
+				<span v-for="item in 3">满999减199</span>
+			</div>
+			<i class="icon-right right"></i>
+		</div>
+		<!-- 分割 -->
+		<div class="line"></div>
+		<!-- 活动 -->
+		<div class="activity div_box">
+			<div class="label">活动</div>
+			<div class="content">
+				<div class="list" v-for='item in 4'>
+					<span class="ai">满减</span>
+					<span>满300减20，满400减30</span>
+					<i class="icon-right right"></i>
+				</div>
+			</div>
+		</div>
+		<div class="line"></div>
+		<!-- 套餐 -->
+		<div class="meal div_box">
+			<div class="label">套餐</div>
+			<span>查看套餐</span>
+			<i class="icon-right right"></i>
+		</div>
+		<!-- 产品参数 -->
+		<div class="div_box parameter">
+			<div class="label">产品参数</div>
+			<span></span>
+			<i class="icon-right right"></i>
+		</div>
 	</div>
 </template>
 <script>
