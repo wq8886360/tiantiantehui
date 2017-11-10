@@ -32,6 +32,14 @@
 				</flexbox>
 			</div>
 		</div>
+		<!-- 领券 -->
+		<div class="voucher table div_box">
+			<div class="label tablecell">领券</div>
+			<div class="voucherlist tablecell">
+				<span v-for="item in 3">满999减199</span>
+			</div>
+			<i class="icon-right tablecell textright"></i>
+		</div>
 	</div>
 </template>
 <script>

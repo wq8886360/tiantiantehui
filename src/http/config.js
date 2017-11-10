@@ -54,7 +54,8 @@ axios.interceptors.response.use(
         // 
         let code = res.data.code;
         if(code === 1000){
-          if(res.data.data.token){
+          console.log(res.data.data.hasOwnProperty('token'))
+          if(res.data.data.hasOwnProperty('token')){
             let time = res.data.data.token_expires_in/(60*60*24)
             Cookie.set('token', res.data.data.token, { expires: time });
           }
