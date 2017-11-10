@@ -41,7 +41,8 @@
 					<span class="above">高于同行89.98%</span>
 				</div>	
 			</div>	
-		</div>	
+		</div>
+		<div class="Grey"></div>
 		<div class="contact">
 			<ul class="contact_c">
 				<li class="contact_n">
@@ -73,13 +74,14 @@
 						<span class="cash">开店时间</span>
 						<span class="cash_y">{{getdata.store_time}}</span>
 					</li>
-					<li>
+					<li style="border-bottom:1px solid transparent">
 						<span class="license">营业执照</span>
 						<i class="icon-right you"></i>
 					</li>
 				</ul>
 			</div>
 		</div>
+		<div class="Grey_b"></div>
 	</div>
 </template>
 <script>
@@ -98,41 +100,46 @@ import {introduce,addMark,delMark} from '../../http/api.js'
 		methods:{
        		api_introduce(){
        			introduce({storeId:this.storeId}).then((response)=>{
-       				//console.log(response)
-       			let res = response.data;
-				if(res.code==1000){
-					this.getdata=res.data;
-				}
+       				console.log(response)
+       				let res = response.data;
+					if(res.code==1000){
+						this.getdata=res.data;
+					}
        			})
        		},
        		api_addMark(){
-       			addMark({storeId:this.storeId}).then((response)=>{
+       			addMark({storeId:this.storeid}).then((response)=>{
+       				console.log(response)
        				let res=response.data;
-       				console.log(res);
-       				if(res.code==1000){
-       					this.index=2;
-       					this.msg='已关注';
-       					this.isTrue=false;
-       					alert('以关注')
-       				}
+       				//console.log(res);
+       				//  if(res.code==1000){
+       				//  	this.index=2;
+       				//  	this.msg='已关注';
+       				// 	this.isTrue=false;
+       				// 	alert('以关注')
+       				// }
        			})
        		},
        		api_delMark(){
-       			delMark({storeId:this.storeId}).then((response)=>{
+       			delMark({storeId:this.storeid}).then((response)=>{
+       				console.log(response)
        				let res=response.data;
-       				if(res.code==1000){
-       					this.index=1;
-       					this.msg='关注';
-       					this.isTrue=true;
-       					alert('关注')
-       				}
+       				 // if(res.code==1000){
+       				 // 	this.index=1;
+       					// this.msg='关注';
+       					
+       					// alert('关注')
+       				 // }
        			})
        		},
        		change(){
        			if(this.isTrue){
-       				this.api_addMark();		
+       				this.api_addMark();
+       				this.isTrue=false;		
        			}else{
-       				this.api_delMark();
+       				this.api_addMark();
+       				alert(1)
+       				this.isTrue=true;
        			}
        		}
        		
@@ -145,9 +152,6 @@ import {introduce,addMark,delMark} from '../../http/api.js'
 </script>
 <style>
 /* --------头部---------- */
-body{
-	background: #F7F7F7;
-}
 .profile{
 	width: 100%;
 	height: 100%;
@@ -325,9 +329,14 @@ body{
 	font-size: 0.3733333rem;
 	font-family: 'PingFang-SC-Regular';
 }
+/**/
+.profile .Grey{
+	width: 100%;
+	height: 0.2666667rem;
+	background: #F7F7F7;
+}
 /*联系卖家列表*/
 .profile .contact{
-	margin-top: 0.2666667rem;
 	background: #FFF;
 }
 .profile .contact_c{
@@ -365,7 +374,6 @@ body{
 .profile .deposit{
 	margin-top: 0.2666667rem;
 	background: #FFF;
-	margin-bottom: 0.5733333rem;
 }
 .profile .deposit_ul{
 	padding-left: 0.2666667rem;
@@ -397,5 +405,10 @@ body{
 	float: right;
 	font-size: 0.16rem;
 	margin-top: 0.1rem;
+}
+.profile .Grey_b{
+	width: 100%;
+	background: #F7F7F7;
+	height: 0.5733333rem;
 }
 </style>
