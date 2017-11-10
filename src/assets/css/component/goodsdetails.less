@@ -1,14 +1,19 @@
 .goodsdetails{
-
+	.icon-right{
+		font-size: 0.4rem;
+	}
+	.label{
+		float: left;
+		margin-right: 0.21rem;
+	}
+	.line{
+		height: 1px;
+		background: #eeeeee;
+	}
 	font-size: 0.32rem;
 	.div_box{
 		padding: 0.33rem 0.27rem;
-	}
-	.tablecell{
-		display: table-cell;
-	}
-	.table{
-		display: table;
+		overflow: hidden;
 	}
 	.bannerimg{
 		width: 100%;
@@ -74,11 +79,8 @@
 	}
 	/*领券*/
 	.voucher{
-		.label{
-			float: left;
-			margin-right: 0.21rem;
-		}
 		.voucherlist{
+			display: inline-block;
 			span{
 				padding: 0.04rem 0.13rem;
 				border: 1px solid #FC2F57;
@@ -87,5 +89,33 @@
 				margin-right: 0.13rem;
 			}
 		}
+	}
+	/*活动*/
+	.activity{
+		display: flex;
+		.label{
+			width: 0.64rem;
+		}
+		.content{
+			flex: 1;
+			.list{
+				margin-bottom: 0.27rem;
+				.ai{
+					width: 0.64rem;
+					height: 0.43rem;
+					border-radius: 0.05rem;
+					background: #FEF0F3;
+					font-size: 0.27rem;
+					color: #FB0036;
+					line-height: 0.43rem;
+					text-align: center;
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+	/*套餐*/
+	.meal{
+		border-bottom: 0.2rem solid #F7F7F7;
 	}
 }
