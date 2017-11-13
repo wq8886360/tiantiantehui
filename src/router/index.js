@@ -26,6 +26,8 @@ import Home from '@/view/shop/home.vue' // 店铺新品
 import StoreGoods from '@/view/shop/storeGoods.vue' // 店铺宝贝
 import Promotion from '@/view/shop/promotion.vue' // 店铺新品
 import Profile from '@/view/shop/profile' //店铺简介
+import Sort from '@/view/shop/sort' //店铺分类
+import SortSecond from '@/view/shop/sortSecond' //店铺二级分类
 
 //商品
 import Default from '@/view/good/default' //入口页面
@@ -93,6 +95,14 @@ export default new Router({
         {
             path: '/profile',
             component: Profile,
-        }
+        },
+        {
+            path: '/sort',
+            component: Sort,
+        },
+        {
+            path: '/sortSecond',
+            component: SortSecond,
+        },
 	]
 })

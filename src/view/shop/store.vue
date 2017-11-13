@@ -1,13 +1,13 @@
 <template>
-	<div class="store">
+	<div class="store" v-if='storeInfo'>
 		<div class='storeHeader'>
 			<div class='backImg'><img :src='storeInfo.head.decoration_banner' alt=""></div>
 			<div class='cover'></div>
 			<div class="coverInfo">
-				<div class='search'>
+				<div class='search' :class="{'searchFixed':tabFix}">
 					<div class='inputBox'></div>
 					<input type="text" placeholder="搜索店铺内商品">
-					<div class='classify'><img src="../../assets/img/classify.png" alt=""></span><b>分类</b></div>
+					<div class='classify' @click='goToSort'><img src="../../assets/img/classify.png" alt=""></span><b>分类</b></div>
 				</div>
 				<div class="storeMes">
 					<div class='storeImg'><img :src='storeInfo.head.decoration_logo' alt=""></div>
@@ -25,7 +25,7 @@
 				</div>
 			</div>
 		</div>
-		<tab>
+		<tab id='tab' :class="{'tabFixed':tabFix}">
       		<tab-item selected @on-item-click="onItemClick"><p class='imgBox'><img v-if='index==0' src="../../assets/img/storeIcon.png" alt=""><img v-else src="../../assets/img/storeIconAct.png" alt=""></p><p class='text'>店铺首页</p></tab-item>
       		<tab-item @on-item-click="onItemClick"><p>567</p><p class='text'>店铺宝贝</p></tab-item>
       		<tab-item @on-item-click="onItemClick"><p>12</p><p class='text'>促销</p></tab-item>
@@ -40,23 +40,28 @@
 		 	<promotion v-if='index==2'></promotion>
 			<newGoods v-if='index==3'></newGoods>
 		</div>
-		<div class='footer'>
-			<div class='footLeft'>
-				<div><img src="../../assets/img/sort.png" alt=""></div>
-				<p>店铺分类</p>
+		<div class='footerBottom'>
+			<!-- <div class='footerLeft'>
+				<div>
+					<img src="../../assets/img/sort.png" alt="">
+				</div>
+				<p>宝贝分类</p>
 			</div>
-			<div  class='footCenter'>
+			<div class='footerCenter'>
 				店铺简介
 			</div>
-			<div  class='footRight'>
+			<div class='footerRight'>
 				<div>
 					<img src="../../assets/img/xiaoxi.png" alt="">
 				</div>
 				<p>客服</p>
-			</div>
+			</div> -->
+			<foot :data='storeId'  @refreshList="goToSort"></foot>
 		</div>
-		
 	</div>	
+	<div class="store storeNoInfo"   v-else>
+		<p>没有商品id</p>
+	</div>
 </template>
 <script>
 import { Tab, TabItem, Sticky, Divider, XButton, Swiper, SwiperItem } from 'vux'
@@ -65,6 +70,7 @@ import newGoods from './newGoods';
 import promotion from './promotion';
 import storeGoods from './storeGoods';
 import home from './home';
+import foot from './foot';
 export default{
 	name: 'carrousel',
 	components: {
@@ -72,6 +78,7 @@ export default{
         'promotion':promotion,
         'storeGoods':storeGoods,
         'home':home,
+        'foot':foot,
         Tab,
     	TabItem,
     	Sticky,
@@ -88,19 +95,36 @@ export default{
         	storeId:'',//店铺的id
         	index: 0,//tab切换的索引值
         	attention:false,//点击关注
+        	scroll: '',//距离顶部的距离
+        	tabFix:false,
+
 
 		}
 	},
 	methods:{
+		menu() {
+    		this.scroll = document.body.scrollTop;
+/*    		console.log(this.scroll)*/
+    		if(this.scroll>=0.172*document.documentElement.clientWidth){
+    			/*	console.log(this.scroll,'qweqw')
+    				console.log(0.172*document.documentElement.clientWidth,'1231323')*/
+    				this.tabFix=true
+    		}else{
+    			this.tabFix=false
+    		}
+   		},
 		getStoreInfo(){
 			storeIndex({storeId:this.storeId}).then((response)=>{
+				console.log(response)
 				if(response.data.code==1000){
 					console.log(response)
 					this.storeInfo=response.data.data
 					this.domain = response.data.data.baseUrl
-					console.log(this.domain,'this.domain')
+					this.attention=response.data.data.head.is_mark
+/*					console.log(this.attention)
+					console.log(this.domain,'this.domain')*/
 				}else{
-					alert(response.data.message)
+					//alert(response.data.message)
 				}
 			})
     	},
@@ -110,18 +134,29 @@ export default{
     	},
     	//点击关注
     	attentionClick(){
-    		this.attention=!this.attention
+    		
     		if(this.attention){
     			delMark({storeId:this.storeId}).then((response)=>{
     				console.log(response)
+    				if(response.data.code=1000){
+						this.attention=!this.attention
+    				}
 				})	
     		}else{
     			addMark({storeId:this.storeId}).then((response)=>{
     				console.log(response)
-				})	
-    		}
+    				if(response.data.code=1000){
+						this.attention=!this.attention
+    				}
+				})
 
+    		}
+    	},
+    	//点击分类
+    	goToSort(){
+    		this.$router.push({path:"/sort",query:{storeId:this.storeId}})
     	}
+
 	},
 	created() {
 		if(location.href.split('?').length<=1){
@@ -134,77 +169,54 @@ export default{
 			}
 			
 		}
-	}
+	},
+	mounted() {
+   		window.addEventListener('scroll', this.menu)
+  	},
 }
 </script>
 <style  lang="less">
-
-
 /* -----------------头部------------------- */
-.store{
-	.footer{
-		display: flex;
-		.footLeft{
-			float:left;
-			height:100%;
-			width:4.253333rem;
-			border-right:1px solid #D8D8D8;
-			text-align: center;
-			div{
-				width:0.386667rem;
-				height:100%;
-				float:left;
-				margin-left:1.026667rem;
-				margin-right:0.266667rem;
-				img{
-					width:100%;
-				}
-			}
-			p{
-				float:left;
-			}
-		}
-		.footCenter{
-			float:left;
-			height:100%;
-			width:4.253333rem;
-			text-align: center;
-			border-right:1px solid #D8D8D8;
-		}
-		.footRight{
-			float:left;
-			height:100%;
-			flex:1;
-			position:relative;
-			div{
-				position:absolute;
-				top:-0.24rem;
-				left:0.533333rem;
-				width:0.426667rem;
-				height:0.426667rem;
-				img{
-					width:100%;
-					height:100%;
-				}
-			}
-			p{
-				position:absolute;
-				top:0.24rem;
-				left:0.453333rem;
-				font-size:0.28rem;
-				height:0.28rem;
-				line-height:0.28rem;
-				margin-top:0.106667rem;
-			}
-		}
+#app{
+	height:100%;
+}
+html,body{
+	height:100%;
+}
+.storeNoInfo{
+	position:relative;
+	height:100%;
+	p{
+		text-align: center;
+		width:100%;
+		height:0.5rem;
+		line-height:0.5rem; 
+		font-size:0.366667rem;
+		position:absolute;
+		top:50%;
+		margin-top:-0.25rem;
 
 	}
+}
+.store{
+	.footerBottom{
+		position:fixed;
+		bottom:0;
+		display:flex;
+		height:1.333333rem;
+		box-sizing: border-box;
+		padding:0.48rem 0;
+		width:100%;
+		background:white;
+		border-top:1px solid #EEEEEE;
+		z-index:10000;
+	}
 	.storeHeader{
-		height:2.8rem;
+		height:3rem;
 		position:relative;
 		.backImg{
 			img{
-				height:2.8rem;
+				height:3rem;
 				width:100%;
 			}
 		}
@@ -225,9 +237,12 @@ export default{
 			top:0;
 		}
 		.search{
-			height:0.933333rem;
-			position:relative;
-			margin-top:0.133333rem;
+			height:1.08rem;
+			position:fixed;
+			/* top:0.14rem; */
+			box-sizing: border-box;
+			z-index:10000;
+			width:100%;
 			
 			.inputBox{
 				width:8.2rem;
@@ -265,6 +280,7 @@ export default{
 				width:0.64rem;
 				text-align: center;
 				margin-right:0.266667rem;
+
 				b{
 					color:white;
 					font-size:0.266667rem;
@@ -277,6 +293,10 @@ export default{
 				}
 			}
 		}
+		.searchFixed{
+			background:red;
+		}
+
 	}
 	.storeMes{
 		position:absolute;
@@ -374,6 +394,13 @@ export default{
 
 
 		}
+	}
+	.tabFixed{
+		position:fixed;
+		top:1.1rem;
+		width:100%;
+		background:white;
+		z-index:10000;
 	}
 	.vux-tab-ink-bar{
 		background-color:#fb0036!important;

@@ -107,7 +107,7 @@ export default{
 /* ----------------------------------- */
 .promotion{
 	.promotionBox{
-		border-top:0.013333rem solid #EEEEEE;
+		border-top:1px solid #EEEEEE;
 		.promotionList{
 			list-style-type: none;
 			display:-webkit-box;
@@ -131,7 +131,7 @@ export default{
 				flex:1 0 auto;
 				background-size: cover;
 				text-align: center;
-				margin-top:0.32rem;
+				margin-top:0.4rem;
 				span{
 					display:inline-block;
 					font-size:0.293333rem;
@@ -178,7 +178,7 @@ export default{
 					position:absolute;
 					top:50%;
 					margin-top:-0.04rem;
-					left:-0.133333rem;
+					left:-0.15rem;
 				}
 			}
 					.news{
