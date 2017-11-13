@@ -1,5 +1,6 @@
 <template>
 	<div class="profile" v-if="getdata">
+		<!--头部-->
 		<div class="profile_m">
 			<div class="profile_left">
 				<img class="proflie_logo" :src="getdata.store_label" >
@@ -10,20 +11,25 @@
 			</div>
 			<div class="profile_right">
 				<div class="attention">
-					<div @click="change()" :class="{attention_z:index==1,attention_b:index!=1}">
-						<span class="attention_zt">{{msg}}</span>
+					<div @click="change()">
+						<img v-if="isTrue" class="white_z" src="../../assets/img/attentionWhite.png">
+						<img v-else='isTrue' class="Red_z" src="../../assets/img/attentionRed.png">
+						<span v-if="isTrue">关注</span>
+						<span v-else='isTrue' class="Pay">已关注</span>
 					</div>
 				</div>
 				<span class="people">1669人</span>
 			</div>
 		</div>
-		<div class="merchandise">
+		<!--商品好评率-->
+		<div class="rate">
+			<div class="merchandise">
 			<div class="merchandise_c">
 				<span class="praise">商品好评率</span>
 				<span class="praise_c">99.8%</span>
 			</div>
-		</div>
-		<div class="appraise">
+			</div>
+			<div class="appraise">
 			<div class="appraise_c">
 				<div class="appraise_h">
 					<span class="evaluation">商品评价</span>
@@ -41,8 +47,10 @@
 					<span class="above">高于同行89.98%</span>
 				</div>	
 			</div>	
+			</div>
 		</div>
 		<div class="Grey"></div>
+		<!--联系卖家区域-->
 		<div class="contact">
 			<ul class="contact_c">
 				<li class="contact_n">
@@ -63,6 +71,8 @@
 				</li>
 			</ul>
 		</div>
+		<div class="Grey"></div>
+		<!--底部-->
 		<div class="deposit">
 			<div class="deposit_c">
 				<ul class="deposit_ul">
@@ -74,89 +84,68 @@
 						<span class="cash">开店时间</span>
 						<span class="cash_y">{{getdata.store_time}}</span>
 					</li>
-					<li style="border-bottom:1px solid transparent">
-						<span class="license">营业执照</span>
-						<i class="icon-right you"></i>
-					</li>
+					<router-link :to="{name: 'hh', params: { id: 123 }}">
+						<li style="border-bottom:1px solid transparent">
+							<span class="license">营业执照</span>
+							<i class="icon-right you"></i>
+						</li>
+					</router-link>	
 				</ul>
 			</div>
 		</div>
 		<div class="Grey_b"></div>
 	</div>
+	
 </template>
 <script>
 import {introduce,addMark,delMark} from '../../http/api.js'
-	export default{
-		data(){
-			return{
-				index:1,
-				msg:'关注',
-				storeId:47,
-				getdata:null,
-				storeid:'26',
-				isTrue:true
-			}
-		},
-		methods:{
-       		api_introduce(){
-       			introduce({storeId:this.storeId}).then((response)=>{
-       				console.log(response)
-       				let res = response.data;
-					if(res.code==1000){
-						this.getdata=res.data;
-					}
-       			})
-       		},
-       		api_addMark(){
-       			addMark({storeId:this.storeid}).then((response)=>{
-       				console.log(response)
-       				let res=response.data;
-       				//console.log(res);
-       				//  if(res.code==1000){
-       				//  	this.index=2;
-       				//  	this.msg='已关注';
-       				// 	this.isTrue=false;
-       				// 	alert('以关注')
-       				// }
-       			})
-       		},
-       		api_delMark(){
-       			delMark({storeId:this.storeid}).then((response)=>{
-       				console.log(response)
-       				let res=response.data;
-       				 // if(res.code==1000){
-       				 // 	this.index=1;
-       					// this.msg='关注';
-       					
-       					// alert('关注')
-       				 // }
-       			})
-       		},
-       		change(){
-       			if(this.isTrue){
-       				this.api_addMark();
-       				this.isTrue=false;		
-       			}else{
-       				this.api_addMark();
-       				alert(1)
-       				this.isTrue=true;
-       			}
-       		}
-       		
-    	},
-    	created(){
-    		this.api_introduce();
-    		
-    	}
+export default{
+	data(){
+		return{
+			storeId:'',
+			getdata:null,
+			isTrue:true,//关注/取消关注的判断
+		}
+	},
+	methods:{
+		//店铺简介api
+   		api_introduce(){
+   			introduce({storeId:this.storeId}).then((response)=>{
+   				console.log(response)
+   				let res = response.data;
+				if(res.code==1000){
+					this.getdata=res.data;
+				}
+   			})
+   		},
+   		//点击关注/取消关注
+   		change(){
+   			this.isTrue=!this.isTrue;
+   			if(this.isTrue){
+   				delMark({storeId:this.storeId}).then((response)=>{
+    				console.log(response)
+				})
+   			}else{
+   				addMark({storeId:this.storeId}).then((response)=>{
+    				console.log(response)
+				})	
+   			}
+   		}
+   		
+	},
+	created(){
+		this.storeId=this.$router.query.storeId;
+		this.api_introduce();
 	}
+}
 </script>
 <style>
-/* --------头部---------- */
 .profile{
 	width: 100%;
 	height: 100%;
 	border-top:1px solid #D8D8D8;
 }
+/* --------头部---------- */
 .profile .profile_m{
 	padding:0.3333333rem 0.2666667rem 0.3333333rem 0.2666667rem;
 	background: #FFF;
@@ -190,43 +179,34 @@ import {introduce,addMark,delMark} from '../../http/api.js'
 /*头部右边*/
 .profile_m .profile_right{
 	float: right;
-	position: relative;
+	position: relative;	
 	
 }
 .profile_m .profile_right .attention{
-	max-width: 1.6rem;
+	min-width: 1.6rem;
 	height:0.6266667rem;
 	position: absolute;
 	top: -0.1066667rem;
 	box-sizing: border-box;
 	right: 0px;
+	box-sizing: border-box;
 }
-.profile_right .attention .attention_z{
-	min-width: 1.6rem;
-	height:0.6266667rem;
-	text-align: center;
-	background: url(../../assets/img/attentionWhite.png);
-	background-size: 100% 100%;
+.profile_m .profile_right .attention img{
+	width: 1.6rem;
+	height: 0.6266667rem;
 }
-.profile_right .attention .attention_b{
-	min-width: 1.7rem;
-	height:0.6266667rem;
-	text-align: center;
-	background: url(../../assets/img/attentionRed.png);
-	background-size: 100% 100%;
-}
-.attention .attention_z .attention_zt{
+.profile_m .profile_right .attention span{
 	font-size: 0.32rem;
+	font-family: 'PingFang-SC-Medium';
 	color:#FFFFFF;
-	line-height: 0.6266667rem;
-	margin-left:0.2333333rem; 
+	position: absolute;
+	top: 0px;
+	line-height: 0.63rem;
+	right: 0.2rem;
 }
-.attention .attention_b .attention_zt{
-	font-size: 0.32rem;
-	color:#FB0036 ;
-	line-height: 0.6266667rem;
-	float: right;
-	margin-right: 0.1rem;
+.profile_m .profile_right .attention .Pay{
+	color: #FB0036;
+	right: 0.05rem;
 }
 .profile_right .people{
 	text-align: center;
@@ -372,7 +352,6 @@ import {introduce,addMark,delMark} from '../../http/api.js'
 }
 /*保证金下面的列表*/
 .profile .deposit{
-	margin-top: 0.2666667rem;
 	background: #FFF;
 }
 .profile .deposit_ul{
