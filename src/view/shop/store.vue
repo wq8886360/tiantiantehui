@@ -56,7 +56,7 @@
 				</div>
 				<p>客服</p>
 			</div> -->
-			<foot  @refreshList="goToSort"></foot>
+			<foot :data='storeId'  @refreshList="goToSort"></foot>
 		</div>
 	</div>	
 	<div class="store storeNoInfo"   v-else>
@@ -104,10 +104,10 @@ export default{
 	methods:{
 		menu() {
     		this.scroll = document.body.scrollTop;
-    		console.log(this.scroll)
+/*    		console.log(this.scroll)*/
     		if(this.scroll>=0.172*document.documentElement.clientWidth){
-    				console.log(this.scroll,'qweqw')
-    				console.log(0.172*document.documentElement.clientWidth,'1231323')
+    			/*	console.log(this.scroll,'qweqw')
+    				console.log(0.172*document.documentElement.clientWidth,'1231323')*/
     				this.tabFix=true
     		}else{
     			this.tabFix=false
@@ -115,15 +115,16 @@ export default{
    		},
 		getStoreInfo(){
 			storeIndex({storeId:this.storeId}).then((response)=>{
+				console.log(response)
 				if(response.data.code==1000){
 					console.log(response)
 					this.storeInfo=response.data.data
 					this.domain = response.data.data.baseUrl
 					this.attention=response.data.data.head.is_mark
-					console.log(this.attention)
-					console.log(this.domain,'this.domain')
+/*					console.log(this.attention)
+					console.log(this.domain,'this.domain')*/
 				}else{
-					alert(response.data.message)
+					//alert(response.data.message)
 				}
 			})
     	},
