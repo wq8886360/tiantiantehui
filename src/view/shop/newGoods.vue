@@ -70,7 +70,7 @@
 	.news{
 		background:#F7F7F7;
 		overflow: hidden;
-		border-top:0.013333rem solid #EEEEEE;
+		border-top:1px solid #EEEEEE;
 		p{
 			text-align: center;
 			height:1.066667rem;

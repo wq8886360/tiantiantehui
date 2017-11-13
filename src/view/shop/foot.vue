@@ -6,7 +6,7 @@
 			</div>
 			<p>宝贝分类</p>
 		</div>
-		<div class='footerCenter'>
+		<div class='footerCenter' @click='toStoreIntro'>
 			店铺简介
 		</div>
 		<div class='footerRight'>
@@ -20,6 +20,20 @@
 <script>
 
 export default {
+	props: ['data'],
+	data(){
+		return {
+			storeId:''//店铺id
+		}
+	},
+	created() {
+		this.storeId=this.data
+	},
+	methods:{
+		toStoreIntro() {
+			this.$router.push({path:"/profile",query:{storeId:this.storeId}})
+   		},
+	}
 }
 	
 </script>

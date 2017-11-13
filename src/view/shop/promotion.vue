@@ -107,7 +107,7 @@ export default{
 /* ----------------------------------- */
 .promotion{
 	.promotionBox{
-		border-top:0.013333rem solid #EEEEEE;
+		border-top:1px solid #EEEEEE;
 		.promotionList{
 			list-style-type: none;
 			display:-webkit-box;

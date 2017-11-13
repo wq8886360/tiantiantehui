@@ -4,7 +4,7 @@
 			<div class='backImg'><img :src='storeInfo.head.decoration_banner' alt=""></div>
 			<div class='cover'></div>
 			<div class="coverInfo">
-				<div class='search'>
+				<div class='search' :class="{'searchFixed':tabFix}">
 					<div class='inputBox'></div>
 					<input type="text" placeholder="搜索店铺内商品">
 					<div class='classify' @click='goToSort'><img src="../../assets/img/classify.png" alt=""></span><b>分类</b></div>
@@ -25,7 +25,7 @@
 				</div>
 			</div>
 		</div>
-		<tab>
+		<tab id='tab' :class="{'tabFixed':tabFix}">
       		<tab-item selected @on-item-click="onItemClick"><p class='imgBox'><img v-if='index==0' src="../../assets/img/storeIcon.png" alt=""><img v-else src="../../assets/img/storeIconAct.png" alt=""></p><p class='text'>店铺首页</p></tab-item>
       		<tab-item @on-item-click="onItemClick"><p>567</p><p class='text'>店铺宝贝</p></tab-item>
       		<tab-item @on-item-click="onItemClick"><p>12</p><p class='text'>促销</p></tab-item>
@@ -56,7 +56,7 @@
 				</div>
 				<p>客服</p>
 			</div> -->
-			<foot></foot>
+			<foot :data='storeId'  @refreshList="goToSort"></foot>
 		</div>
 	</div>	
 	<div class="store storeNoInfo"   v-else>
@@ -95,19 +95,36 @@ export default{
         	storeId:'',//店铺的id
         	index: 0,//tab切换的索引值
         	attention:false,//点击关注
+        	scroll: '',//距离顶部的距离
+        	tabFix:false,
+
 
 		}
 	},
 	methods:{
+		menu() {
+    		this.scroll = document.body.scrollTop;
+/*    		console.log(this.scroll)*/
+    		if(this.scroll>=0.172*document.documentElement.clientWidth){
+    			/*	console.log(this.scroll,'qweqw')
+    				console.log(0.172*document.documentElement.clientWidth,'1231323')*/
+    				this.tabFix=true
+    		}else{
+    			this.tabFix=false
+    		}
+   		},
 		getStoreInfo(){
 			storeIndex({storeId:this.storeId}).then((response)=>{
+				console.log(response)
 				if(response.data.code==1000){
 					console.log(response)
 					this.storeInfo=response.data.data
 					this.domain = response.data.data.baseUrl
-					console.log(this.domain,'this.domain')
+					this.attention=response.data.data.head.is_mark
+/*					console.log(this.attention)
+					console.log(this.domain,'this.domain')*/
 				}else{
-					alert(response.data.message)
+					//alert(response.data.message)
 				}
 			})
     	},
@@ -152,7 +169,10 @@ export default{
 			}
 			
 		}
-	}
+	},
+	mounted() {
+   		window.addEventListener('scroll', this.menu)
+  	},
 }
 </script>
 <style  lang="less">
@@ -192,11 +212,11 @@ html,body{
 		z-index:10000;
 	}
 	.storeHeader{
-		height:2.8rem;
+		height:3rem;
 		position:relative;
 		.backImg{
 			img{
-				height:2.8rem;
+				height:3rem;
 				width:100%;
 			}
 		}
@@ -217,9 +237,12 @@ html,body{
 			top:0;
 		}
 		.search{
-			height:0.933333rem;
-			position:relative;
-			margin-top:0.133333rem;
+			height:1.08rem;
+			position:fixed;
+			/* top:0.14rem; */
+			box-sizing: border-box;
+			z-index:10000;
+			width:100%;
 			
 			.inputBox{
 				width:8.2rem;
@@ -257,6 +280,7 @@ html,body{
 				width:0.64rem;
 				text-align: center;
 				margin-right:0.266667rem;
+
 				b{
 					color:white;
 					font-size:0.266667rem;
@@ -269,6 +293,10 @@ html,body{
 				}
 			}
 		}
+		.searchFixed{
+			background:red;
+		}
+
 	}
 	.storeMes{
 		position:absolute;
@@ -366,6 +394,13 @@ html,body{
 
 
 		}
+	}
+	.tabFixed{
+		position:fixed;
+		top:1.1rem;
+		width:100%;
+		background:white;
+		z-index:10000;
 	}
 	.vux-tab-ink-bar{
 		background-color:#fb0036!important;
