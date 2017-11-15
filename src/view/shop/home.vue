@@ -1,29 +1,41 @@
 <template>
 	<div class="storeHome">
-		<div class='CouponsBox'>
-			<ul class='CouponsList'>
-				<li>
-					<img class='ImgBox' src="../../assets/img/discount.png" alt="">
+<!-- 		<div class='CouponsBox'>
+	<ul class='CouponsList'>
+ 				<li>:class="{'active':checkAllFlag}"
+			<img v-if='isLq' class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
+			<img v-else class='ImgBox' src="../../assets/img/discount.png" alt="">
+			<div class='CouponsLeft'><span>￥</span><b>190</b></div>
+			<div class='CouponsRight'><p>优惠券</p><p>满2900元可用</p></div>
+		</li>
+		<li> 
+			<img class='ImgBox' src="../../assets/img/discount.png" alt="">
+			<div class='CouponsLeft'><span>￥</span><b>190</b></div>
+			<div class='CouponsRight'><p>优惠券</p><p>满2900元可用</p></div>
+		</li>
+		<li>
+			<img class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
+			<div class='CouponsLeft'><span>￥</span><b>190</b></div>
+			<div class='CouponsRight'><p>优惠券</p><p>满2900元可用</p></div>
+		</li>
+
+	</ul>
+</div> -->
+		<div style="width:100%;overflow:auto; margin:0.333333rem 0;" class='disConut'> 
+    		<div style="width:100040px;color:white">       
+        		<div class='disCountBox' style="float:left;">
+        			<img class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
 					<div class='CouponsLeft'><span>￥</span><b>190</b></div>
 					<div class='CouponsRight'><p>优惠券</p><p>满2900元可用</p></div>
-					
-				</li>
-				<li> <!-- :class="{'active':checkAllFlag}" -->
-					<img class='ImgBox' src="../../assets/img/discount.png" alt="">
+        		</div>
+        		<div class='disCountBox' style="float:left;">
+        			<img class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
 					<div class='CouponsLeft'><span>￥</span><b>190</b></div>
 					<div class='CouponsRight'><p>优惠券</p><p>满2900元可用</p></div>
-				</li>
-				<li>
-					<img class='ImgBox' src="../../assets/img/discount.png" alt="">
-				</li>
-				<li>
-					<img class='ImgBox' src="../../assets/img/discount.png" alt="">
-				</li>
-				<li>
-					<img class='ImgBox' src="../../assets/img/discount.png" alt="">
-				</li>
-			</ul>
+        		</div>   
+    		</div>
 		</div>
+
 		 <div  v-for="(item,index) in storeInfo.body"> 
 				<!-- 双排 -->
 				<div class="Doublerowlayout" v-if="item.block_module_type == 1">
@@ -171,15 +183,18 @@ export default{
 	          	paginationClickable :true,
 	          	autoplayDisableOnInteraction : false,//鼠标划过还能自动滚动
 	          	mousewheelControl : true,//能让鼠标滑轮滚动
-	          	debugger: true,
+	          	debugger: false,
 	          	
         	},
 			storeInfo:'',//商品信息
 			domain: '', //域名地址
+			isLq:false,//是否已领取
 		} 
 	},
 	methods:{
-       
+		onItemClick (index) {
+      		console.log('on item click:', index)
+    	},
     },
 
 	created() {	
@@ -187,10 +202,14 @@ export default{
 		console.log(this.storeInfo,'1231231')
 		this.domain =this.storeInfo.baseUrl
 		console.log(this.domain,'12312312')
-	}
+	},
+	mounted() {
+   		/*console.log(document.getElementById("li").offsetWidth)*/
+  	},
 }
 </script>
 <style>
+
 /* ---------------底部----------------------- */
 
 .store .components{
@@ -540,7 +559,57 @@ html,body{
     }
   
 /* ----------------优惠券------------------- */
-	.store .CouponsRight p:last-child{
+	.store .disCountBox{
+		width:3.866667rem;
+		height:1.6rem;
+		position:relative;
+		margin:0 0.066667rem;
+	}
+	.store .disCountBox img{
+		position:absolute;
+		left:0;
+		top:0;
+		width:100%;
+		height:100%;
+	}
+	.store .disCountBox .CouponsLeft{
+		position:absolute;
+			left:0;
+			top:0;
+			width:1.733333rem;
+			height:100%;
+	}
+	.store .disCountBox .CouponsLeft span{
+		font-size:0.266667rem;
+		position: absolute;
+		left:0.16rem;
+		top:0.88rem;
+		height:0.2rem;
+		line-height: 0.2rem;
+	}
+	.store .disCountBox .CouponsLeft b{
+		font-size:0.733333rem;
+				position: absolute;
+				left:0.38rem;
+				top:0.553333rem;
+				height:0.56rem;
+				line-height:0.56rem;
+	}
+	.store  .CouponsRight{
+		width:2.133333rem;
+		float:left;
+		height:100%;
+		box-sizing: border-box;
+		padding:0.28rem 0 0.28rem 0.1rem;
+		position:absolute;
+		left:1.733333rem;
+		top:0;
+	}
+
+	.disConut::-webkit-scrollbar{
+		width:0px
+	}
+	/* .store .CouponsRight p:last-child{
 		position:absolute;
 		bottom:0.28rem;
 		font-size:0.266667rem;
@@ -554,26 +623,17 @@ html,body{
 	.store .CouponsBox .CouponsList::-webkit-scrollbar{width:0px}
 	.store .CouponsBox .CouponsList{
 		list-style-type: none;
-		display:-webkit-box;
-		display:-webkit-flex;
-		display:-ms-flexbox;
 		display:flex;
-		-webkit-flex-wrap:nowrap;
-		-ms-flex-wrap:nowrap;
 		flex-wrap:nowrap;
 		-webkit-box-pack:justify;
-		-webkit-justify-content:space-between;
-		-ms-flex-pack:justify;
 		justify-content:space-between;
 		padding:0;overflow:auto;
 		padding-top:0.293333rem;
 		background:white;
-
+	
 	}
 	.store .CouponsBox li{
 		-webkit-box-flex:1;
-		-webkit-flex:1 0 auto;
-		-ms-flex:1 0 auto;
 		flex:1 0 auto;
 		color:white;
 		margin:0 0.066667rem;
@@ -618,7 +678,7 @@ html,body{
 		position:absolute;
 		left:1.733333rem;
 		top:0;
-
+	
 	}
 	.store .CouponsRight p:first-child{
 		position:absolute;
@@ -627,11 +687,11 @@ html,body{
 		height:0.346667rem;
 		line-height:0.346667rem;
 	}
-
- 	.store .CouponsBox .active{
+	
+	 	.store .CouponsBox .active{
 	width:3.866667rem;
 	height:1.6rem;
 	background-size: cover;
-}
+	} */
 	
 </style>
