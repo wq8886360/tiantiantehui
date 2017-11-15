@@ -83,13 +83,11 @@
 					<li>
 						<span class="cash">开店时间</span>
 						<span class="cash_y">{{getdata.store_time}}</span>
+					</li>					
+					<li style="border-bottom:1px solid transparent">
+						<span class="license">营业执照</span>
+						<i class="icon-right you"></i>
 					</li>
-					<router-link :to="{name: 'hh', params: { id: 123 }}">
-						<li style="border-bottom:1px solid transparent">
-							<span class="license">营业执照</span>
-							<i class="icon-right you"></i>
-						</li>
-					</router-link>	
 				</ul>
 			</div>
 		</div>
@@ -102,8 +100,8 @@ import {introduce,addMark,delMark} from '../../http/api.js'
 export default{
 	data(){
 		return{
-			storeId:'',
-			getdata:null,
+			storeId:'',//店铺id
+			getdata:null,//初始化数据
 			isTrue:true,//关注/取消关注的判断
 		}
 	},
@@ -134,7 +132,7 @@ export default{
    		
 	},
 	created(){
-		this.storeId=this.$router.query.storeId;
+		this.storeId=this.$route.query.storeId;
 		this.api_introduce();
 	}
 }
