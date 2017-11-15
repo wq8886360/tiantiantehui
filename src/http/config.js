@@ -17,17 +17,16 @@ axios.defaults.headers = {
 var timer = null;
 // request全局拦截
 axios.interceptors.request.use(config => {
-    //
+    // token
     const token = Cookie.get("token");
+    if(token){
+      config.headers['token'] = token;
+    }
+
+    // wechat请求
     if(config.method === 'post') {
-      if(token){
-        config.data += `&token=${token}`
-      }
       config.data += '&client_type=wechat'
     } else if(config.method === 'get') {
-      if(token){
-        config.params['token'] = token;
-      }
       config.params['client_type'] = 'wechat'
     }
 
