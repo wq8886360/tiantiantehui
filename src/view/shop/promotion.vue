@@ -1,23 +1,37 @@
 <template>
 	<div class="promotion">
 		<div class='promotionBox'>
-			<ul class='promotionList'>
-				<li class='select'>
-					<span>asdasdasdasdasd</span>
-				</li>
-				<li> 
-					<span>asdas</span>
-				</li>
-				<li>
-					<span>满五十减三十</span>
-				</li>
-				<li>
-					<span>满五十减三十</span>
-				</li>
-				<li>
-					<span>满五十减三十</span>
-				</li>
-			</ul>
+<!-- 			<ul class='promotionList'>
+	<li class='select'>
+		<span>asdasdasdasdasd</span>
+	</li>
+	<li> 
+		<span>asdas</span>
+	</li>
+	<li>
+		<span>满五十减三十</span>
+	</li>
+	<li>
+		<span>满五十减三十</span>
+	</li>
+	<li>
+		<span>满五十减三十</span>
+	</li>
+</ul> -->
+			<div style="width:100%;overflow:auto;" class='pushBox'> 
+	    		<div style="width:100040px;color:white">       
+	        		<div class='pushCon' style="float:left;">
+	        			<span>asdasdasdasdasd</span>
+	        		</div>
+	        		<div class='pushCon' style="float:left;">
+	        			<span>asdasdasdasdasd</span>
+	        		</div>   
+	        		<div class='pushCon' style="float:left;">
+	        			<span>asdasdasdasdasd</span>
+	        		</div>
+
+	    		</div>
+			</div>
 			<div class='promotionGoods'>
 				<div class='time'>
 					<p><b></b><span>时间：</span><i>9月8号 23:59分 59秒</i></p>
@@ -108,30 +122,9 @@ export default{
 .promotion{
 	.promotionBox{
 		border-top:1px solid #EEEEEE;
-		.promotionList{
-			list-style-type: none;
-			display:-webkit-box;
-			display:-webkit-flex;
-			display:-ms-flexbox;
-			display:flex;
-			-webkit-flex-wrap:nowrap;
-			-ms-flex-wrap:nowrap;
-			flex-wrap:nowrap;
-			-webkit-box-pack:justify;
-			-webkit-justify-content:space-between;
-			-ms-flex-pack:justify;
-			justify-content:space-between;
-			padding:0;
-			overflow:auto;
-			background:white;
-			li{
-				-webkit-box-flex:1;
-				-webkit-flex:1 0 auto;
-				-ms-flex:1 0 auto;
-				flex:1 0 auto;
-				background-size: cover;
-				text-align: center;
-				margin-top:0.4rem;
+		.pushBox{
+			.pushCon{
+				margin:0.32rem 0;
 				span{
 					display:inline-block;
 					font-size:0.293333rem;
@@ -144,14 +137,56 @@ export default{
 					margin:0 0.266667rem 0;
 				}
 			}
-			.select{
-				span{
-					color:white;
-					background:#FB0036;
-				}
-				
-			}
+
 		}
+		.pushBox::-webkit-scrollbar{
+			width:0px
+		}
+
+/* 		.promotionList{
+	list-style-type: none;
+	display:-webkit-box;
+	display:-webkit-flex;
+	display:-ms-flexbox;
+	display:flex;
+	-webkit-flex-wrap:nowrap;
+	-ms-flex-wrap:nowrap;
+	flex-wrap:nowrap;
+	-webkit-box-pack:justify;
+	-webkit-justify-content:space-between;
+	-ms-flex-pack:justify;
+	justify-content:space-between;
+	padding:0;
+	overflow:auto;
+	background:white;
+	li{
+		-webkit-box-flex:1;
+		-webkit-flex:1 0 auto;
+		-ms-flex:1 0 auto;
+		flex:1 0 auto;
+		background-size: cover;
+		text-align: center;
+		margin-top:0.4rem;
+		span{
+			display:inline-block;
+			font-size:0.293333rem;
+			height:0.533333rem;
+			line-height:0.533333rem;
+			color:#FB0036;
+			border:1px solid #FB0036;
+			border-radius:0.266667rem;
+			padding:0 0.266667rem 0;
+			margin:0 0.266667rem 0;
+		}
+	}
+	.select{
+		span{
+			color:white;
+			background:#FB0036;
+		}
+		
+	}
+} */
 		.promotionList::-webkit-scrollbar{
 			width:0px
 		}
