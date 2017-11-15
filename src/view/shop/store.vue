@@ -36,10 +36,11 @@
 		</div> 
 		<div class='components'>
 			<home :data='storeInfo' v-if='index==0'></home>
-			<storeGoods v-if='index==1'></storeGoods>
+			<storeGoods :data='storeInfo' v-if='index==1'></storeGoods>
 		 	<promotion v-if='index==2'></promotion>
 			<newGoods v-if='index==3'></newGoods>
 		</div>
+		
 		<div class='footerBottom'>
 			<!-- <div class='footerLeft'>
 				<div>
@@ -97,8 +98,6 @@ export default{
         	attention:false,//点击关注
         	scroll: '',//距离顶部的距离
         	tabFix:false,
-
-
 		}
 	},
 	methods:{
@@ -134,18 +133,17 @@ export default{
     	},
     	//点击关注
     	attentionClick(){
-    		
     		if(this.attention){
     			delMark({storeId:this.storeId}).then((response)=>{
     				console.log(response)
-    				if(response.data.code=1000){
+    				if(response.data.code==1000){
 						this.attention=!this.attention
     				}
 				})	
     		}else{
     			addMark({storeId:this.storeId}).then((response)=>{
     				console.log(response)
-    				if(response.data.code=1000){
+    				if(response.data.code==1000){
 						this.attention=!this.attention
     				}
 				})
