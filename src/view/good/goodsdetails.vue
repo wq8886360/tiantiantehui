@@ -234,7 +234,7 @@
 		<div class="bottom_btn">
 			<div class="left">
 				<div><img src="../../assets/img/service_icon.png" alt="">客服</div>
-				<div><img src="../../assets/img/shop_icon.png" alt="">店铺</div>
+				<div @click="gostore"><img src="../../assets/img/shop_icon.png" alt="">店铺</div>
 				<div><img src="../../assets/img/shopcar_icon.png"  alt="">购物车</div>
 				<div class="noborder"></div>
 			</div>
@@ -392,8 +392,12 @@ export default{
 	   		if(skuidArr.indexOf('') !== -1){
 	   			this.specsState = true;
 	   		}else{
-	   			
+
 	   		}
+	   	},
+	   	//跳转店铺页
+	   	gostore(){
+	   		this.$router.push({path: '/store',query:{store_id: this.data['store_info']['store_id']}})
 	   	}
 	},
 	created(){
