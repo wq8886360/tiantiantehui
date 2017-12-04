@@ -12,9 +12,10 @@ import '@/assets/font/font.css' //icon
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 Vue.use(VueAwesomeSwiper)
-import  { AlertPlugin, ToastPlugin } from 'vux'
+import  { AlertPlugin, ToastPlugin, ConfirmPlugin } from 'vux'
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
+Vue.use(ConfirmPlugin)
 
 Vue.config.productionTip = false
 

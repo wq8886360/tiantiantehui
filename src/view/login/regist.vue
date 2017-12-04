@@ -261,18 +261,24 @@ export default{
 		top: 0;
 		left: 0;
 		background: rgba(0,0,0,.5);
+        display: -webkit-flex;
 		display: flex;
-		justify-content: center;
-		align-items: center;
+		-webkit-justify-content: center;
+        justify-content: center;
+		-webkit-align-items: center;
+        align-items: center;
 		.content{
 			width: 80%;
 			background: #fff;
 			border-radius: 0.13rem;
 			box-sizing: border-box;
 			padding: 0.4rem 0.27rem 0.4rem;
+            display: -webkit-flex;
 			display: flex;
-			flex-direction: column;
-			align-items: center;
+			-webkit-flex-direction: column;
+            flex-direction: column;
+			-webkit-align-items: center;
+            align-items: center;
 			.info{
 				padding: 0.53rem 0;
 				font-size: 0.32rem;
@@ -315,8 +321,10 @@ export default{
         padding: 0 0.67rem;
         .mainlist::-webkit-scrollbar {display:none}
 		.mainlist{
-			display: flex;
-			flex-wrap: wrap;
+			display: -webkit-flex;
+            display: flex;
+			-webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
             margin-top: 0.93rem;
             height: 65%;
             overflow: scroll;
@@ -324,9 +332,12 @@ export default{
 			justify-content: space-between;
 			.box{
 				width: 33.3%;
+                display: -webkit-flex;
 				display: flex;
-				align-items: center;
-				flex-direction: column;
+				-webkit-align-items: center;
+                align-items: center;
+				-webkit-flex-direction: column;
+                flex-direction: column;
 				position: relative;
 				margin-bottom: 0.8rem;
 				.choice{
@@ -338,6 +349,7 @@ export default{
 				}
 				.label{
 					width: 2.13rem;
+                    display: -webkit-flex;
 					display: flex;
 					margin-top: 0.13rem;
 					.v{

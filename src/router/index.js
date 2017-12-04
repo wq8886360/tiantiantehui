@@ -35,6 +35,10 @@ import Goodsdetails from '@/view/good/goodsdetails' //商品详情
 
 //购物车
 import Shopcar from '@/view/shopcar/shopcar' //购物车页面
+import Gathertogether from '@/view/shopcar/gathertogether' //凑单
+
+//订单
+import Confirmorder from '@/view/order/confirmorder' //确认订单
 
 
 //测试
@@ -104,5 +108,15 @@ export default new Router({
             path: '/sortSecond',
             component: SortSecond,
         },
+        {
+            path: '/gathertogether',
+            name: '购物车凑单',
+            component: Gathertogether
+        },
+        {
+            path: '/confirmorder',
+            name: '确认订单',
+            component: Confirmorder
+        }
 	]
 })

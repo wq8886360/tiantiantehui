@@ -191,6 +191,7 @@ html,body{
 	.footerBottom{
 		position:fixed;
 		bottom:0;
+		display:-webkit-flex;
 		display:flex;
 		height:1.333333rem;
 		box-sizing: border-box;

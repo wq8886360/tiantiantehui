@@ -13,6 +13,8 @@
 				<div class="text"><span class="titletag" v-if="data['is_preferential']">店铺优惠</span>{{data.title}}</div>
 				<div class="collect">
 					<div class="border1px"></div>
+					<img @click="collect" v-if="is_fav == 0" src="../../assets/img/icon_souchag_n.png" style="width: 0.6rem;" alt="">
+					<img @click="romovecollect" v-if="is_fav == 1" src="../../assets/img/icon_souchag_h.png" style="width: 0.6rem;" alt="">
 				</div>
 			</div>
 			<!-- 价格、标签 -->
@@ -33,10 +35,11 @@
 			</div>
 		</div>
 		<!-- 领券 -->
-		<div class="voucher div_box">
+		<div class="voucher div_box" @click="couponsState = true" v-if="data['voucher'].length != 0">
 			<div class="label">领券</div>
 			<div class="voucherlist">
-				<span v-for="item in 3">满999减199</span>
+				<span v-if="data['voucher'].length > 3" v-for="item in 3">满{{Number(data['voucher'][item]['use_condition'])}}减{{data['voucher'][item]['denomination']}}</span>
+				<span v-if="data['voucher'].length < 3" v-for="items in data['voucher']">满{{items['use_condition']}}减{{items['denomination']}}</span>
 			</div>
 			<i class="icon-right right"></i>
 		</div>
@@ -200,6 +203,43 @@
 			</popup>
 		</div>
 
+		<!-- 领取优惠卷弹窗 -->
+		<div v-transfer-dom>
+			<popup v-model="couponsState" position="bottom" max-height="80%">
+				<div class="attrpopu couponspupu">
+					<div class="attrpoputitle">领取店铺优惠卷<i class="icon-close right" @click="couponsState = false"></i></div>
+					<div class="attrcontent">
+						<scroller lock-x height="100%">
+							<div>
+								<div class="box" v-for="item in data['voucher']">
+									<!-- 未领取 -->
+									<div class="bg" v-if="item['is_get'] == '0'"><img src="../../assets/img/pickupbg.png" alt=""></div>
+									<!-- 领取 -->
+									<div class="bg" v-if="item['is_get'] == '1'"><img src="../../assets/img/nopickupbg.png" alt=""></div>
+									<div class="content">
+										<div class="left">
+											¥{{item['denomination']}}
+										</div>
+										<div class="right">
+											<p class="rule" v-if="item['use_condition'] != '0'">满{{Number(item['use_condition'])}}使用</p>
+											<p class="rule" v-if="item['use_condition'] == '0'">无门槛优惠劵</p>
+											<p class="type">{{item['title']}}</p>
+											<!-- <p class="type" v-if="item['goods_scope'] == 'ALL'">全店通用</p>
+											<p class="type" v-if="item['goods_scope'] == 'ASSIGN'">指定商品</p> -->
+											<p class="time">有效期：{{item['start_time']}}-{{item['end_time']}}</p>
+											<div class="pickupbtn btn" v-if="item['is_get'] == '1'">已领取</div>
+											<div class="unpickupbtn btn" v-if="item['is_get'] == '0'" @click="getVoucher_api(item['voucher_id'])">领取</div>
+										</div>
+
+									</div>
+								</div>
+							</div>	
+						</scroller>	
+					</div>
+				</div>
+			</popup>
+		</div>
+
 		<!-- 商品sku -->
 		<div v-transfer-dom class="sku_dig">
 			<popup v-model="specsState" position="bottom" max-height="80%">
@@ -235,7 +275,7 @@
 			<div class="left">
 				<div><img src="../../assets/img/service_icon.png" alt="">客服</div>
 				<div @click="gostore"><img src="../../assets/img/shop_icon.png" alt="">店铺</div>
-				<div><img src="../../assets/img/shopcar_icon.png"  alt="">购物车</div>
+				<div @click="gotoshopcar"><img src="../../assets/img/shopcar_icon.png"  alt="">购物车</div>
 				<div class="noborder"></div>
 			</div>
 			<div class="right">
@@ -247,7 +287,7 @@
 </template>
 <script>
 import { Swiper, Scroller, SwiperItem, Group, Tab, TabItem, Flexbox, XNumber, FlexboxItem, TransferDom, Popup, Checker, CheckerItem } from 'vux'
-import { goodsdetail } from '../../http/api.js'
+import { goodsdetail, cartadd, carthome, getVoucher, goodsfavoriteadd, goodsfavoriteremove } from '../../http/api.js'
 export default{
 	directives: {
 		TransferDom
@@ -272,10 +312,13 @@ export default{
 			scroll:'', //滚动条高度
 			goTop:false, //是否显示回到顶部按钮
 			data: null,
-			goods_id: 148, //商品ID
+			goods_id: 151, //商品ID
 			pics: null, //banner列表
 			attrsState: false, //商品参数显示状态
 			specsState: false, //商品规格显示状态
+			couponsState: false, //领取店铺优惠卷显示状态
+			is_fav: null, //是否关注了商品
+			favorite_id: null, //收藏记录ID
 
 			defaultimage: null, //商品规格默认图片
 			stock: null, //默认库存
@@ -286,6 +329,7 @@ export default{
 			specs: null, //上屏规格
 			bindId: [], //规格选择ID值
 			skuid: '', //商品skuid
+			sku_id: '', //确定后的sku_id
 			goodNum: 1, //加入购物车数量
 			choosespecs: '', //选择后的规格
 
@@ -302,7 +346,6 @@ export default{
 		            return x-y;
 		        });
 				let idArrStr = idArr.join('_');
-				this.skuid = idArrStr;
 				//查询sku
 				this.sku.map((val,index,arr) => {
 					if(val['specs'] == idArrStr){
@@ -312,6 +355,7 @@ export default{
 						this.defaultprice = val.price;
 						this.specstitle = val.name;
 						this.stock = val.stock;
+						this.skuid = val.id;
 						return val;
 					}else{
 						return false;
@@ -337,6 +381,7 @@ export default{
 					this.pics = res.data.pics;
 					this.sku = res.data.sku;
 					this.specs = res.data.specs;
+					this.is_fav = res.data.is_fav;
 					//遍历商品规格
 					res.data.specs.forEach((val,index,arr) => {
 						this.choosespecs += ` ${val.name}`;
@@ -369,6 +414,18 @@ export default{
 	            }
 	        },30);
 	   	},
+	   	//普通领取优惠劵
+	   	getVoucher_api(voucher_id){
+	   		getVoucher({voucher_id: voucher_id}).then((response) => {
+	   			console.log(response)
+	   			let res = response.data
+	   			if(res.code === 1000){
+
+	   			}else{
+	   				this.$vux.toast.text(res.message, 'middle')
+	   			}
+	   		})
+	   	},
 	   	//商品规格确定按钮
 	   	specsdetermine(){
 	   		let is_up = true;
@@ -381,19 +438,51 @@ export default{
 	   		})
 	   		if(is_up){
 	   			this.choosespecs = this.specstitle;
-	   			this.specsState = false;
+	   			this.sku_id = this.skuid
 	   			is_up = true;
+	   			this.cartadd_api()
 	   		}
+	   	},
+	   	cartadd_api(){
+	   		cartadd({goods_id: this.goods_id,sku_id: this.sku_id,qty: this.goodNum}).then((response) => {
+				console.log(response)
+				if(response.data.code === 1000){
+					this.specsState = false;
+					this.$vux.toast.text('操作成功', 'middle')
+				}else{
+					this.$vux.toast.text(response.data.message, 'middle')
+				}
+			})
 	   	},
 	   	//加入购物车
 	   	joincar(){
-	   		let skuidArr = this.skuid.split('_')
-	   		console.log(skuidArr)
-	   		if(skuidArr.indexOf('') !== -1){
-	   			this.specsState = true;
-	   		}else{
-
-	   		}
+	   		this.specsState = true;
+	   	},
+	   	//跳转购物车
+	   	gotoshopcar(){
+	   		this.$router.push({path: '/shopcar'})
+	   	},
+	   	//关注
+	   	collect(){
+	   		goodsfavoriteadd({goods_id: this.goods_id}).then((response) => {
+	   			console.log(response)
+	   			if(response.data.code == 1000){
+	   				this.is_fav = 1;
+	   				this.favorite_id = response.data.data.favorite_id;
+	   			}else{
+	   				this.$vux.toast.text(response.data.message, 'middle')
+	   			}
+	   		})
+	   	},
+	   	//取消关注
+	   	romovecollect(){
+	   		goodsfavoriteremove({ids: this.favorite_id}).then((response) => {
+	   			if(response.data.code == 1000){
+	   				this.is_fav = 0;
+	   			}else{
+	   				this.$vux.toast.text(response.data.message, 'middle')
+	   			}
+	   		})
 	   	},
 	   	//跳转店铺页
 	   	gostore(){

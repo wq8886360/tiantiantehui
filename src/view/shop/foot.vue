@@ -69,6 +69,7 @@ export default {
 		.footerRight{
 			float:left;
 			height:100%;
+			-webkit-flex: 1;
 			flex:1;
 			position:relative;
 			div{

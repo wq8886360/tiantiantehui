@@ -426,7 +426,8 @@ html,body{
         .Singlelayout  .list{
         	height:3.466667rem;
             margin-bottom:0.666667rem;
-            display:flex; 
+            display:-webkit-flex; 
+            display:flex;
         }
         .Singlelayout  .list .sl{
         	float: left;
@@ -484,8 +485,10 @@ html,body{
         .Singlelayout  .sr {
             float: left;
             position: relative;
+            display: -webkit-flex;
             display:flex;
             height:100%;
+            -webkit-flex: 1;
             flex:1;
         }
 /* --------------双排-------- */
@@ -549,9 +552,13 @@ html,body{
 		padding: 0px 0.133333rem;
 		position: absolute;
 		bottom: 0.666667rem;
+		display: -webkit-flex;
 		display: flex;
+		-webkit-flex-direction: row;
 		flex-direction: row;
+		-webkit-justify-content: space-between;
 		justify-content: space-between;
+		-webkit-align-items: center;
 		align-items: center;
     }
     .Doublerowlayout .goodsInfo{

@@ -56,6 +56,8 @@
 				top: 0;
 				width: 0.85rem;
 				height: 0.85rem;
+				line-height: 1.15rem;
+				text-align: right;
 				.border1px{
 					height: 0.85rem;
 					width: 1px;
@@ -106,11 +108,13 @@
 	}
 	/*活动*/
 	.activity{
+		display: -webkit-flex;
 		display: flex;
 		.label{
 			width: 0.64rem;
 		}
 		.content{
+			-webkit-flex: 1;
 			flex: 1;
 			.list{
 				margin-bottom: 0.27rem;
@@ -183,6 +187,7 @@
 			flex-wrap:nowrap;
 			-webkit-box-pack:justify;
 			-ms-flex-pack:justify;
+			-webkit-justify-content:space-between;
 			justify-content:space-between;
 			overflow:auto;
 			.infoLeft{
@@ -191,6 +196,7 @@
 				float:left;
 				box-shadow: 0px 0px 5px #dfdbdb;
 				color:#8E8E8E;
+				display: -webkit-flex;
 				display: flex;
 				.infoLeftCon{
 					float:left;
@@ -311,11 +317,13 @@
 			}
 		}
 		ul{
+			display: -webkit-flex;
 			display:flex;
 			border-bottom: 1px solid #EEEEEE;
 			li{
 				box-sizing: border-box;
 				border-right:1px solid #E2E2E2;
+				-webkit-flex: 1;
 				flex:1;
 				float:left;
 				height:1.1rem;
@@ -418,11 +426,15 @@
 				float: left;
 				box-sizing: border-box;
 				border-right: 1px solid #e5e5e5;
+				display: -webkit-flex;
 				display: flex;
+				-webkit-flex-direction: column;
 				flex-direction: column;
 				font-size: 0.27rem;
 				color: #1C1B20;
+				-webkit-justify-content: center;
 				justify-content: center;
+				-webkit-align-items: center;
 				align-items: center;
 				img{
 					height: 0.53rem;
@@ -461,6 +473,96 @@
 .icon-close{
 	font-size: 0.43rem;
 	color: #acacac;
+}
+
+/*领取优惠卷弹窗*/
+.couponspupu{
+	background: #F0F0F0;
+	height: 80vh;
+	position: relative;
+	.attrpoputitle{
+		height: 0.69rem;
+	}
+	.attrcontent{
+		margin-bottom: 0!important;
+		position: absolute;
+		padding-bottom: 0.53rem;
+		top: 1.49rem;
+		bottom: 0;
+		left: 0.24rem;
+		right: 0.24rem;
+		.box{
+			height: 1.87rem;
+			width: 100%;
+			position: relative;
+			margin-bottom: 0.27rem;
+			.bg{
+				position: absolute;
+				height: 1.87rem;
+				width: 100%;
+				top: 0;
+				left: 0;
+				img{
+					height: 1.87rem;
+					width: 100%;
+				}
+			}
+			.content{
+				width: 100%;
+				height: 1.87rem;
+				position: absolute;
+				left: 0;
+				top: 0;
+				.left{
+					height: 1.87rem;
+					width: 2.8rem;
+					float: left;
+					color: #fff;
+					font-size: 0.8rem;
+					line-height: 1.87rem;
+					text-align: center;
+				}
+				.right{
+					float: left;
+					height: 1.87rem;
+					padding: 0.29rem 0 0 0.43rem;
+					.rule{
+						font-size: 0.29rem;
+					}
+					.type{
+						font-size: 0.29rem;
+						color: #FB0036;
+						margin: 0.08rem 0;
+						width: 4.27rem;
+						overflow: hidden;
+						text-overflow:ellipsis;
+						white-space: nowrap;
+					}
+					.time{
+						font-size: 0.24rem;
+						color: #858585;
+					}
+					.btn{
+						position: absolute;
+						bottom: 0.24rem;
+						right: 0.21rem;
+						padding: 0.03rem 0.08rem;
+						font-size: 0.29rem;
+						border-radius: 2px;
+						display: inline-block;
+					}
+					.unpickupbtn{
+						border: 1px solid #FB0036;
+						color: #FB0036;
+					}
+					.pickupbtn{
+						border: 1px solid #AAAAAA;
+						color: #AAAAAA;
+					}
+				}
+			}
+		}
+	}
 }
 
 /*商品属性弹窗*/
@@ -502,7 +604,9 @@
 .specspopu{
 	padding: 0.51rem 0.24rem 1.07rem;
 	height: 80vh;
+	display: -webkit-flex;
 	display: flex;
+	-webkit-flex-direction: column;
 	flex-direction: column;
 	.icon-close{
 		position: absolute;
@@ -547,6 +651,7 @@
 		}
 	}
 	.list{
+		-webkit-flex: 1;
 		flex: 1;
 		padding-bottom: 1.6rem;
 		overflow-y: scroll;

@@ -80,9 +80,11 @@ export default {
 
 .storeGoods{
 	.fourFlex{
+		display:-webkit-flex;
 		display:flex;
 		border-top:1px solid #EEEEEE;
 		li{
+			-webkit-flex: 1;
 			flex:1;
 			height:1.173333rem;
 			line-height:1.173333rem;

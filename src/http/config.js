@@ -14,7 +14,7 @@ axios.defaults.headers = {
   "Content-Type": "application/x-www-form-urlencoded",
 };
 
-var timer = null;
+//var timer = null;
 // request全局拦截
 axios.interceptors.request.use(config => {
     // token
@@ -31,9 +31,9 @@ axios.interceptors.request.use(config => {
     }
 
     //请求超过1s显示加载动画
-    timer = setTimeout(function(){
-        store.dispatch('SHOW')
-    },1000)
+    // timer = setTimeout(function(){
+    //     store.dispatch('SHOW')
+    // },1000)
 	return config
 },error => {
 	return Promise.reject(error)
@@ -47,8 +47,8 @@ axios.interceptors.response.use(
     //全局loading状态
     if(res.status == 200){
         //清除动画
-        clearTimeout(timer);
-        store.dispatch('CLOSTLOAD')
+        //clearTimeout(timer);
+        //store.dispatch('CLOSTLOAD')
 
         // 
         let code = res.data.code;
