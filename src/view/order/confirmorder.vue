@@ -46,19 +46,51 @@
 					<div>促销</div>
 					<div>赠袜子一双；已优惠 ¥6 <i class="icon-right"></i></div>	
 				</div>
-				<div class="treatment">
-					
+				<div class="treatment typeli2">
+					<div>优惠</div>
+					<div>满200减50 <i class="icon-right"></i></div>
+				</div>
+				<div class="textarea">
+					<x-textarea placeholder="给卖家留言：" :autosize="true" v-model="message"></x-textarea>
+				</div>
+				<div class="reporter">
+					<span>共计2件商品&nbsp;&nbsp;小计：</span>
+					<span class="price">¥ 425</span>
 				</div>
 			</div>
+		</div>
+
+		<!-- 失效商品 -->
+		<div class="disablegood">
+			<div class="title">
+				失效宝贝
+			</div>
+			<div class="list" v-for="item in 2">
+				<div class="img"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4009434610,3584345417&fm=27&gp=0.jpg" alt=""></div>
+				<p class="name">新消息</p>
+				<p class="color">的方法</p>
+				<!-- <p class="state"><span v-if="item['status'] == '3'">宝贝已下架</span><span v-if="item['status'] == '2'">宝贝已售完</span></p> -->
+			</div>
+		</div>
+		
+		<!-- 底部支付 -->
+		<div class="pay">
+			合集：<span class="zong">¥1194.5</span>
+			<div class="pay_btn">去支付</div>
 		</div>
 	</div>
 </template>
 <script>
 import { orderconfirm } from '../../http/api.js';
+import { XTextarea } from 'vux';
 export default{
+	components: {
+		XTextarea
+	},
 	data(){
 		return {
 			address: null, //默认收货地址
+			message: '', //给卖家留言
 		}
 	},
 	methods: {
