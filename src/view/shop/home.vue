@@ -18,21 +18,16 @@
 			<div class='CouponsLeft'><span>￥</span><b>190</b></div>
 			<div class='CouponsRight'><p>优惠券</p><p>满2900元可用</p></div>
 		</li>
-
 	</ul>
 </div> -->
 		<div style="width:100%;overflow:auto; margin:0.333333rem 0;" class='disConut'> 
     		<div style="width:100040px;color:white">       
-        		<div class='disCountBox' style="float:left;">
-        			<img class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
-					<div class='CouponsLeft'><span>￥</span><b>190</b></div>
-					<div class='CouponsRight'><p>优惠券</p><p>满2900元可用</p></div>
+        		<div class='disCountBox' style="float:left;"  v-for='item in storeInfo.voucher' @click='getVouchers(item.voucher_id)'>
+        			<img v-if='item.is_get=="0"' class='ImgBox' src="../../assets/img/discount.png" alt="">
+        			<img v-if='item.is_get=="1"' class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
+					<div class='CouponsLeft'><span>￥</span><b>{{item.denomination}}</b></div>
+					<div class='CouponsRight'><p>优惠券</p><p v-if='item.use_condition!=0'>满{{item.use_condition}}元可用</p><p v-else>无门槛</p></div>
         		</div>
-        		<div class='disCountBox' style="float:left;">
-        			<img class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
-					<div class='CouponsLeft'><span>￥</span><b>190</b></div>
-					<div class='CouponsRight'><p>优惠券</p><p>满2900元可用</p></div>
-        		</div>   
     		</div>
 		</div>
 
@@ -158,13 +153,13 @@
 					</swiper>
 				</div>
 			</div> 
-
 	</div>
 </template>
 <script>
-import {storeIndex,checkCode } from '../../http/api.js'
+import {getVoucher,storeIndex} from '../../http/api.js'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.min.css';
+import  { ToastPlugin } from 'vux'
 export default{
 	props: ['data'],
 	components: {
@@ -195,13 +190,29 @@ export default{
 		onItemClick (index) {
       		console.log('on item click:', index)
     	},
+    	getVouchers(id){
+    		getVoucher({voucher_id:id}).then((response)=>{
+    			if(response.data.code==0){
+					this.$vux.toast.text(response.data.message, 'middle')
+    			}else if(response.data.code==1000){
+					this.$vux.toast.text(response.data.message, 'middle')
+					this.getStoreInfo()
+    			}
+    		})
+    	},
+		getStoreInfo(){
+			storeIndex({storeId:this.$route.query.id}).then((response)=>{
+				if(response.data.code==1000){
+					console.log(response,'111111')
+					this.storeInfo=response.data.data
+				}else{
+				}
+			})
+    	},
     },
-
 	created() {	
 		this.storeInfo=this.data
-		console.log(this.storeInfo,'1231231')
 		this.domain =this.storeInfo.baseUrl
-		console.log(this.domain,'12312312')
 	},
 	mounted() {
    		/*console.log(document.getElementById("li").offsetWidth)*/
@@ -211,7 +222,9 @@ export default{
 <style>
 
 /* ---------------底部----------------------- */
-
+.storeHome{
+	border-top: 1px solid #EEEEEE;
+}
 .store .components{
 	margin-bottom:1.333333rem;
 }
@@ -574,10 +587,10 @@ html,body{
 	}
 	.store .disCountBox .CouponsLeft{
 		position:absolute;
-			left:0;
-			top:0;
-			width:1.733333rem;
-			height:100%;
+		left:0;
+		top:0;
+		width:1.733333rem;
+		height:100%;
 	}
 	.store .disCountBox .CouponsLeft span{
 		font-size:0.266667rem;
@@ -589,11 +602,11 @@ html,body{
 	}
 	.store .disCountBox .CouponsLeft b{
 		font-size:0.733333rem;
-				position: absolute;
-				left:0.38rem;
-				top:0.553333rem;
-				height:0.56rem;
-				line-height:0.56rem;
+		position: absolute;
+		left:0.42rem;
+		top:0.553333rem;
+		height:0.56rem;
+		line-height:0.56rem;
 	}
 	.store  .CouponsRight{
 		width:2.133333rem;
@@ -605,9 +618,16 @@ html,body{
 		left:1.733333rem;
 		top:0;
 	}
+	.store .CouponsRight p:last-child{
+		position:absolute;
+		bottom:0.28rem;
+		font-size:0.266667rem;
+		height:0.266667rem;
+		line-height: 0.266667rem;
+	}
 
 	.disConut::-webkit-scrollbar{
-		width:0px
+		height:0px
 	}
 	/* .store .CouponsRight p:last-child{
 		position:absolute;

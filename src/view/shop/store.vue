@@ -35,7 +35,7 @@
 			
 		</div> 
 		<div class='components'>
-			<home :data='storeInfo' v-if='index==0'></home>
+			<home :data='storeInfo' v-if='index==0' ></home><!-- @getInfo="getStoreInfo" -->
 			<storeGoods :data='storeInfo' v-if='index==1'></storeGoods>
 		 	<promotion v-if='index==2'></promotion>
 			<newGoods v-if='index==3'></newGoods>
@@ -114,9 +114,7 @@ export default{
    		},
 		getStoreInfo(){
 			storeIndex({storeId:this.storeId}).then((response)=>{
-				console.log(response)
 				if(response.data.code==1000){
-					console.log(response)
 					this.storeInfo=response.data.data
 					this.domain = response.data.data.baseUrl
 					this.attention=response.data.data.head.is_mark
@@ -157,16 +155,18 @@ export default{
 
 	},
 	created() {
-		if(location.href.split('?').length<=1){
+		this.storeId=this.$route.query.id
+		this.getStoreInfo()
+/*		if(location.href.split('?').length<=1){
 		}else{
 			if(location.href.split('?')[1].split('=').length<=1){
 			}else{
 				this.storeId=location.href.split('?')[1].split('=')[1]
 				console.log(this.storeId)
-				this.getStoreInfo()
+				
 			}
 			
-		}
+		}*/
 	},
 	mounted() {
    		window.addEventListener('scroll', this.menu)

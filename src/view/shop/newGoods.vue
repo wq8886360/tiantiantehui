@@ -1,69 +1,46 @@
 <template>
 	<div class="newGoods">
-		<div class='news'>
-			<p><span>9月7号本店上新</span></p>
+		<div class='news'  v-for="(item,index) in newSGoodsList">
+			<p><span>{{item.day}}</span></p>
 			<ul>
-				<li>
+				<li v-for="itemLi in item.data">
 					<div class='imgBox'>
-						<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
+						<img :src="itemLi.whole_thumb" alt="">
 					</div>
 					<div class='titlePrice'>
-						<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-						<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
+						<p>{{itemLi.title}}</p>
+						<div class='price'><span>￥</span><b>{{itemLi.price}}</b><i>￥{{itemLi.market_price}}</i></div>
 					</div>
 				</li>
-				<li>
-					<div class='imgBox'>
-						<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-					</div>
-					<div class='titlePrice'>
-						<p>阿三发达省 </p>
-						<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-					</div>
-				</li>
-				<li>
-					<div class='imgBox'>
-						<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-					</div>
-					<div class='titlePrice'>
-						<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-						<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-					</div>
-				</li>
-				<li>
-					<div class='imgBox'>
-						<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-					</div>
-					<div class='titlePrice'>
-						<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-						<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-					</div>
-				</li>
-				<li>
-					<div class='imgBox'>
-						<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-					</div>
-					<div class='titlePrice'>
-						<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-						<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-					</div>
-				</li>
-				<li>
-					<div class='imgBox'>
-						<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-					</div>
-					<div class='titlePrice'>
-						<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-						<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-					</div>
-				</li>
-				
 			</ul>
 		</div>
 	</div>
 </template>
 <script>
-	
+import {newGoodsList} from '../../http/api.js'
+export default {
+	data(){
+		return {
+			newSGoodsList:[],//新品列表
+
+		}
+	},
+	created() {
+		this.getNewGoodsList()
+
+	},
+	methods:{
+		getNewGoodsList(){
+			newGoodsList({storeId:this.$route.query.id}).then((response)=>{
+				console.log(response,'getNewGoodsList')
+				if(response.data.code==1000){
+					this.newSGoodsList=response.data.data.data
+					console.log(this.newSGoodsList)
+				}
+			})
+		}
+	}
+}
 </script>
 <style lang="less">
 .newGoods{
@@ -88,6 +65,7 @@
 				width:50%;
 				float:left;
 				box-sizing: border-box;
+				margin-bottom:0.133333rem;
 				p{
 				    padding: 0.333333rem 0.16rem 0;
 			        overflow: hidden;

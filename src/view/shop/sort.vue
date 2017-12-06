@@ -4,7 +4,7 @@
 			<li>
 				<p><span>全部</span><i class='icon-right'></i></p>
 			</li> 
-			<li v-for="(item,index) in sortList">
+			<li v-for="(item,index) in sortList.data">
 				<p :class="{'checkSelect':index==checkAll}"><span>{{item.name}}</span><b v-if='item.children.length>0' @click='check(index)'>查看全部</b><i v-else class='icon-right'></i></p>
 				<div v-show='index==checkAll'>
 					<div class='checkBox' v-for="(items,index) in item.children">

@@ -1,84 +1,117 @@
 <template>
 	<div class="storeGoods">
-		<ul class='fourFlex'>
-			<li><span>综合</span></li>
-			<li><span>销量</span></li>
-			<li><span>上新</span></li>
-			<li><i>价格</i><div class='topBottom'><div class='top'><img src="../../assets/img/upRed.png" alt=""></div><div class='bottom'><img src="../../assets/img/downRed.png" alt=""></div></div></li>
+		<ul class='fourFlex' :class="{'tabBarFixed':tabFix}">
+			<li @click='goodsFour("default")' v-bind:class="{ active: goodsInfo.sort=='default' }"><span>综合</span></li>
+			<li @click='goodsFour("sales")' v-bind:class="{ active: goodsInfo.sort=='sales' }"><span>销量</span></li>
+			<li @click='goodsFour("new")' v-bind:class="{ active: goodsInfo.sort=='new' }"><span>上新</span></li>
+			<li @click='goodsFour("priceDown")' v-if='fourthData=="defaultStatus"' ><i>价格</i><img src="../../assets/img/default.png" alt=""></li>
+			<li @click='goodsFour("priceUp")' class='active' v-if='goodsInfo.sort=="priceUp"' ><i>价格</i><img src="../../assets/img/priceup.png" alt=""></li>
+			<li @click='goodsFour("priceDown")' class='active' v-if='goodsInfo.sort=="priceDown"' ><i>价格</i><img src="../../assets/img/pricedown.png" alt=""></li>
+
 		</ul>
 		<div class='storeGoodsList'>
 			<div class='news'>
 				<ul>
-					<li>
+					<li v-for='item in newSGoodsList'> 
 						<div class='imgBox'>
-							<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
+							<img :src="item.whole_thumb" alt="">
 						</div>
 						<div class='titlePrice'>
-							<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-							<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
+							<p>{{item.title}}</p>
+							<div class='price'><span>￥</span><b>{{item.price}}</b><i>￥{{item.market_price}}</i></div>
 						</div>
 					</li>
-					<li>
-						<div class='imgBox'>
-							<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-						</div>
-						<div class='titlePrice'>
-							<p>阿三发达省 </p>
-							<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-						</div>
-					</li>
-					<li>
-						<div class='imgBox'>
-							<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-						</div>
-						<div class='titlePrice'>
-							<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-							<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-						</div>
-					</li>
-					<li>
-						<div class='imgBox'>
-							<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-						</div>
-						<div class='titlePrice'>
-							<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-							<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-						</div>
-					</li>
-					<li>
-						<div class='imgBox'>
-							<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-						</div>
-						<div class='titlePrice'>
-							<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-							<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-						</div>
-					</li>
-					<li>
-						<div class='imgBox'>
-							<img src="https://img.shunliandongli.com/attachment/images/2016/12/qcWxXpAxzxBipxrpkwTeRTkf1TatEW.jpg_300x300.jpg" alt="">
-						</div>
-						<div class='titlePrice'>
-							<p>阿三发达省份的撒旦发生的腐蚀毒粉是发的是带饭 </p>
-							<div class='price'><span>￥</span><b>99</b><i>￥168</i></div>
-						</div>
-					</li>
-					
 				</ul>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
-
+import {goodsList} from '../../http/api.js'
 export default {
+	data(){
+		return {
+			newSGoodsList:[],//新品列表
+			newSGoodsListDown:[],//新品列表已下载
+			fourthData:'defaultStatus',
+			goodsInfo:{
+				storeId:'',//店铺id
+				page:1,//页数
+				sort:'default',//排序
+				pageSize:4,//每页条数
+			},
+			tabFix:false,
+			total:'',//总数
+
+
+		}
+	},
+	created() {
+		this.getGoodsList()
+	},
+	methods:{
+		goodsFour(index){
+			this.goodsInfo.sort=index
+			if(index=='priceDown'){
+				this.goodsInfo.sort='priceUp'
+				this.fourthData=''
+			}else if(index=='priceUp'){
+				this.goodsInfo.sort='priceDown'
+				this.fourthData=''
+			}else{
+				this.goodsInfo.sort=index
+				this.fourthData='defaultStatus'
+			}
+			console.log(this.goodsInfo.sort)
+			this.getGoodsList()
+		},
+		getGoodsList(){
+			this.goodsInfo.storeId=this.$route.query.id
+			goodsList(this.goodsInfo).then((response)=>{
+				if(response.data.code==1000){
+					console.log(response)
+					this.newSGoodsList=response.data.data.data
+					this.newSGoodsListDown=this.newSGoodsList
+					this.total=response.data.data.total
+				}
+			})
+		},
+		menu() {
+    		this.scroll = document.body.scrollTop;
+    		if(this.scroll>=0.172*document.documentElement.clientWidth){
+    			this.tabFix=true
+    		}else{
+    			this.tabFix=false
+    		}
+            console.log(document.body.scrollTop);
+           	console.log(document.body.scrollHeight);
+           	console.log(document.body.clientHeight);
+           	if(document.body.scrollTop+document.body.clientHeight>=document.body.scrollHeight){
+           		if(this.total>this.goodsInfo.pageSize*this.goodsInfo.page){
+           			this.goodsInfo.page=this.goodsInfo.page+1
+           			goodsList(this.goodsInfo).then((response)=>{
+						if(response.data.code==1000){
+							this.newSGoodsList=response.data.data.data
+							for(var i=0;i<this.newSGoodsList.length;i++){
+								this.newSGoodsListDown.push(this.newSGoodsList[i])
+							}
+							this.newSGoodsList=this.newSGoodsListDown
+							
+						}
+					})
+           		}
+           	}
+   		},
+	},
+	mounted() {
+   		window.addEventListener('scroll', this.menu) 
+  	},
 }
-	
 </script>
 <style lang="less">
 
-
 .storeGoods{
+	overflow-y: scroll;
 	.fourFlex{
 		display:flex;
 		border-top:1px solid #EEEEEE;
@@ -94,34 +127,28 @@ export default {
 				display:inline-block;
 				height:100%;
 				float:left;
-				margin-left:0.7rem;
+				margin-left:0.8rem;
 			}
-			.topBottom{
-				position:relative;
-				float:left;
-				height:100%;
+			img{
 				width:0.173333rem;
-				margin-left:0.133333rem;
-				div{
-					height:0.093333rem;
-					width:0.173333rem;	
-					img{
-						width:100%;
-						float:left;
-						height:100%;
-					}
-				}
-				.top{
-					position:absolute;
-					top:0.48rem;
-
-				}
-				.bottom{
-					position:absolute;
-					top:54%;
-				}
+				height:0.253333rem;
+				float:left;
+				margin-top:0.47rem;
+				margin-left:0.1rem;
 			}
+
 		}
+		.active{
+			color:#fb0036;
+		}
+
+	}
+	.tabBarFixed{
+		position:fixed;
+		top:2.566667rem;
+		width:100%;
+		background:white;
+		z-index:10000;
 	}
 	.storeGoodsList{
 		.news{
@@ -138,6 +165,7 @@ export default {
 					width:50%;
 					float:left;
 					box-sizing: border-box;
+					margin-bottom:0.133333rem;
 					p{
 					    padding: 0.333333rem 0.16rem 0;
 				        overflow: hidden;
