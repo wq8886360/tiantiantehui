@@ -20,6 +20,10 @@ export const delMark = params => post("/store/delMark", params); //取消关注
 export const addMark = params => post("/store/addMark", params); //关注店铺
 export const introduce= params => get("/store/introduce", params); //店铺简介
 export const storeCategories = params => get("/store/categories", params); //店铺类目
+export const newGoodsList = params => get("/store/newGoodsList", params); //新品列表
+export const goodsList = params => get("/store/goodsList", params); //宝贝商品列表
+export const promotionGoodsList = params  => get("/store/promotionGoodsList", params); //促销商品列表
+
 
 //商品模块
 export const goodsdetail = params => post("/goods/detail", params); //商品详情
