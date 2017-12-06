@@ -66,7 +66,7 @@ export default {
 			this.getGoodsList()
 		},
 		getGoodsList(){
-			this.goodsInfo.storeId=this.$route.query.id
+			this.goodsInfo.storeId=this.$route.query.store_id
 			goodsList(this.goodsInfo).then((response)=>{
 				if(response.data.code==1000){
 					console.log(response)
@@ -113,9 +113,11 @@ export default {
 .storeGoods{
 	overflow-y: scroll;
 	.fourFlex{
+		display:-webkit-flex;
 		display:flex;
 		border-top:1px solid #EEEEEE;
 		li{
+			-webkit-flex: 1;
 			flex:1;
 			height:1.173333rem;
 			line-height:1.173333rem;

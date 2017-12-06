@@ -12,14 +12,15 @@ import '@/assets/font/font.css' //icon
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 Vue.use(VueAwesomeSwiper)
-import  { AlertPlugin, ToastPlugin } from 'vux'
+import  { AlertPlugin, ToastPlugin, ConfirmPlugin } from 'vux'
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
+Vue.use(ConfirmPlugin)
 
 Vue.config.productionTip = false
 
 //const routerList = ['/user/login','/user/sms','/user/regist','/user/set','/user/oldbind1','/user/oldbind2','/user/newbind1','/user/newbind2','/user/bind1','/user/bind2','/user/forget1','/user/forget2'];
-const routerPrivate = ['/person','/car'];
+const routerPrivate = ['/person','/shopcar'];
 router.beforeEach((to, from, next) => {
     store.dispatch('CLOSTLOAD')
     const token = Cookie.get("token");

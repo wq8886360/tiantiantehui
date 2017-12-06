@@ -14,27 +14,26 @@ axios.defaults.headers = {
   "Content-Type": "application/x-www-form-urlencoded",
 };
 
-var timer = null;
+//var timer = null;
 // request全局拦截
 axios.interceptors.request.use(config => {
-    //
+    // token
     const token = Cookie.get("token");
+    if(token){
+      config.headers['token'] = token;
+    }
+
+    // wechat请求
     if(config.method === 'post') {
-      if(token){
-        config.data += `&token=${token}`
-      }
       config.data += '&client_type=wechat'
     } else if(config.method === 'get') {
-      if(token){
-        config.params['token'] = token;
-      }
       config.params['client_type'] = 'wechat'
     }
 
     //请求超过1s显示加载动画
-    timer = setTimeout(function(){
-        store.dispatch('SHOW')
-    },1000)
+    // timer = setTimeout(function(){
+    //     store.dispatch('SHOW')
+    // },1000)
 	return config
 },error => {
 	return Promise.reject(error)
@@ -48,13 +47,12 @@ axios.interceptors.response.use(
     //全局loading状态
     if(res.status == 200){
         //清除动画
-        clearTimeout(timer);
-        store.dispatch('CLOSTLOAD')
+        //clearTimeout(timer);
+        //store.dispatch('CLOSTLOAD')
 
         // 
         let code = res.data.code;
         if(code === 1000 && res.data.data){
-          console.log(res.data.data.hasOwnProperty('token'))
           if(res.data.data.hasOwnProperty('token')){
             let time = res.data.data.token_expires_in/(60*60*24)
             Cookie.set('token', res.data.data.token, { expires: time });

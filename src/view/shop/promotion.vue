@@ -124,7 +124,7 @@ export default{
    		},
     },
 	created() {	
-		this.info.storeId=this.$route.query.id
+		this.info.storeId=this.$route.query.store_id
 		this.getPromotion()
 	},
 	mounted() {

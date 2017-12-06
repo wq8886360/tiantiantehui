@@ -20,6 +20,24 @@ export const delMark = params => post("/store/delMark", params); //取消关注
 export const addMark = params => post("/store/addMark", params); //关注店铺
 export const introduce= params => get("/store/introduce", params); //店铺简介
 export const storeCategories = params => get("/store/categories", params); //店铺类目
+export const newGoodsList = params => get("/store/newGoodsList", params); //新品列表
+export const goodsList = params => get("/store/goodsList", params); //宝贝商品列表
+export const promotionGoodsList = params  => get("/store/promotionGoodsList", params); //促销商品列表
+
 
 //商品模块
 export const goodsdetail = params => post("/goods/detail", params); //商品详情
+export const getVoucher = params => post('/voucher/getVoucher', params); //普通领取优惠劵
+export const goodsfavoriteadd = params => post('/member/goodsfavorite/add', params); //收藏商品
+export const goodsfavoriteremove = params => post('/member/goodsfavorite/remove', params); //取消收藏
+export const cartHome = params => post("/cart/home", params); //购物车首页
+export const cartadd = params => post("/cart/add", params); //加入购物车
+export const checkcartgoods = params => post('/cart/checkcartgoods',params); //购物车多选
+export const cartedit = params => post('/cart/edit',params); //修改购物车
+export const cartremove = params => post('/cart/remove',params); //删除购物车商品
+export const cartremovetofav = params => post('/cart/removetofav', params);//购物车商品移入收藏夹
+export const getjoingoodsstorecates = params => post('/cart/getjoingoodsstorecates', params); //凑单类目接口
+export const joingoods = params => post('/cart/joingoods', params); //凑单接口
+
+//订单
+export const orderconfirm = params => post('/order/confirm', params); //确认订单

@@ -126,7 +126,6 @@ export default{
 			})
     	},
     	onItemClick (index) {
-      		console.log('on item click:', index)
       		this.index=index
     	},
     	//点击关注
@@ -155,18 +154,9 @@ export default{
 
 	},
 	created() {
-		this.storeId=this.$route.query.id
+		this.storeId = this.$route.query.store_id;
 		this.getStoreInfo()
-/*		if(location.href.split('?').length<=1){
-		}else{
-			if(location.href.split('?')[1].split('=').length<=1){
-			}else{
-				this.storeId=location.href.split('?')[1].split('=')[1]
-				console.log(this.storeId)
-				
-			}
-			
-		}*/
+
 	},
 	mounted() {
    		window.addEventListener('scroll', this.menu)
@@ -200,6 +190,7 @@ html,body{
 	.footerBottom{
 		position:fixed;
 		bottom:0;
+		display:-webkit-flex;
 		display:flex;
 		height:1.333333rem;
 		box-sizing: border-box;
@@ -363,7 +354,6 @@ html,body{
 	}
 	.vux-tab{
 		height:1.466667rem;
-		background:red!important;
 		.vux-tab-item.vux-tab-selected{
 			color:  #fb0036!important;
 

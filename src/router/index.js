@@ -33,10 +33,15 @@ import SortSecond from '@/view/shop/sortSecond' //店铺二级分类
 import Default from '@/view/good/default' //入口页面
 import Goodsdetails from '@/view/good/goodsdetails' //商品详情
 
+//购物车
+import Shopcar from '@/view/shopcar/shopcar' //购物车页面
+import Gathertogether from '@/view/shopcar/gathertogether' //凑单
+
+//订单
+import Confirmorder from '@/view/order/confirmorder' //确认订单
 
 
 //测试
-import Car from '@/view/test/car'
 import Person from '@/view/test/person'
 
 
@@ -51,8 +56,8 @@ export default new Router({
             component: Index,
             children: [
                 {
-                    path: 'car',
-                    component: Car
+                    path: 'shopcar',
+                    component: Shopcar
                 },
                 {
                     path: 'person',
@@ -89,8 +94,7 @@ export default new Router({
         },
         {
             path: '/store',
-            component: Store,
-    
+            component: Store,    
         },
         {
             path: '/profile',
@@ -104,5 +108,15 @@ export default new Router({
             path: '/sortSecond',
             component: SortSecond,
         },
+        {
+            path: '/gathertogether',
+            name: '购物车凑单',
+            component: Gathertogether
+        },
+        {
+            path: '/confirmorder',
+            name: '确认订单',
+            component: Confirmorder
+        }
 	]
 })
