@@ -125,20 +125,17 @@ export default{
 				let idArr = this.bindId.map((val,index,arr) => {
 					return val['id'];
 				})
-				console.log(idArr)
 				//id从大到小排序
 				idArr.sort(function (x,y) {
 		            return x-y;
 		        });
 				let idArrStr = idArr.join('_');
-				console.log(idArrStr)
 				//查询sku
 				this.sku.map((val,index,arr) => {
 					if(val['specs'] == idArrStr){
 						if(val.thumb){
 							this.defaultimage = val.thumb;
 						}
-						console.log(val)
 						this.defaultprice = val.price;
 						this.specstitle = val.name;
 						this.stock = val.stock;
@@ -146,7 +143,7 @@ export default{
 						return val;
 					}else{
 						return false;
-						
+
 					}
 				})
 			},
@@ -212,7 +209,6 @@ export default{
 					this.sku = res.data.sku;
 					this.defaultprice=res.data.price;
 					this.defaultimage='';
-					console.log(this.specs)
 					//遍历商品规格
 					this.bindId = [];
 					res.data.specs.forEach((val,index,arr) => {
