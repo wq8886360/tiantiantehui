@@ -26,27 +26,27 @@
 			<div class="merchandise">
 			<div class="merchandise_c">
 				<span class="praise">商品好评率</span>
-				<span class="praise_c">99.8%</span>
+				<span class="praise_c">{{appraise.praise_rate}}</span>
 			</div>
 			</div>
 			<div class="appraise">
-			<div class="appraise_c">
-				<div class="appraise_h">
-					<span class="evaluation">商品评价</span>
-					<span class="fractions">4.92分</span>
-					<span class="above">高于同行89.98%</span>
-				</div>
-				<div class="service">
-					<span class="attitude">服务态度</span>
-					<span class="fractions">4.92分</span>
-					<span class="above">高于同行89.98%</span>
-				</div>
-				<div class="logistics">
-					<span class="logistcn">物流服务</span>
-					<span class="fractions">4.92分</span>
-					<span class="above">高于同行89.98%</span>
+				<div class="appraise_c">
+					<div v-for='item in appraise.pj' class="appraise_h">
+						<span class="evaluation">{{item.name}}</span>
+						<span class="fractions">{{item.score}}</span>
+						<span class="above">{{item.explain}}</span>
+					</div>
+					<!-- <div class="service">
+						<span class="attitude">服务态度</span>
+						<span class="fractions">4.92分</span>
+						<span class="above">高于同行89.98%</span>
+					</div>
+					<div class="logistics">
+						<span class="logistcn">物流服务</span>
+						<span class="fractions">4.92分</span>
+						<span class="above">高于同行89.98%</span>
+					</div>	 -->
 				</div>	
-			</div>	
 			</div>
 		</div>
 		<div class="Grey"></div>
@@ -103,6 +103,7 @@ export default{
 			storeId:'',//店铺id
 			getdata:null,//初始化数据
 			isTrue:true,//关注/取消关注的判断
+			appraise:null,
 		}
 	},
 	methods:{
@@ -113,6 +114,8 @@ export default{
    				let res = response.data;
 				if(res.code==1000){
 					this.getdata=res.data;
+					this.appraise=res.data.evaluate;
+
 				}
    			})
    		},
@@ -268,46 +271,6 @@ export default{
 	font-size: 0.3733333rem;
 	font-family: 'PingFang-SC-Regular';
 }
-/*服务态度*/
-.profile .appraise_c .service{
-	margin-bottom: 0.36rem;
-}
-.profile .appraise_c .service .attitude{
-	font-family: 'PingFang-SC-Regular';
-	font-size: 0.3733333rem;
-	color:#858585;
-	margin-right: 0.7733333rem;
-}
-.profile .appraise_c .service .fractions{
-	color: #FB0036;
-	font-size: 0.3733333rem;
-	font-family: 'PingFang-SC-Regular';
-	margin-right: 0.8rem;
-}
-.profile .appraise_c .service .above{
-	color: #FB0036;
-	font-size: 0.3733333rem;
-	font-family: 'PingFang-SC-Regular';
-}
-/*物流服务*/
-.profile .appraise_c .logistics .logistcn{
-	font-family: 'PingFang-SC-Regular';
-	font-size: 0.3733333rem;
-	color:#858585;
-	margin-right: 0.7733333rem;
-}
-.profile .appraise_c .logistics .fractions{
-	color: #FB0036;
-	font-size: 0.3733333rem;
-	font-family: 'PingFang-SC-Regular';
-	margin-right: 0.8rem;
-}
-.profile .appraise_c .logistics .above{
-	color: #FB0036;
-	font-size: 0.3733333rem;
-	font-family: 'PingFang-SC-Regular';
-}
-/**/
 .profile .Grey{
 	width: 100%;
 	height: 0.2666667rem;
