@@ -36,3 +36,6 @@
 .icon-right:before {
   content: "\e903";
 }
+.icon-location:before {
+  content: "\e904";
+}

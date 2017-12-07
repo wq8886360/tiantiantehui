@@ -41,3 +41,5 @@ export const joingoods = params => post('/cart/joingoods', params); //凑单接�
 
 //订单
 export const orderconfirm = params => post('/order/confirm', params); //确认订单
+export const addressadd = params => post('/member/address/add', params); //添加收货地址
+export const addressall = params => post('/member/address/all', params); //收货地址列表

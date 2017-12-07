@@ -39,6 +39,8 @@ import Gathertogether from '@/view/shopcar/gathertogether' //凑单
 
 //订单
 import Confirmorder from '@/view/order/confirmorder' //确认订单
+import Addadress from '@/view/order/addadress' //添加收货地址
+import Selectadress from '@/view/order/selectadress' //选择收获地址
 
 
 //测试
@@ -117,6 +119,16 @@ export default new Router({
             path: '/confirmorder',
             name: '确认订单',
             component: Confirmorder
+        },
+        {
+            path: '/addadress',
+            component: Addadress,
+            name: "添加收货地址",
+        },
+        {
+            path: '/selectadress',
+            component: Selectadress,
+            name: "选择收货地址",
         }
 	]
 })

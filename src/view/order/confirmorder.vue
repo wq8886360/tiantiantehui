@@ -1,6 +1,6 @@
 <template>
 	<div class="confirmorder">
-		<div class="address">
+		<div class="address" @click="route_address">
 			<div class="info">
 				<img src="../../assets/img/icon_order_address.png" alt="">
 				<div v-if="!address" class="text">请添加您的收货地址</div>
@@ -65,11 +65,16 @@
 			<div class="title">
 				失效宝贝
 			</div>
-			<div class="list" v-for="item in 2">
-				<div class="img"><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4009434610,3584345417&fm=27&gp=0.jpg" alt=""></div>
-				<p class="name">新消息</p>
-				<p class="color">的方法</p>
-				<!-- <p class="state"><span v-if="item['status'] == '3'">宝贝已下架</span><span v-if="item['status'] == '2'">宝贝已售完</span></p> -->
+			<div class="list">
+				<div class="item"  v-for="item in 2">
+					<div class="img">
+						<img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4009434610,3584345417&fm=27&gp=0.jpg" alt="">
+					</div>
+					<p class="name">VeroModa白鸭绒填充立立领合体立领合体领合体版型羽绒服|316412518</p>
+					<p class="cause">库存不足</p>
+					<p class="price">¥999.99</p>
+					<p class="num">x1</p>
+				</div>
 			</div>
 		</div>
 		
@@ -105,6 +110,13 @@ export default{
 					this.$vux.toast.text(res.message, 'middle');
 				}
 			})
+		},
+		route_address(){
+			if(this.address){
+				this.$router.push({path: '/selectadress'})
+			}else{
+				this.$router.push({path: '/addadress'})
+			}
 		}
 	},
 	created(){
