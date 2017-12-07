@@ -49,16 +49,26 @@
 		<div class="activity div_box">
 			<div class="label">活动</div>
 			<div class="content">
-				<div class="list" v-for='item in 4'>
+				<div class="list"  @click="activityState = true" v-if='data.full_cut.length!=0'>
 					<span class="ai">满减</span>
-					<span>满300减20，满400减30</span>
+					<span v-for='(item,index) in data.full_cut'>满{{item.money_type_condition}}减{{item.money_type_discount}}, </span>
+					<i class="icon-right right"></i>
+				</div>
+				<div class="list"  @click="activityState = true" v-if='data.full_discount.length!=0'>
+					<span class="ai">满折</span>
+					<span v-for='item in data.full_discount'>满{{item.qty_type_condition}}打{{item.qty_type_discount}}折, </span>
+					<i class="icon-right right"></i>
+				</div>
+				<div class="list"@click="activityState = true"  v-if='data.buy_gift.length!=0'>
+					<span class="ai">买赠</span>
+					<span v-for='(item,index) in data.buy_gift' >{{item.prom_title}}, </span>
 					<i class="icon-right right"></i>
 				</div>
 			</div>
 		</div>
 		<div class="line"></div>
 		<!-- 套餐 -->
-		<div class="meal div_box">
+		<div class="meal div_box" @click="comboState = true">
 			<div class="label">套餐</div>
 			<span>查看套餐</span>
 			<i class="icon-right right"></i>
@@ -83,46 +93,70 @@
 			<span><img src="../../assets/img/support.png" alt="">正品保障</span>
 			<span><img src="../../assets/img/support.png" alt="">24小时发货</span>
 		</div>
-
 		<!-- 评价 -->
 		<div class='appraiseBox'>
 			<div class='appraise'>
-				<p><div class='divLeft'><b>评价</b><b>(36)</b></div><div class='divRight'><span>好评率</span><span>98.6%</span><i class='icon-right'></i></div></p>
+				<p><div class='divLeft'><b>评价</b><b>(36)</b></div><div class='divRight'><span>好评率</span><span>{{data.goods_data.star_rate}}</span><i class='icon-right'></i></div></p>
 			</div>
-			<div class='appraiseInfo'>
-				<div class='infoLeft'>
-					<div class='infoLeftCon'>
-						<div class='leftTitle'>
-							<img class='head' src="../../assets/img/attentionWhite.png" alt="">
-							<span>是阿斯达</span>
-							<img class='level' src="../../assets/img/V1.png" alt="">
+			<div class='appraiseInfo' style="width:100%;overflow:auto;">
+		    	<scroller lock-y :scrollbar-x=false>
+		    		<div :style="'width:'+ data.comments.length * 7.4 + 'rem'">
+						<div class='infoLeft' v-for='item in data.comments'>
+							<div class='infoLeftCon'>
+								<div class='leftTitle'>
+									<img class='head'  :src="item.avatar" alt="">
+									<span>{{item.nickname}}</span>
+									<img class='level' v-if='item.vip_level=="0"' src="../../assets/img/V0.png" alt="">
+									<img class='level' v-if='item.vip_level=="1"' src="../../assets/img/V1.png" alt="">
+									<img class='level' v-if='item.vip_level=="2"' src="../../assets/img/V2.png" alt="">
+									<img class='level' v-if='item.vip_level=="3"' src="../../assets/img/V3.png" alt="">
+									<img class='level' v-if='item.vip_level=="4"' src="../../assets/img/V4.png" alt="">
+									<img class='level' v-if='item.vip_level=="5"' src="../../assets/img/V5.png" alt="">
+									<img class='level' v-if='item.vip_level=="6"' src="../../assets/img/V6.png" alt="">
+								</div>
+								<p>{{item.content}}</p>
+							</div>
+							<div class='infoRightCon'>
+								<img :src="item.pics[0]" alt="">
+								<span>共{{item.pics.length}}张</span>
+							</div>
 						</div>
-						<p>哈登哈卡的风阿斯蒂芬加拉斯地方阿苏的房间里打发士大夫阿斯蒂芬卡迪夫撒旦法撒旦法阿斯蒂芬</p>
-					</div>
-					<div class='infoRightCon'>
-						<img src="../../assets/img/attentionWhite.png" alt="">
-					</div>
-				</div>
-				<div class='infoLeft'>
-					<div class='infoLeftCon'>
-						<div class='leftTitle'>
-							<img class='head' src="../../assets/img/attentionWhite.png" alt="">
-							<span>是阿斯达</span>
-							<img class='level' src="../../assets/img/V1.png" alt="">
-						</div>
-						<p>哈登哈卡的风阿斯蒂芬加拉斯地方阿苏的房间里打发士大夫阿斯蒂芬卡迪夫撒旦法撒旦法阿斯蒂芬</p>
-					</div>
-					<div class='infoRightCon'>
-						<img src="../../assets/img/attentionWhite.png" alt="">
-					</div>
-				</div>
-				<div class='infoLeft moreAppraise'>
-					<span>更多评论></span>
-				</div>
+				    </div>	
+				</scroller>
+	    	</div>
+<!-- 			<div class='appraiseInfo'>
+	<div class='infoLeft'>
+		<div class='infoLeftCon'>
+			<div class='leftTitle'>
+				<img class='head' src="../../assets/img/attentionWhite.png" alt="">
+				<span>是阿斯达</span>
+				<img class='level' src="../../assets/img/V1.png" alt="">
 			</div>
+			<p>哈登哈卡的风阿斯蒂芬加拉斯地方阿苏的房间里打发士大夫阿斯蒂芬卡迪夫撒旦法撒旦法阿斯蒂芬</p>
+		</div>
+		<div class='infoRightCon'>
+			<img src="../../assets/img/attentionWhite.png" alt="">
+		</div>
+	</div>
+	<div class='infoLeft'>
+		<div class='infoLeftCon'>
+			<div class='leftTitle'>
+				<img class='head' src="../../assets/img/attentionWhite.png" alt="">
+				<span>是阿斯达</span>
+				<img class='level' src="../../assets/img/V1.png" alt="">
+			</div>
+			<p>哈登哈卡的风阿斯蒂芬加拉斯地方阿苏的房间里打发士大夫阿斯蒂芬卡迪夫撒旦法撒旦法阿斯蒂芬</p>
+		</div>
+		<div class='infoRightCon'>
+			<img src="../../assets/img/attentionWhite.png" alt="">
+		</div>
+	</div>
+	<div class='infoLeft moreAppraise'>
+		<span>更多评论></span>
+	</div>
+</div> -->
 			<div class='border'></div>
 		</div>
-
 		<!-- 收藏 -->
 		<div class='collect'>
 			<div class='storeCollectInfo'>
@@ -148,7 +182,6 @@
 				</li>
 			</ul>
 		</div>
-
 		<!-- tab切换 -->
 		<tab :line-width="1">
 	    	<tab-item selected @on-item-click="onItemClick">本店热销</tab-item>
@@ -239,7 +272,71 @@
 				</div>
 			</popup>
 		</div>
-
+		<!-- 活动弹窗 -->
+		<div v-transfer-dom>
+			<popup v-model="activityState" position="bottom" max-height="80%">
+				<div class="attrpopu couponspupu">
+					<div class="attrpoputitle">店铺促销活动<i class="icon-close right" @click="activityState = false"></i></div>
+					<div class="attrcontent">
+						<scroller lock-x height="100%">
+								<div class="listBox" v-if='data.full_cut.length!=0'>
+									<div class='leftCon'><span class="ai">满减</span></div>
+									<div class='rightCon'>
+										<div v-for='(item,index) in data.full_cut'>
+											<span>满{{item.money_type_condition}}减{{item.money_type_discount}},</span>
+											<i class="icon-right right"></i>
+										</div>
+									</div>
+								</div>
+								<div class="listBox" v-if='data.full_discount.length!=0'>
+									<div class='leftCon'><span class="ai">满折</span></div>
+									<div class='rightCon'>
+										<div  v-for='item in data.full_discount'>
+											<span>满{{item.qty_type_condition}}打{{item.qty_type_discount}}折, </span>
+											<i class="icon-right right"></i>
+										</div>
+									</div>
+								</div>
+								<div class="listBox"  v-if='data.buy_gift.length!=0'>
+									<div class='leftCon'><span class="ai">买赠</span></div>
+									<div class='rightCon'>
+										<div  v-for='(item,index) in data.buy_gift' >
+											<span>{{item.prom_title}}</span>
+											<i class="icon-right right"></i>
+										</div>
+									</div>
+								</div>
+						</scroller>	
+					</div>
+				</div>
+			</popup>
+		</div>
+		<!-- 套餐弹窗 -->
+		<div v-transfer-dom>
+			<popup v-model="comboState" position="bottom" max-height="80%">
+				<div class="attrpopu couponspupu">
+					<div class="attrpoputitle">选择套餐<i class="icon-close right" @click="comboState = false"></i></div>
+					<div class="attrcontent">
+						<scroller lock-x height="100%" :scrollbar-y=false>
+							<div class='comboBoxInfo' v-for='(item,index) in data.combo'>
+								<p><span class='comboPrice'>套餐价</span><span class='priceCombo'><span class='priceInco'>￥</span><span>900</span></span><span class='grayPrice'>套餐原价￥1900</span></p>
+								<div style="width:100%;overflow:auto;">
+						    		<scroller lock-y :scrollbar-x=true>
+						    			<div :style="'width:'+ data.combo[index].goods.length * 2.66 + 'rem'"><!-- :style="'width:'+ data.combo.goods.length * 2.66 + 'rem'" -->
+									    	<div class='comboDetail'  style="float:left;" v-for='items in item.goods'>
+									    		<div>
+									    			<img :src="items.thumb" alt="">
+									    		</div>
+									    	</div>
+									    </div>	
+								    </scroller>
+						    	</div>
+							</div>
+						</scroller>	
+					</div>
+				</div>
+			</popup>
+		</div>
 		<!-- 商品sku -->
 		<div v-transfer-dom class="sku_dig">
 			<popup v-model="specsState" position="bottom" max-height="80%">
@@ -312,11 +409,13 @@ export default{
 			scroll:'', //滚动条高度
 			goTop:false, //是否显示回到顶部按钮
 			data: null,
-			goods_id: 151, //商品ID
+			goods_id: 134, //商品ID
 			pics: null, //banner列表
 			attrsState: false, //商品参数显示状态
 			specsState: false, //商品规格显示状态
 			couponsState: false, //领取店铺优惠卷显示状态
+			activityState:false,//活动弹框
+			comboState:false,//套餐弹框
 			is_fav: null, //是否关注了商品
 			favorite_id: null, //收藏记录ID
 
@@ -332,6 +431,7 @@ export default{
 			sku_id: '', //确定后的sku_id
 			goodNum: 1, //加入购物车数量
 			choosespecs: '', //选择后的规格
+
 
 		}
 	},

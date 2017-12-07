@@ -84,6 +84,7 @@ export default {
 				    overflow: hidden;
 				    margin: 0;
 				    padding-bottom: 100%;
+				    background:white;
 				   	img{
 				   		width:100%;
 				   	}
@@ -98,7 +99,7 @@ export default {
 						}
 					}
 				.price{
-					padding:0.133333rem 0;
+					padding:0.133333rem 0 0.133333rem 0.16rem;
 					b{
 						color:#FB0036;
 						font-size:0.306667rem;
