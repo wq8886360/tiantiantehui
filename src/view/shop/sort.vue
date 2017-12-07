@@ -8,7 +8,7 @@
 				<p :class="{'checkSelect':index==checkAll}"><span>{{item.name}}</span><b v-if='item.children.length>0' @click='check(index)'>查看全部</b><i v-else class='icon-right'></i></p>
 				<div v-show='index==checkAll'>
 					<div class='checkBox' v-for="(items,index) in item.children">
-						<span>{{items.name}}</span>
+						<span @click='search(items.name)'>{{items.name}}</span>
 					</div>
 				</div>
 				
@@ -39,6 +39,10 @@ export default{
 		check(index){
 			console.log(index,'index')
 			this.checkAll=index
+		},
+		search(name){
+			console.log(name)
+			this.$router.push({path:"/SortGoods",query:{storeId:this.$route.query.storeId,searchText:name}})
 		}
 	},
 	created(){

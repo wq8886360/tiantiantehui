@@ -1,8 +1,8 @@
 <template>
 	<div class="promotion" v-if='promotionList'>
 		<div class='promotionBox'>
-			<div style="width:100%;overflow:auto;" class='pushBox' :class="{'tabBarFixed':tabFix}"> 
-	    		<div style="width:100040px;color:white">       
+			<div style="width:100%;overflow:auto; -webkit-overflow-scrolling: touch;" class='pushBox' :class="{'tabBarFixed':tabFix}"> 
+	    		<div style="width:100040px;color:white;-webkit-overflow-scrolling: touch;">       
 	        		<div class='pushCon' style="float:left;" v-for='item in promotionList.lable'>
 	        			<span @click='getInfo(item)'>{{item.name}}</span>
 	        		</div>
@@ -37,8 +37,8 @@
 			    			</div>
 	        			</div> 
         				<p class='timeBox'>时间：2015.1.11结束</p>
-						<div style="width:100%;overflow:auto;" class='comboDiv'> 
-				    		<div style="width:100040px;"> 
+						<div style="width:100%;overflow:auto;-webkit-overflow-scrolling: touch;" class='comboDiv'> 
+				    		<div style="width:100040px;-webkit-overflow-scrolling: touch;""> 
 				        		<div class='comboCon' style="float:left;" v-for='items in item.data'>
 				        			<div class='single'>
 				        				<img :src="items.whole_thumb" alt="">
@@ -65,7 +65,7 @@ export default{
 				promotionId:'',
 				type:'',
 				page:1,
-				pageSize:4,
+				pageSize:30,
 			},
 			promotionList:[],//促销列表
 			promotionListDown:[],//促销列表下载
@@ -108,14 +108,11 @@ export default{
            			this.info.page=this.info.page+1
           			promotionGoodsList(this.info).then((response)=>{
 						if(response.data.code=='1000'){
-							console.log(response,'promo')
 							this.promotionList=response.data.data
 							for(var i=0;i<this.promotionList.list.goods.data.length;i++){
 								this.promotionListDown.list.goods.data.push(this.promotionList.list.goods.data[i])
 							}
 							this.promotionList=this.promotionListDown
-							console.log(response)
-
 						}
 					})
 
@@ -317,6 +314,7 @@ export default{
 					    overflow: hidden;
 					    margin: 0;
 					    padding-bottom: 100%;
+					    background:white;
 					   	img{
 					   		width:100%;
 					   	}
@@ -324,6 +322,8 @@ export default{
 					.titlePrice{
 						height:1.933333rem;
 						background:white;
+						padding-left:0.16rem;
+						padding-top:0.333333rem;
 						p{
 							height:0.8rem;
 							line-height:0.4rem;

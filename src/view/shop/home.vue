@@ -21,8 +21,8 @@
 	</ul>
 </div> -->
 		<div style="width:100%;overflow:auto; margin:0.333333rem 0;" class='disConut'> 
-    		<div style="width:100040px;color:white">       
-        		<div class='disCountBox' style="float:left;"  v-for='item in storeInfo.voucher' @click='getVouchers(item.voucher_id)'>
+    		<div style="width:100040px;color:white;-webkit-overflow-scrolling: touch;">       
+        		<div class='disCountBox' style="float:left;-webkit-overflow-scrolling: touch;"  v-for='item in storeInfo.voucher' @click='getVouchers(item.voucher_id)'>
         			<img v-if='item.is_get=="0"' class='ImgBox' src="../../assets/img/discount.png" alt="">
         			<img v-if='item.is_get=="1"' class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
 					<div class='CouponsLeft'><span>￥</span><b>{{item.denomination}}</b></div>

@@ -103,10 +103,8 @@ export default{
 	methods:{
 		menu() {
     		this.scroll = document.body.scrollTop;
-/*    		console.log(this.scroll)*/
     		if(this.scroll>=0.172*document.documentElement.clientWidth){
-    			/*	console.log(this.scroll,'qweqw')
-    				console.log(0.172*document.documentElement.clientWidth,'1231323')*/
+
     				this.tabFix=true
     		}else{
     			this.tabFix=false
@@ -118,8 +116,6 @@ export default{
 					this.storeInfo=response.data.data
 					this.domain = response.data.data.baseUrl
 					this.attention=response.data.data.head.is_mark
-/*					console.log(this.attention)
-					console.log(this.domain,'this.domain')*/
 				}else{
 					//alert(response.data.message)
 				}
@@ -385,7 +381,7 @@ html,body{
 	}
 	.tabFixed{
 		position:fixed;
-		top:1.1rem;
+		top:1.08rem;
 		width:100%;
 		background:white;
 		z-index:10000;

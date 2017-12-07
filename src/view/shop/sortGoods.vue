@@ -1,24 +1,101 @@
 <template>
-	<div class="storeGoods">
-		<ul class='fourFlex' :class="{'tabBarFixed':tabFix}">
+	<div class="sortGoods">
+		<div class='search'>
+			<div class='inputBox'></div>
+			<input type="text" placeholder="搜索店铺内商品" v-model='inputText' >
+			<div class='classify' @click='goToSort'><img src="../../assets/img/sortIcon.png" alt=""></span><b>分类</b></div>
+		</div>
+		<ul class='fourFlex'>
 			<li @click='goodsFour("default")' v-bind:class="{ active: goodsInfo.sort=='default' }"><span>综合</span></li>
 			<li @click='goodsFour("sales")' v-bind:class="{ active: goodsInfo.sort=='sales' }"><span>销量</span></li>
 			<li @click='goodsFour("new")' v-bind:class="{ active: goodsInfo.sort=='new' }"><span>上新</span></li>
 			<li @click='goodsFour("priceDown")' v-if='fourthData=="defaultStatus"' ><i>价格</i><img src="../../assets/img/default.png" alt=""></li>
 			<li @click='goodsFour("priceUp")' class='active' v-if='goodsInfo.sort=="priceUp"' ><i>价格</i><img src="../../assets/img/priceup.png" alt=""></li>
 			<li @click='goodsFour("priceDown")' class='active' v-if='goodsInfo.sort=="priceDown"' ><i>价格</i><img src="../../assets/img/pricedown.png" alt=""></li>
-
+		
 		</ul>
 		<div class='storeGoodsList'>
 			<div class='news'>
 				<ul>
-					<li v-for='item in newSGoodsList'> 
+					<li> 
 						<div class='imgBox'>
-							<img :src="item.whole_thumb" alt="">
+							<img src="../../assets/img/sort.png" alt="">
 						</div>
 						<div class='titlePrice'>
-							<p>{{item.title}}</p>
-							<div class='price'><span>￥</span><b>{{item.price}}</b><i>￥{{item.market_price}}</i></div>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
+						</div>
+					</li>
+					<li> 
+						<div class='imgBox'>
+							<img src="../../assets/img/sort.png" alt="">
+						</div>
+						<div class='titlePrice'>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
+						</div>
+					</li>
+					<li> 
+						<div class='imgBox'>
+							<img src="../../assets/img/sort.png" alt="">
+						</div>
+						<div class='titlePrice'>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
+						</div>
+					</li>
+					<li> 
+						<div class='imgBox'>
+							<img src="../../assets/img/sort.png" alt="">
+						</div>
+						<div class='titlePrice'>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
+						</div>
+					</li>
+					<li> 
+						<div class='imgBox'>
+							<img src="../../assets/img/sort.png" alt="">
+						</div>
+						<div class='titlePrice'>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
+						</div>
+					</li>
+					<li> 
+						<div class='imgBox'>
+							<img src="../../assets/img/sort.png" alt="">
+						</div>
+						<div class='titlePrice'>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
+						</div>
+					</li>
+					<li> 
+						<div class='imgBox'>
+							<img src="../../assets/img/sort.png" alt="">
+						</div>
+						<div class='titlePrice'>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
+						</div>
+					</li>
+					<li> 
+						<div class='imgBox'>
+							<img src="../../assets/img/sort.png" alt="">
+						</div>
+						<div class='titlePrice'>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
+						</div>
+					</li>
+					<li> 
+						<div class='imgBox'>
+							<img src="../../assets/img/sort.png" alt="">
+						</div>
+						<div class='titlePrice'>
+							<p>你好你好</p>
+							<div class='price'><span>￥</span><b>12</b><i>￥54</i></div>
 						</div>
 					</li>
 				</ul>
@@ -28,7 +105,7 @@
 </template>
 <script>
 import {goodsList} from '../../http/api.js'
-export default {
+export default{
 	data(){
 		return {
 			newSGoodsList:[],//新品列表
@@ -42,15 +119,16 @@ export default {
 			},
 			tabFix:false,
 			total:'',//总数
-
+			inputText:'',//输入框内容
 
 		}
 	},
-	created() {
-		this.getGoodsList()
-	},
 	methods:{
-		goodsFour(index){
+		//点击分类
+    	goToSort(){
+    		this.$router.push({path:"/sort",query:{storeId:this.$route.query.storeId}})
+    	},
+    	goodsFour(index){
 			this.goodsInfo.sort=index
 			if(index=='priceDown'){
 				this.goodsInfo.sort='priceUp'
@@ -99,19 +177,88 @@ export default {
            		}
            	}
    		},
+
+
+	},
+	created() {
+		this.getGoodsList()
+		console.log(this.$route.query.searchText)
+		this.inputText=this.$route.query.searchText
 	},
 	mounted() {
    		window.addEventListener('scroll', this.menu) 
   	},
 }
 </script>
-<style lang="less">
+<style lang='less'>
+.sortGoods{
+	overflow:hidden;
+	.search{
+		height:1.08rem;
+		position:fixed;
+		top:0;
+		box-sizing: border-box;
+		z-index:10000;
+		width:100%;
+		overflow: hidden;
+		background:white;
+		.inputBox{
+			width:8.2rem;
+			height:0.906667rem;
+			margin-left:0.266667rem;
+			border:0.013333rem solid #F4F4F1;
+			border-radius: 0.106667rem;
+			background:#BBBBBB;
+			opacity: 0.5;
+		}
+		input{
+			width:8.2rem;
+			height:0.906667rem;
+			border:none;
+			background:#EDEDED;
+			border-radius: 0.106667rem;
+			position:absolute;
+			left:0.266667rem;
+			top:0;
+			color:black;
+			font-size:0.36rem;
+			box-sizing: border-box;
+			padding:0 0.133333rem;
+		}
+		input::-webkit-input-placeholder{
+			color:white;
+		}
+		.inputBox{
+			float:left;
+		}
+		.classify{
+			float:right;
+			margin-top:0.056667rem;
+			margin-left:0.306667rem;
+			width:0.64rem;
+			text-align: center;
+			margin-right:0.266667rem;
 
-.storeGoods{
-	overflow-y: scroll;
+			b{
+				color:#858585 ;
+				font-size:0.266667rem;
+				width:100%;
+				display:inline-block;
+			}
+			img{
+				width:0.506667rem;
+				height:0.466667rem;
+			}
+		}
+	}
+
 	.fourFlex{
+		position:fixed;
+		top:1.08rem;
+		width:100%;
 		display:-webkit-flex;
 		display:flex;
+		z-index:100;
 		border-top:1px solid #EEEEEE;
 		li{
 			-webkit-flex: 1;
@@ -142,14 +289,9 @@ export default {
 		}
 
 	}
-	.tabBarFixed{
-		position:fixed;
-		top:2.566667rem;
-		width:100%;
-		background:white;
-		z-index:10000;
-	}
+
 	.storeGoodsList{
+		margin-top:2.253333rem;
 		.news{
 			background:#F7F7F7;
 			overflow: hidden;
@@ -218,9 +360,6 @@ export default {
 			}
 		}
 	}
-	
 }
-
-
 
 </style>
