@@ -38,6 +38,7 @@ export const cartremove = params => post('/cart/remove',params); //删除购物�
 export const cartremovetofav = params => post('/cart/removetofav', params);//购物车商品移入收藏夹
 export const getjoingoodsstorecates = params => post('/cart/getjoingoodsstorecates', params); //凑单类目接口
 export const joingoods = params => post('/cart/joingoods', params); //凑单接口
+export const singleSku = params => post('/goods/getgoodssku', params); //凑单sku接口
 
 //订单
 export const orderconfirm = params => post('/order/confirm', params); //确认订单
