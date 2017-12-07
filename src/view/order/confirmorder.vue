@@ -1,5 +1,5 @@
 <template>
-	<div class="confirmorder">
+	<div class="confirmorder"  v-if="orderData">
 		<div class="address" @click="route_address">
 			<div class="info">
 				<img src="../../assets/img/icon_order_address.png" alt="">
@@ -7,14 +7,14 @@
 				<div v-else class="text">
 					<div class="nameTel">
 						<span class="name left">
-							阿拉斯加的企鹅
+							{{address.realname}}
 						</span>
 						<span class="tel right">
-							18358205737
+							{{address.mobile}}
 						</span>
 					</div>
 					<div class="detailaddress">
-						收货地址：浙江省杭州市滨江区江陵路1916号星耀城二期29楼705
+						收货地址：{{address.detail_address}}
 					</div>
 				</div>
 				<i class="icon-right"></i>	
@@ -23,24 +23,24 @@
 		</div>
 
 		<!-- 店铺列表 -->
-		<div class="storelist">
+		<div class="storelist" v-for="item in orderData.enabled">
 			<div class="storename">
 				<img src="../../assets/img/shop_icon.png" alt="">
-				<span>美颜秘笈官方旗舰店</span>
+				<span>{{item.store_name}}</span>
 			</div>
 			<div class="content">
-				<div class="good" v-for="itme in 2">
+				<div class="good" v-for="items in item.goods">
 					<div class="img">
-						<img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4009434610,3584345417&fm=27&gp=0.jpg" alt="">
+						<img :src="items.thumb" alt="">
 					</div>
-					<p class="goodname">美颜秘笈专柜变色磨砂唇膏粉漾魅惑润唇蜜口红保湿滋润001/004/005</p>
-					<p class="color">颜色:紫红</p>
-					<p class="price">¥179.5</p>
-					<p class="num">x1</p>
+					<p class="goodname">{{items.title}}</p>
+					<p class="color">{{items.sku}}</p>
+					<p class="price">¥{{items.price}}</p>
+					<p class="num">x{{items.qty}}</p>
 				</div>
 				<div class="distribution typeli">
 					<div class="left">配送方式</div>
-					<div class="right">快递 ¥6</div>
+					<div class="right">快递 ¥{{item.shippingFee}}</div>
 				</div>
 				<div class="promotion typeli2">
 					<div>促销</div>
@@ -54,8 +54,8 @@
 					<x-textarea placeholder="给卖家留言：" :autosize="true" v-model="message"></x-textarea>
 				</div>
 				<div class="reporter">
-					<span>共计2件商品&nbsp;&nbsp;小计：</span>
-					<span class="price">¥ 425</span>
+					<span>共计{{item.sub_count}}件商品&nbsp;&nbsp;小计：</span>
+					<span class="price">¥ {{item.sub_total}}</span>
 				</div>
 			</div>
 		</div>
@@ -80,7 +80,7 @@
 		
 		<!-- 底部支付 -->
 		<div class="pay">
-			合集：<span class="zong">¥1194.5</span>
+			合计：<span class="zong">¥{{orderData.pay_amount}}</span>
 			<div class="pay_btn">去支付</div>
 		</div>
 	</div>
@@ -94,22 +94,30 @@ export default{
 	},
 	data(){
 		return {
+			orderData: null, 
 			address: null, //默认收货地址
+
 			message: '', //给卖家留言
 		}
 	},
 	methods: {
+		// 购物车跳转
 		api_orderconfirm(){
 			let cart_ids = JSON.parse(this.$route.query.ids);
 			orderconfirm({cart_ids: cart_ids.id}).then((response) => {
 				console.log(response)
 				let res = response.data;
 				if(res.code == 1000){
+					this.orderData = res.data;
 					this.address = res.data.address;
 				}else{
 					this.$vux.toast.text(res.message, 'middle');
 				}
 			})
+		},
+		//立即购买跳转
+		api_orderconfirm_direct(){
+
 		},
 		route_address(){
 			if(this.address){
