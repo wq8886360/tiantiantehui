@@ -24,7 +24,6 @@
 	</div>
 </template>
 <script>
-import {} from 'vux'
 import { addressall } from '../../http/api';
 export default{
 	components: {
