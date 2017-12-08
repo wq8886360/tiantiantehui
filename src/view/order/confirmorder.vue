@@ -96,15 +96,15 @@ export default{
 		return {
 			orderData: null, 
 			address: null, //默认收货地址
-
-			message: '', //给卖家留言
+			//address_id: null,//收货地址ID
+			message: '' //给卖家留言
 		}
 	},
 	methods: {
 		// 购物车跳转
 		api_orderconfirm(){
 			let cart_ids = JSON.parse(localStorage.info);
-			orderconfirm({cart_ids: cart_ids.id}).then((response) => {
+			orderconfirm({cart_ids: cart_ids.id,address_id:this.address_id}).then((response) => {
 				console.log(response)
 				let res = response.data;
 				if(res.code == 1000){
@@ -118,7 +118,7 @@ export default{
 		//立即购买跳转
 		api_orderconfirm_direct(){
 			let goodinfo = JSON.parse(localStorage.info);
-			orderbuy({goods_id: goodinfo.goods_id,qty: goodinfo.num,sku_id: goodinfo.sku_id}).then((response) => {
+			orderbuy({goods_id: goodinfo.goods_id,qty: goodinfo.num,sku_id: goodinfo.sku_id,address_id:this.address_id}).then((response) => {
 				console.log(response)
 				let res = response.data;
 				if(res.code == 1000){
@@ -131,13 +131,18 @@ export default{
 		},
 		route_address(){
 			if(this.address){
-				this.$router.push({path: '/selectadress'})
+				this.$router.push({path: '/selectadress',query:{address_id: this.address.id}})
 			}else{
 				this.$router.push({path: '/addadress'})
 			}
 		}
 	},
 	created(){
+		if(this.$route.query.address_id){
+			this.address_id = this.$route.query.address_id;
+		}else{
+			this.address_id = 0
+		}
 		let type = localStorage.type;
 		//立即购买
 		if(type == 'buynow'){
