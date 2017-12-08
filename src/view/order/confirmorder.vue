@@ -96,7 +96,7 @@ export default{
 		return {
 			orderData: null, 
 			address: null, //默认收货地址
-			//address_id: null,//收货地址ID
+			address_id: null,//收货地址ID
 			message: '' //给卖家留言
 		}
 	},
