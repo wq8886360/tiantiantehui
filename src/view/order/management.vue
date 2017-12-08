@@ -1,0 +1,178 @@
+<template>
+	<div class="management" v-if='receive_data'>
+		<ul class="management_ul">
+			<li v-for='(item,index) in receive_data.address_list'>
+				<div class="management_top">
+					<div class="messages">
+						<span class="name">{{item.realname}}</span>
+						<span class="mobile">{{item.mobile}}</span>
+					</div>
+					<div class="address">{{item.detail_address}}</div>
+					<div class="line"></div>
+					<div class="management_bottom">
+						<div class="management_left" @click='elect(index,item.id)'>
+							<img class="photo" v-if='item.isdefault==1' src="../../assets/img/shoppingcar_selected_h.png" alt="">
+							<img class="photo" v-else src="../../assets/img/shoppingcar_selected_n.png">
+							<span class="acquiescence" v-if='item.isdefault==1'>默认地址</span>
+							<span class="acquiescence_e" v-else>设置为默认地址</span>
+						</div>
+						<div class="management_right">
+							<span class="edit">编辑</span>
+							<span class="delete" @click="deletet(item.id)">删除</span>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</template>
+<script>
+import { addressall,deletet,modification} from '../../http/api';
+export default{
+	data(){
+		return{
+			receive_data:null, //收货地址的数据
+		}
+	},
+	methods:{
+		/*点击设置默认地址*/
+		elect(index,item_id){
+			addressall().then((response) => {
+				let res=response.data;
+				if(res.code==1000){
+					console.log(res.data)
+					this.receive_data=res.data;
+					this.receive_data.address_list.map((val,index,arr)=>{
+						val.isdefault=0;
+					})
+					this.receive_data.address_list[index].isdefault=1;
+					modification({address_id:item_id,isdefault:this.receive_data.address_list[index].isdefault}).then((response) => {
+						let res=response.data;
+						if(res.code==1000){
+							console.log(res.data)
+						}
+					})
+				}
+			});
+		},
+		/*删除收货地址api*/
+		deletet(item_id){
+			deletet({address_id:item_id}).then((response) => {
+				let res=response.data;
+				if(res.code==1000){
+					addressall().then((response) => {
+						let res=response.data;
+						if(res.code==1000){
+							console.log(res.data)
+							this.receive_data=res.data;
+						}
+					})
+				}
+			})
+		}
+	},
+	created(){
+		/*地址api*/
+		addressall().then((response) => {
+			let res=response.data;
+			if(res.code==1000){
+				console.log(res.data)
+				this.receive_data=res.data;
+			}
+		})
+	}
+}
+</script>
+<style lang='less'>
+	.management{
+		width: 100vw;
+		height: 100%;
+		border-top:1px solid #D8D8D8;
+		background: #f7f7f7;
+		.management_ul{
+			width: 100%;
+			height: 100%;
+			li{
+				padding: 0.52rem 0.27rem 0.52rem 0.27rem;
+				overflow: hidden;
+				margin-bottom: 0.27rem;
+				background: #fff;
+				.management_top{
+					width: 100%;
+					height: 100%;
+					.messages{
+						overflow: hidden;
+						.name{
+							width: 5.0rem;
+							float: left;
+							display: inline-block;
+							overflow: hidden;
+							text-overflow:ellipsis;
+							white-space: nowrap;
+							font-size: 0.37rem;
+							font-family: PingFang-SC-Regular;
+							color:#1C1B20;
+						}
+						.mobile{
+							float: right;
+							margin-right: 0.13rem;
+							font-family: PingFang-SC-Regular;
+							color:#1C1B20;
+							font-size: 0.37rem;
+						}
+					}
+					.address{
+						font-family: PingFang-SC-Regular;
+						font-size: 0.32rem;
+						color:#1C1B20;
+						margin-top: 0.15rem;
+					}
+					.line{
+						width: 100%;
+						height: 1px;
+						background: #EEEEEE;
+						margin-top: 0.52rem;
+					}
+					.management_bottom{
+						overflow: hidden;
+						width: 100%;
+						.management_left{
+							float: left;
+							margin-top: 0.43rem;
+							.photo{
+								width: 0.45rem;
+								height: 0.45rem;
+								vertical-align: middle;
+								margin-right: 0.2rem;
+							}
+							.acquiescence{
+								font-family: PingFang-SC-Regular;
+								font-size: 0.37rem;
+								color:#FB0036;
+								vertical-align: middle;
+							}
+							.acquiescence_e{
+								font-family: PingFang-SC-Regular;
+								font-size: 0.37rem;
+								vertical-align: middle;
+							}
+						}
+						.management_right{
+							float: right;
+							margin-top: 0.43rem;
+							.edit{
+								margin-right: 0.45rem;
+							}
+							span{
+								vertical-align: middle;
+								font-size: 0.37rem;
+								color:#1C1B20;
+								font-family: PingFang-SC-Regular;
+							}
+						}
+					}		
+				}
+			}
+		}
+	}
+</style>
