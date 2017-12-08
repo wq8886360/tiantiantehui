@@ -727,7 +727,9 @@ export default{
 				let data = {
 					id: cart_ids,
 				}
-				this.$router.push({path: "/confirmorder",query:{ids: JSON.stringify(data)}})
+				localStorage.type = "shopcar";
+				localStorage.info = JSON.stringify(data)
+				this.$router.push({path: "/confirmorder"})
 			}
 		}
 	},

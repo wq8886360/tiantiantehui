@@ -377,7 +377,7 @@
 			</div>
 			<div class="right">
 				<div class="join btn" @click="joincar">加入购物车</div>
-				<div class="buy btn">立即购买</div>
+				<div class="buy btn" @click="buynow">立即购买</div>
 			</div>
 		</div>
 	</div>
@@ -431,8 +431,7 @@ export default{
 			sku_id: '', //确定后的sku_id
 			goodNum: 1, //加入购物车数量
 			choosespecs: '', //选择后的规格
-
-
+			buytype: '', //购买方式（加入购物车||立即购买）
 		}
 	},
 	watch:{
@@ -528,7 +527,7 @@ export default{
 	   	},
 	   	//商品规格确定按钮
 	   	specsdetermine(){
-	   		let is_up = true;
+   			let is_up = true;
 	   		this.bindId.forEach((val,index,arr) => {
 	   			if(!val['id']){
 	   				is_up = false
@@ -540,7 +539,11 @@ export default{
 	   			this.choosespecs = this.specstitle;
 	   			this.sku_id = this.skuid
 	   			is_up = true;
-	   			this.cartadd_api()
+	   			if(this.buytype == 'buynow'){
+	   				this.router_confirmorder();
+	   			}else{
+	   				this.cartadd_api();
+	   			}
 	   		}
 	   	},
 	   	cartadd_api(){
@@ -556,6 +559,7 @@ export default{
 	   	},
 	   	//加入购物车
 	   	joincar(){
+	   		this.buytype = 'joincar';
 	   		this.specsState = true;
 	   	},
 	   	//跳转购物车
@@ -583,6 +587,28 @@ export default{
 	   				this.$vux.toast.text(response.data.message, 'middle')
 	   			}
 	   		})
+	   	},
+	   	//跳转确认订单页面
+	   	router_confirmorder(){
+	   		this.specsState = false;
+	   		let params = {
+   				goods_id: this.goods_id,
+   				num: this.goodNum,
+   				sku_id: this.sku_id
+   			}
+   			localStorage.type = 'buynow';
+   			localStorage.info = JSON.stringify(params)
+   			this.$router.push({path: "/confirmorder"})
+	   	},
+	   	//立即购买
+	   	buynow(){
+	   		this.buytype = 'buynow';
+	   		if(!this.sku_id){
+	   			this.specsState = true;
+	   		}else{
+
+	   			this.router_confirmorder();
+	   		}
 	   	},
 	   	//跳转店铺页
 	   	gostore(){

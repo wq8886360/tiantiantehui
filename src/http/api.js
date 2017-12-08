@@ -44,3 +44,6 @@ export const singleSku = params => post('/goods/getgoodssku', params); //凑单s
 export const orderconfirm = params => post('/order/confirm', params); //确认订单
 export const addressadd = params => post('/member/address/add', params); //添加收货地址
 export const addressall = params => post('/member/address/all', params); //收货地址列表
+export const orderbuy = params => post('/order/buy', params); //立即购买
+export const deletet = params => post('/member/address/remove', params); //删除收货地址
+export const modification =params => post('/member/address/edit',params); //编辑收货地址

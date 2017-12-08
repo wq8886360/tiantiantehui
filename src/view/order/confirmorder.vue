@@ -86,7 +86,7 @@
 	</div>
 </template>
 <script>
-import { orderconfirm } from '../../http/api.js';
+import { orderconfirm, orderbuy } from '../../http/api.js';
 import { XTextarea } from 'vux';
 export default{
 	components: {
@@ -103,7 +103,7 @@ export default{
 	methods: {
 		// 购物车跳转
 		api_orderconfirm(){
-			let cart_ids = JSON.parse(this.$route.query.ids);
+			let cart_ids = JSON.parse(localStorage.info);
 			orderconfirm({cart_ids: cart_ids.id}).then((response) => {
 				console.log(response)
 				let res = response.data;
@@ -117,7 +117,17 @@ export default{
 		},
 		//立即购买跳转
 		api_orderconfirm_direct(){
-
+			let goodinfo = JSON.parse(localStorage.info);
+			orderbuy({goods_id: goodinfo.goods_id,qty: goodinfo.num,sku_id: goodinfo.sku_id}).then((response) => {
+				console.log(response)
+				let res = response.data;
+				if(res.code == 1000){
+					this.orderData = res.data;
+					this.address = res.data.address;
+				}else{
+					this.$vux.toast.text(res.message, 'middle');
+				}
+			})
 		},
 		route_address(){
 			if(this.address){
@@ -128,7 +138,13 @@ export default{
 		}
 	},
 	created(){
-		this.api_orderconfirm();
+		let type = localStorage.type;
+		//立即购买
+		if(type == 'buynow'){
+			this.api_orderconfirm_direct();
+		}else{
+			this.api_orderconfirm();
+		}
 	}
 }
 </script>
