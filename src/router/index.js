@@ -140,16 +140,6 @@ export default new Router({
             name: "管理收货地址",
         },
         {
-            path: '/selectadress',
-            component: Selectadress,
-            name: "选择收货地址",
-        },
-        {
-            path: '/management',
-            component: Management,
-            name: "管理收货地址",
-        },
-        {
             path: '/myorder',
             component: Myorder,
             name: "我的订单",
