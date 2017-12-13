@@ -1,5 +1,6 @@
 <template>
 	<div class="addadress">
+		<div class="deleting" @click="deleting" v-show='receive_data'>删除</div>
 		<group label-width="2.4rem">
 			<x-input title='收货人' placeholder="请输入收货人" type="text" :max="12" v-model="info.realname.value"></x-input>
 			<x-input title='手机号码' placeholder="请输入常用的手机号码" type="tel" v-model="info.mobile.value"></x-input>
@@ -7,26 +8,37 @@
 				<x-address class="address" title="省市区" placeholder="点击选择" v-model="info.address.value" raw-value :list="addressData" value-text-align="left"></x-address>
 				<i class="icon-location" @click="location"></i>
 			</div>	
-			<x-textarea v-model="info.addresstext.value" title="详细地址" :max="200" placeholder="请输入详细地址（5-120个字）"></x-textarea>
+			<x-textarea v-model="info.addresstext.value" title="详细地址" :max="30" placeholder="请输入详细地址（5-30个字）"></x-textarea>
 		</group>
 		<div class="adswi">
 			<x-switch title="设为默认地址" v-model="isdefault" :value-map="[0,1]"></x-switch>
 		</div>
-
+		
 		<!-- 保存按钮 -->
-		<div class="preservation" @click="preservation">保存</div>
+		<div v-if='receive_data' class="preservation" @click="edit">保存</div>
+		<div v-else class="preservation" @click="preservation">保存</div>
+		<div v-transfer-dom>
+      		<confirm v-model="show" @on-confirm="onConfirm">
+      			<strong class="weui-dialog__title">提示</strong>
+      			<div class="sure">确定删除该地址</div>
+      		</confirm>
+   		</div>
 	</div>
 </template>
 <script>
-import { XInput, Group, XTextarea, XAddress, ChinaAddressV4Data, XSwitch } from 'vux'
-import { addressadd } from '../../http/api'
+import { XInput, Group, XTextarea, XAddress, ChinaAddressV4Data, XSwitch,Confirm,TransferDomDirective as TransferDom } from 'vux'
+import { addressadd ,addressall,modification,deletet} from '../../http/api'
 export default{
+	directives: {
+    	TransferDom
+ 	 },
 	components: {
 		XInput,
 		Group,
 		XAddress,
 		XTextarea,
-		XSwitch
+		XSwitch,
+		Confirm,
 	},
 	data(){
 		return{
@@ -38,6 +50,15 @@ export default{
 			},
 			isdefault:0, //是否默认
 			addressData: ChinaAddressV4Data, //省市区信息
+			receive_data:null, //地址数据
+			address_id:null, //地址的Id
+			show:false, //弹窗的状态
+			selected:null, //点击编辑然后遍历后的数组
+		}
+	},
+	watch:{
+		isdefault(){
+			console.log(this.isdefault,23)
 		}
 	},
 	methods:{
@@ -57,6 +78,7 @@ export default{
                 _this.$vux.toast.text("浏览器不支持地理位置定位", 'middle');
             }
 		},
+		/*点击保存 验证*/
 		preservation(){
 			let mes = [];
 			function Trim(str,is_global){
@@ -104,10 +126,103 @@ export default{
 			}else{
 				this.$vux.toast.text(mes[0], 'middle');
 			}
-		}
+		},
+		/*编辑之后保存 验证*/
+		edit(){
+			let mes = [];
+			function Trim(str,is_global){
+				var result;
+				result = str.replace(/\s/g,"");
+				return result;
+			}
+			//是否输入
+			for(let i in this.info){
+				if(typeof this.info[i].value == 'string'){
+					if(Trim(this.info[i].value).length <= 0){
+						mes.push(this.info[i]['message'])
+					}
+				}else{
+					if(this.info[i].value.length <= 0){
+						mes.push(this.info[i]['message'])
+					}
+				}
+			}
+			if(Trim(this.info.realname.value).length < 2 || Trim(this.info.realname.value).length > 12){
+				mes.push("收货人姓名2~12个字以内")
+			}
+			if(Trim(this.info.addresstext.value).length < 5 || Trim(this.info.addresstext.value).length > 120){
+				mes.push("详细地址5~120个字以内")
+			}
+			if(!(/^[1][3,4,5,7,8][0-9]{9}$/.test(this.info.mobile.value))){
+				mes.push("手机号格式错误，请重新输入")
+			}
+			if(mes.length == 0){
+				let params = {
+					realname: this.info.realname.value,
+					mobile: this.info.mobile.value,
+					address: this.info.addresstext.value,
+					isdefault: this.isdefault,
+					district_ids: this.info.address.value.join(',')
+				}
+				modification({address_id:this.address_id,realname:this.info.realname.value,mobile:this.info.mobile.value,district_ids:this.info.address.value.join(','),address	:this.info.addresstext.value,isdefault:this.isdefault}).then((response)=>{
+					if(response.data.code==1000){
+						this.$router.push({path:"/management"})
+					}
+					if(response.data.code==-1000){
+						this.$router.push({path:"/management"})
+					}
+				})
+			}else{
+				this.$vux.toast.text(mes[0], 'middle');
+			}
+		},
+		/*删除收货地址api*/
+		detelld_api(){
+			deletet({address_id:this.address_id}).then((response) => {
+				let res=response.data;
+				if(res.code==1000){
+					addressall().then((response) => {
+						let res=response.data;
+						if(res.code==1000){
+							this.$router.push({path:"/management"})
+						}
+					})
+				}
+			})	
+		},
+		/*编辑页面点击删除出现弹窗*/
+		deleting(){
+			this.show=true;
+		},
+		/*删除弹窗出现点击确定删除收货地址*/
+		onConfirm () {
+			this.detelld_api();	
+   		},
 	},
 	created(){
-	
+		/*从管理收货地址进来*/
+		if(this.$route.query.address_id){
+			var index=this.$route.query.index;
+			addressall().then((response) => {
+				let res=response.data;
+				if(res.code==1000){
+					this.receive_data=res.data.address_list;
+					this.selected=[];
+					let selected=this.receive_data.map((val,index,arr)=>{
+						if(val.id==this.$route.query.address_id){
+							return val
+						}
+					})
+					console.log(selected)
+					this.address_id=selected[index].id;
+					this.info.realname.value=selected[index].realname;
+					this.info.mobile.value=selected[index].mobile;
+					this.info.addresstext.value=selected[index].address;
+					this.isdefault=Number(selected[index].isdefault);
+					this.info.address.value=selected[index].district_ids;
+				}
+			})
+		}
 	}
 }
 </script>
@@ -117,6 +232,15 @@ export default{
 	height: 100vh;
 	background: #F7F7F7;
 	position: relative;
+	.deleting{
+		font-size: 0.4rem;
+		font-family: PingFang-SC-Regular;
+		color: #858585;
+		padding: 0.3rem 0.27rem 0.3rem 0.27rem;
+		text-align: right;
+		background: #ffff;
+		margin-bottom: 0.27rem;
+	}
 	.address{
 		.weui-cell__ft{
 			display: none!important;
@@ -187,5 +311,16 @@ export default{
 }
 .vux-popup-header-right{
 	color: #FB0036!important;
+}
+.weui-dialog__title{
+	margin-top: -0.2rem !important;
+}
+.weui-dialog__btn_primary{
+	color: #FB0036;
+}
+.weui-dialog__bd .sure{
+	margin-top: 0.3rem;
+	color:#999999;
+	font-size: 0.21rem;
 }
 </style>
