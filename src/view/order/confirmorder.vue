@@ -124,6 +124,14 @@ export default{
 			couponIndex: null, //当前选择索引值
 		}
 	},
+	watch:{
+		'shop_goods': {
+			handler: function() {
+				console.log(this.shop_goods)
+			},
+			deep:true
+		}
+	},
 	methods: {
 		// 购物车跳转
 		api_orderconfirm(){

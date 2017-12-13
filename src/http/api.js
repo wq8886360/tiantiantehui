@@ -47,3 +47,9 @@ export const addressall = params => post('/member/address/all', params); //收�
 export const orderbuy = params => post('/order/buy', params); //立即购买
 export const deletet = params => post('/member/address/remove', params); //删除收货地址
 export const modification =params => post('/member/address/edit',params); //编辑收货地址
+
+//订单列表
+export const deletet = params => post('/member/address/remove', params); //删除收货地址
+export const modification =params => post('/member/address/edit',params); //编辑收货地址
+export const orderlist = params => get('/personalcenter/orderlist',params); //个人订单列表页
+export const orderdetail =params => get('/personalcenter/orderdetail',params) //个人订单详情页

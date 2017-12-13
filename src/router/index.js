@@ -43,6 +43,11 @@ import Addadress from '@/view/order/addadress' //添加收货地址
 import Selectadress from '@/view/order/selectadress' //选择收获地址
 import Management from '@/view/order/management' //管理收货地址
 
+//订单列表
+import Selectadress from '@/view/order/selectadress' //选择收获地址
+import Management from '@/view/order/management' //管理收货地址
+import Myorder from '@/view/order/myorder' //我的订单
+
 
 //测试
 import Person from '@/view/test/person'
@@ -135,6 +140,21 @@ export default new Router({
             path: '/management',
             component: Management,
             name: "管理收货地址",
-        }
+        },
+        {
+            path: '/selectadress',
+            component: Selectadress,
+            name: "选择收货地址",
+        },
+        {
+            path: '/management',
+            component: Management,
+            name: "管理收货地址",
+        },
+        {
+            path: '/myorder',
+            component: Myorder,
+            name: "我的订单",
+        },
 	]
 })
