@@ -44,8 +44,6 @@ import Selectadress from '@/view/order/selectadress' //选择收获地址
 import Management from '@/view/order/management' //管理收货地址
 
 //订单列表
-import Selectadress from '@/view/order/selectadress' //选择收获地址
-import Management from '@/view/order/management' //管理收货地址
 import Myorder from '@/view/order/myorder' //我的订单
 
 
