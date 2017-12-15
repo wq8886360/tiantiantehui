@@ -17,6 +17,10 @@ Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
 Vue.use(ConfirmPlugin)
 
+import axios from "axios";
+
+Vue.prototype.$axios = axios;
+
 Vue.config.productionTip = false
 
 //const routerList = ['/user/login','/user/sms','/user/regist','/user/set','/user/oldbind1','/user/oldbind2','/user/newbind1','/user/newbind2','/user/bind1','/user/bind2','/user/forget1','/user/forget2'];

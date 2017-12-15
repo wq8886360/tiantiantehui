@@ -42,11 +42,11 @@
 					<div class="left">配送方式</div>
 					<div class="right">快递 ¥{{item.shippingFee}}</div>
 				</div>
-				<div class="promotion typeli2">
+				<div class="promotion typeli2" @click="chooseact(index)" v-if="item['promotion_info'].length != 0">
 					<div>促销</div>
 					<div>赠袜子一双；已优惠 ¥6 <i class="icon-right"></i></div>	
 				</div>
-				<div class="treatment typeli2" @click="choosecoupon(index)">
+				<div class="treatment typeli2" @click="choosecoupon(index)" v-if="item['voucher'].length != 0">
 					<div>优惠</div>
 					<div>{{shop_goods[index]['voucher_hint']}} <i class="icon-right"></i></div>
 				</div>
@@ -55,9 +55,24 @@
 				</div>
 				<div class="reporter">
 					<span>共计{{item.sub_count}}件商品&nbsp;&nbsp;小计：</span>
-					<span class="price">¥ {{item.sub_total}}</span>
+					<span class="price">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['denomination']}}</span>
 				</div>
 			</div>
+		</div>
+
+		<!-- 活动弹窗 -->
+		<div v-transfer-dom class="coupon">
+			<popup v-model="actState" position="bottom">
+				<div class="box">
+					<div class="main">
+						<div class="title">促销</div>
+						<div class="list">
+							<checklist :max="1" :min="1" :disabled="dis" label-position="left" :options="actList" v-model="actval"></checklist>
+						</div>
+					</div>	
+					<div class="close" @click="actState = false">关闭</div>
+				</div>
+			</popup>
 		</div>
 
 		<!-- 优惠劵弹窗 -->
@@ -67,10 +82,10 @@
 					<div class="main">
 						<div class="title">商品优惠劵</div>
 						<div class="list">
-							<checklist :max="1" label-position="left" :options="commonList" v-model="value" @on-change="change"></checklist>
+							<checklist :max="1" :min="1" label-position="left" :options="commonList" v-model="value" @on-change="change"></checklist>
 						</div>
 					</div>	
-					<div class="close">关闭</div>
+					<div class="close" @click="couponState = false">关闭</div>
 				</div>
 			</popup>
 		</div>
@@ -95,7 +110,7 @@
 		
 		<!-- 底部支付 -->
 		<div class="pay">
-			合计：<span class="zong">¥{{orderData.pay_amount}}</span>
+			合计：<span class="zong">¥{{pay_amount}}</span>
 			<div class="pay_btn">去支付</div>
 		</div>
 	</div>
@@ -119,15 +134,23 @@ export default{
 			address_id: null,//收货地址ID
 			shop_goods: [], //
 			couponState: false, //优惠劵弹窗状态
+			actState: false, //
+			actList: [], //可选活动列表
+			actval: [], //当前选中活动
 			commonList: [], //优惠劵列表
 			value: [], //当前选中的优惠劵
 			couponIndex: null, //当前选择索引值
+			pay_amount: 0, //支付总计啊
+			dis: false, //促销活动是否可选
 		}
 	},
 	watch:{
 		'shop_goods': {
 			handler: function() {
-				console.log(this.shop_goods)
+				this.pay_amount = 0;
+				this.shop_goods.map((item,index,arr) => {
+					this.pay_amount += parseFloat(item.sub_total)
+				})
 			},
 			deep:true
 		}
@@ -157,6 +180,7 @@ export default{
 				if(res.code == 1000){
 					this.orderData = res.data;
 					this.address = res.data.address;
+					this.shop_goods_map(res.data)
 				}else{
 					this.$vux.toast.text(res.message, 'middle');
 				}
@@ -166,13 +190,36 @@ export default{
 		shop_goods_map(data){
 			var _this = this;
 			data.enabled.map(function(item,index,obj){
-				_this.shop_goods.push({
+				let goodobj = {
 					store_id: item.store_id, //店铺ID
 					remark: '', //留言
 					voucher_id: '', //优惠劵ID
+					sub_total: item.sub_total, //店铺小计
+					denomination: '', //优惠劵面额
 					voucher_hint: '', //优惠劵描述
+					goods_items: [], //商品列表
+				}
+				if(item['voucher'].length != 0){
+					goodobj.voucher_id = item['voucher'][0]['voucher_id'];
+					goodobj.voucher_hint = item['voucher'][0]['title'];
+					goodobj.denomination = item['voucher'][0]['denomination'];
+					_this.$nextTick(() => {
+						_this.$set(_this.value,'0',item['voucher'][0]['voucher_id']);
+					})
+				}
+				_this.shop_goods.push(goodobj)
+			})
+			this.shop_goods.map(function(sitem,sindex,sobj) {
+				data.enabled[sindex]['goods'].map(function(gitem,gindex,gobj){
+					sitem.goods_items.push({
+						prom_id: gitem.prom_id,
+						goods_id: gitem.goods_id,
+						sku_id: gitem.sku_id,
+						qty: gitem.qty
+					})
 				})
 			})
+			console.log(this.shop_goods)
 		},
 		//选择优惠劵
 		choosecoupon(index){
@@ -183,17 +230,37 @@ export default{
 				_this.commonList.push({
 					value: items.title,
 					key: items.voucher_id,
+					denomination: items.denomination
 				})
 			})
-			console.log(this.commonList)
 			this.couponState = true;
 		},
 		change(val, label){
-			console.log(val,label)
-			if(this.couponIndex !== null){
+			let _this = this;
+			if(val.length != 0 && label.length != 0){
 				this.$set(this.shop_goods[this.couponIndex],'voucher_hint',label[0])
 				this.$set(this.shop_goods[this.couponIndex],'voucher_id',val[0])
+				this.orderData.enabled[this.couponIndex]['voucher'].map(function(item,index,arr){
+					if(item.voucher_id == val[0]){
+						_this.$set(_this.shop_goods[_this.couponIndex],'denomination',item['denomination']);
+					}
+				})
 			}
+		},
+		//选择活动
+		chooseact(index){
+			let _this = this;
+			this.actList = [];
+			this.couponIndex = index;
+			this.actState = true;
+			this.orderData.enabled[index]['promotion_info'].map(function(item,index,arr){
+				console.log(item)
+				_this.actList.push({
+					value: item.prom_title,
+					key: item.prom_id
+				})
+			})
+
 		},
 		route_address(){
 			if(this.address){
@@ -213,8 +280,10 @@ export default{
 		//立即购买
 		if(type == 'buynow'){
 			this.api_orderconfirm_direct();
+			this.dis = false;
 		}else{
 			this.api_orderconfirm();
+			this.dis = true;
 		}
 	}
 }

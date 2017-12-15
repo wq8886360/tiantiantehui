@@ -40,6 +40,15 @@ export const getjoingoodsstorecates = params => post('/cart/getjoingoodsstorecat
 export const joingoods = params => post('/cart/joingoods', params); //凑单接口
 export const singleSku = params => post('/goods/getgoodssku', params); //凑单sku接口
 
+//评价
+//评价列表 
+export const memberCommentList = params => get("/member/comment/list", params); //我的评价列表
+export const commentDetalis = params => get("/member/comment/details", params); //评价详情
+export const commentAppend = params => post('/member/comment/append', params); //添加追评
+export const commentChange = params => post('/member/comment/change', params); //中差评改为好评
+export const commentAdd = params => post('/member/comment/add', params); //添加评价
+export const personalcenterOrderlist = params => get("/personalcenter/orderlist", params); //我的个人中心
+
 //订单
 export const orderconfirm = params => post('/order/confirm', params); //确认订单
 export const addressadd = params => post('/member/address/add', params); //添加收货地址

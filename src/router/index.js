@@ -47,6 +47,15 @@ import Management from '@/view/order/management' //管理收货地址
 import Myorder from '@/view/order/myorder' //我的订单
 
 
+//我的评价
+import MyRating from '@/view/myRating/ratingHome'
+import Rate from '@/view/myRating/rate'
+import AdditionalReview from '@/view/myRating/addReview'
+import EvaDetail from '@/view/myRating/evaDetail'
+import EvaSuccess from '@/view/myRating/evaSuccess'
+import ChangeGoodEva from '@/view/myRating/changeGoodEva'
+
+
 //测试
 import Person from '@/view/test/person'
 
@@ -144,5 +153,35 @@ export default new Router({
             component: Myorder,
             name: "我的订单",
         },
+        {
+            path: '/MyRating',
+            name: '我的评价',
+            component: MyRating
+        },
+        {
+            path: '/Rate',
+            name: '发布评价',
+            component: Rate
+        },
+        {
+            path: '/additionalReview',
+            name: '追评',
+            component: AdditionalReview
+        },
+        {
+            path: '/evaDetail',
+            name: '评价详情',
+            component: EvaDetail
+        },
+        {
+            path: '/evaSuccess',
+            name: '评价成功',
+            component: EvaSuccess
+        },
+        {
+            path: '/changeGoodEva',
+            name: '改为好评',
+            component: ChangeGoodEva
+        }
 	]
 })
