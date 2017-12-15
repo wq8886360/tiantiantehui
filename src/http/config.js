@@ -19,31 +19,34 @@ axios.defaults.headers = {
 axios.interceptors.request.use(config => {
     // token
     const token = Cookie.get("token");
-    if(token){
-      config.headers['token'] = token;
-    }
+    var arr=config.url.split("/")
+    var url=arr[arr.length-2]+'/'+arr[arr.length-1]
+    if(url=='uploads/uploadotherimage'){
 
-    // wechat请求
-    if(config.method === 'post') {
-      config.data += '&client_type=wechat'
-    } else if(config.method === 'get') {
-      config.params['client_type'] = 'wechat'
+    }else{
+      if(token){
+        config.headers['token'] = token;
+      }
+      // wechat请求
+      if(config.method === 'post') {
+        config.data += '&client_type=wechat'
+      } else if(config.method === 'get') {
+        config.params['client_type'] = 'wechat'
+      }
     }
-
     //请求超过1s显示加载动画
     // timer = setTimeout(function(){
     //     store.dispatch('SHOW')
     // },1000)
-	return config
+  return config
 },error => {
-	return Promise.reject(error)
+  return Promise.reject(error)
 })
 
 //response全局拦截
 axios.interceptors.response.use(
   response => {
     let res = response; 
-
     //全局loading状态
     if(res.status == 200){
         //清除动画
