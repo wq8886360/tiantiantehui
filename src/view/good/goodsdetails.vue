@@ -142,7 +142,7 @@
  								</div>
  								<p>{{item.content}}</p>
  							</div>
- 							<div class='infoRightCon'>
+ 							<div class='infoRightCon' v-if='item.pics.length!="0"'>
 								<img :src="item.pics[0]" alt="">
 								<span>共{{item.pics.length}}张</span>
 							</div>
@@ -430,7 +430,7 @@ export default{
 			goodNum: 1, //加入购物车数量
 			choosespecs: '', //选择后的规格
 			buytype: '', //购买方式（加入购物车||立即购买）
-			count:'',//含有图片的评论数量
+			count:null,//含有图片的评论数量
 		}
 	},
 	watch:{
@@ -490,10 +490,11 @@ export default{
 					})
 					if(this.data.comments.length!='0'){
 						for(var i=0;i<this.data.comments.length;i++){
-							if(this.data.comments[i].pic.length!='0'){
-								this.count++
+							if(this.data.comments[i].pics.length!='0'){
+								this.count=this.count+1
 							}
-						}					
+						}	
+						console.log(this.count,'conut')				
 					}
 
 				}
