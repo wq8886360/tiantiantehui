@@ -1,6 +1,5 @@
 import axios from "axios";
 import router from "../router/index.js";
-//import Cookie from "js-cookie";
 import qs from "qs";
 import store from "@/store/index.js"
 import Cookie from "js-cookie";
@@ -46,7 +45,7 @@ axios.interceptors.request.use(config => {
 //response全局拦截
 axios.interceptors.response.use(
   response => {
-    let res = response; 
+    let res = response;
     //全局loading状态
     if(res.status == 200){
         //清除动画
@@ -61,6 +60,9 @@ axios.interceptors.response.use(
             Cookie.set('token', res.data.data.token, { expires: time });
           }
         }
+    }else if(res.status == 203){ //登录过期
+      Cookie.remove("token");
+      router.push({path: '/user/login'});
     }
     return response
   },

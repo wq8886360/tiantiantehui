@@ -3,6 +3,9 @@ import Router from 'vue-router'
 
 //主入口
 import Index from '@/view/index'
+
+import Classification from '@/view/classification/classification'
+
 //登录注册
 import User from '@/view/login/entry'
 import Login from '@/view/login/login'
@@ -82,6 +85,11 @@ export default new Router({
                 {
                     path: 'person',
                     component: Person
+                },
+                {
+                    path: 'classification',
+                    component: Classification,
+                    name: "商品分类"
                 }
             ]
 		},

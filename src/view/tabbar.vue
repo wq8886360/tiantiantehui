@@ -15,7 +15,7 @@
 				</div>
 			</transition>	
 		</div>
-		<div class="box" @click="routerlink(1)">
+		<div class="box" @click="routerlink(1,'/classification')">
 			<div class="normal all" v-if="index != 1">
 				<div><img src="../assets/img/tab_2_n.png" alt=""></div>
 				<p>分类</p>
@@ -94,6 +94,8 @@ export default{
 				this.index = 4
 			}else if(path.indexOf('/shopcar') != -1){
 				this.index = 3
+			}else if(path.indexOf('/classification') != -1){
+				this.index = 1
 			}
 		},
 		routerlink(index,path){
