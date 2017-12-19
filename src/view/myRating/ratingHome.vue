@@ -144,7 +144,20 @@ export default {
 		    	if(document.body.scrollHeight-document.body.scrollTop-document.documentElement.clientHeight=='0'){
 		    		if(this.MaxPage>this.page){
 		    			this.page=this.page+1
-		    			this.getList()
+				    	let info={
+				    		status:this.index,
+				    		page:this.page,
+				    		page_size:this.pageSize,
+				    	}
+				    	memberCommentList(info).then((response) => {
+				    		console.log(response)
+				    		if(response.data.code==1000){
+				    			var data=response.data.data.list
+				    			for(var i=0;i<data.length;i++){
+				    				this.evaData.push(data[i])
+				    			}
+				    		}
+				    	})
 		    		}else{
 		    			this.$vux.toast.text('没有更多的内容了', 'middle')
 		    		}
@@ -154,6 +167,7 @@ export default {
     },
     created(){
     	this.getList()
+    	console.log(111)
     },
     mounted() {
     	if(this.$route.path=='/MyRating'){

@@ -9,6 +9,19 @@
 			background-color: #fb0036!important;
 		}
 	}
+	.vux-tab{
+		.vux-tab-item{
+			font-weight: 600!important;
+			color:#888888!important;
+			font-size:PingFang-SC-Medium!important;
+		}
+		.vux-tab-selected{
+			color:#1C1B20!important;
+		}
+		.vux-tab-ink-bar{
+			background-color:#fb0036!important;
+		}
+	} 
 	.icon-right{
 		font-size: 0.4rem;
 	}
@@ -125,6 +138,7 @@
 			-webkit-flex: 1;
 			flex: 1;
 			.list{
+				overflow: hidden;
 				margin-bottom: 0.27rem;
 				.ai{
 					width: 0.64rem;
@@ -136,6 +150,11 @@
 					line-height: 0.43rem;
 					text-align: center;
 					vertical-align: middle;
+					float:left;
+					margin-right:0.16rem;
+				}
+				span{
+					float:left;
 				}
 			}
 		}
@@ -502,9 +521,9 @@
 	background: #F0F0F0;
 	height: 80vh;
 	position: relative;
-	.attrpoputitle{
-		height: 0.69rem;
-	}
+/* 	.attrpoputitle{
+	height: 0.69rem;
+} */
 	.attrcontent{
 		margin-bottom: 0!important;
 		position: absolute;
@@ -652,7 +671,12 @@
 		}
 	}
 }
-
+.activity{
+	background:white!important;
+}
+.combo{
+	background:white!important;	
+}
 /*商品属性弹窗*/
 .attrpopu{
 	padding: 0 0.24rem;
@@ -785,4 +809,7 @@
 			}
 		}
 	}
+
+	
+
 }

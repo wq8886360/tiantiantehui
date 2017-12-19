@@ -14,7 +14,7 @@
 				<div class="collect">
 					<div class="border1px"></div>
 					<img @click="collect" v-if="is_fav == 0" src="../../assets/img/icon_souchag_n.png" style="width: 0.6rem;" alt="">
-					<img @click="romovecollect" v-if="is_fav == 1" src="../../assets/img/icon_souchag_h.png" style="width: 0.6rem;" alt="">
+					<img @click="romovecollect" v-else src="../../assets/img/icon_souchag_h.png" style="width: 0.6rem;" alt="">
 				</div>
 			</div>
 			<!-- 价格、标签 -->
@@ -124,7 +124,7 @@
 	    </div>	
 	</scroller>
 	    	</div> -->
- 			<div class='appraiseInfo'>
+ 			<div class='appraiseInfo' v-if='data["comments"].length!="0"'>
  				<scroller lock-y :scrollbar-x=false>
  		    		<div :style="'width:'+ (data['comments'].length * 4.1+3.39+count*3.3) + 'rem'">
  				    	<div class='infoLeft' v-for='item in data["comments"]'  @click='evaClick(item.id)'>
@@ -158,8 +158,8 @@
 		<!-- 收藏 -->
 		<div class='collect'>
 			<div class='storeCollectInfo'>
-				<img :src="data['store_info']['store_icon']" alt="">
-				<div class='stars'>
+				<img :src="data['store_info']['store_icon']" alt="" @click='gotoStore(0)'>
+				<div class='stars'  @click='gotoStore(0)'>
 					<p>{{data['store_info']['decoration_name']}}<span v-if="data['store_info']['quality_logo']">品质</span></p>
 					<p><img v-for="item in Number(data['store_info']['star'])" src="../../assets/img/stars.png" alt=""></p>
 				</div>
@@ -242,7 +242,7 @@
 					<div class="attrcontent">
 						<scroller lock-x height="100%">
 							<div>
-								<div class="box" v-for="item in data['voucher']">
+								<div class="box" v-for="item in data['voucher']" @click='gotoStore("0")'>
 									<!-- 未领取 -->
 									<div class="bg" v-if="item['is_get'] == '0'"><img src="../../assets/img/pickupbg.png" alt=""></div>
 									<!-- 领取 -->
@@ -273,14 +273,14 @@
 		<!-- 活动弹窗 -->
 		<div v-transfer-dom>
 			<popup v-model="activityState" position="bottom" max-height="80%">
-				<div class="attrpopu couponspupu">
+				<div class="attrpopu couponspupu activity">
 					<div class="attrpoputitle">店铺促销活动<i class="icon-close right" @click="activityState = false"></i></div>
 					<div class="attrcontent">
 						<scroller lock-x height="100%">
 								<div class="listBox" v-if='data.full_cut.length!=0'>
 									<div class='leftCon'><span class="ai">满减</span></div>
 									<div class='rightCon'>
-										<div v-for='(item,index) in data.full_cut'>
+										<div v-for='(item,index) in data.full_cut' @click='gotoStore("2")'>
 											<span>满{{item.money_type_condition}}减{{item.money_type_discount}},</span>
 											<i class="icon-right right"></i>
 										</div>
@@ -289,7 +289,7 @@
 								<div class="listBox" v-if='data.full_discount.length!=0'>
 									<div class='leftCon'><span class="ai">满折</span></div>
 									<div class='rightCon'>
-										<div  v-for='item in data.full_discount'>
+										<div  v-for='item in data.full_discount'  @click='gotoStore("2")'>
 											<span>满{{item.qty_type_condition}}打{{item.qty_type_discount}}折, </span>
 											<i class="icon-right right"></i>
 										</div>
@@ -298,7 +298,7 @@
 								<div class="listBox"  v-if='data.buy_gift.length!=0'>
 									<div class='leftCon'><span class="ai">买赠</span></div>
 									<div class='rightCon'>
-										<div  v-for='(item,index) in data.buy_gift' >
+										<div  v-for='(item,index) in data.buy_gift'  @click='gotoStore("2")'>
 											<span>{{item.prom_title}}</span>
 											<i class="icon-right right"></i>
 										</div>
@@ -312,14 +312,14 @@
 		<!-- 套餐弹窗 -->
 		<div v-transfer-dom>
 			<popup v-model="comboState" position="bottom" max-height="80%">
-				<div class="attrpopu couponspupu">
+				<div class="attrpopu couponspupu combo">
 					<div class="attrpoputitle">选择套餐<i class="icon-close right" @click="comboState = false"></i></div>
 					<div class="attrcontent">
-						<scroller lock-x height="100%" :scrollbar-y=false>
-							<div class='comboBoxInfo' v-for='(item,index) in data.combo'>
+						<div style='overflow-y: scroll'>
+							<div class='comboBoxInfo' v-for='(item,index) in data.combo'  @click='gotoStore("2")'>
 								<p><span class='comboPrice'>套餐价</span><span class='priceCombo'><span class='priceInco'>￥</span><span>900</span></span><span class='grayPrice'>套餐原价￥1900</span></p>
 								<div style="width:100%;overflow:auto;">
-						    		<scroller lock-y :scrollbar-x=true>
+						    		<scroller lock-y :scrollbar-x=false>
 						    			<div :style="'width:'+ data.combo[index].goods.length * 2.66 + 'rem'"><!-- :style="'width:'+ data.combo.goods.length * 2.66 + 'rem'" -->
 									    	<div class='comboDetail'  style="float:left;" v-for='items in item.goods'>
 									    		<div>
@@ -330,7 +330,7 @@
 								    </scroller>
 						    	</div>
 							</div>
-						</scroller>	
+						</div>	
 					</div>
 				</div>
 			</popup>
@@ -407,7 +407,7 @@ export default{
 			scroll:'', //滚动条高度
 			goTop:false, //是否显示回到顶部按钮
 			data: null,
-			goods_id: 26, //商品ID
+			goods_id: '', //商品ID
 			pics: null, //banner列表
 			attrsState: false, //商品参数显示状态
 			specsState: false, //商品规格显示状态
@@ -431,6 +431,7 @@ export default{
 			choosespecs: '', //选择后的规格
 			buytype: '', //购买方式（加入购物车||立即购买）
 			count:null,//含有图片的评论数量
+			store_id:'',//店铺id
 		}
 	},
 	watch:{
@@ -464,8 +465,19 @@ export default{
 		}
 	},
 	methods:{
+		//点击领取优惠券
+		gotoStore(index){
+			console.log(index)
+			this.$router.push({path: '/store',query:{store_id:this.store_id,idx:index}})
+		},
+		//点击评价
 		evaClick(e){
-			this.$router.push({path: '/Eva',query:{comment_id:e,goods_id:this.goods_id}})
+			if(e=="a"){
+				this.$router.push({path: '/Eva',query:{goods_id:this.goods_id}})
+			}else{
+				this.$router.push({path: '/Eva',query:{comment_id:e,goods_id:this.goods_id}})
+			}
+			
 		},
 		onItemClick (index) {
       		this.tabIndex=index
@@ -483,6 +495,7 @@ export default{
 					this.sku = res.data.sku;
 					this.specs = res.data.specs;
 					this.is_fav = res.data.is_fav;
+					this.store_id= res.data.store_info.store_id;
 					//遍历商品规格
 					res.data.specs.forEach((val,index,arr) => {
 						this.choosespecs += ` ${val.name}`;
@@ -626,6 +639,7 @@ export default{
 	   	}
 	},
 	created(){
+		this.goods_id=this.$route.query.goods_id
 		this.goodsdetail_api();
 	},
 	mounted() {
