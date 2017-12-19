@@ -409,7 +409,7 @@ export default{
 			scroll:'', //滚动条高度
 			goTop:false, //是否显示回到顶部按钮
 			data: null,
-			goods_id: 134, //商品ID
+			goods_id: 54, //商品ID
 			pics: null, //banner列表
 			attrsState: false, //商品参数显示状态
 			specsState: false, //商品规格显示状态

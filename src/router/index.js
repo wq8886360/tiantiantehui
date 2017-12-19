@@ -54,6 +54,7 @@ import AdditionalReview from '@/view/myRating/addReview'
 import EvaDetail from '@/view/myRating/evaDetail'
 import EvaSuccess from '@/view/myRating/evaSuccess'
 import ChangeGoodEva from '@/view/myRating/changeGoodEva'
+import Eva from '@/view/myRating/eva'
 
 
 //测试
@@ -182,6 +183,11 @@ export default new Router({
             path: '/changeGoodEva',
             name: '改为好评',
             component: ChangeGoodEva
+        },
+        {
+            path: '/Eva',
+            name: '商品页评价',
+            component: Eva
         }
 	]
 })

@@ -48,6 +48,8 @@ export const commentAppend = params => post('/member/comment/append', params); /
 export const commentChange = params => post('/member/comment/change', params); //中差评改为好评
 export const commentAdd = params => post('/member/comment/add', params); //添加评价
 export const personalcenterOrderlist = params => get("/personalcenter/orderlist", params); //我的个人中心
+export const commentList = params => get("/comment/list", params); //商品详情的评价列表
+export const commentPraise = params => post('/comment/praise', params); //点赞
 
 //订单
 export const orderconfirm = params => post('/order/confirm', params); //确认订单

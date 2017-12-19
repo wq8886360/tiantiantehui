@@ -40,11 +40,12 @@
 				</div>
 				<div class="distribution typeli">
 					<div class="left">配送方式</div>
-					<div class="right">快递 ¥{{item.shippingFee}}</div>
+					<div class="right" v-if="item.shippingFee != '0'">快递 ¥{{item.shippingFee}}</div>
+					<div class="right" v-else>包邮</div>
 				</div>
 				<div class="promotion typeli2" @click="chooseact(index)" v-if="item['promotion_info'].length != 0">
 					<div>促销</div>
-					<div>赠袜子一双；已优惠 ¥6 <i class="icon-right"></i></div>	
+					<div>{{shop_goods[index]['acttitle']}} <i class="icon-right"></i></div>	
 				</div>
 				<div class="treatment typeli2" @click="choosecoupon(index)" v-if="item['voucher'].length != 0">
 					<div>优惠</div>
@@ -55,7 +56,10 @@
 				</div>
 				<div class="reporter">
 					<span>共计{{item.sub_count}}件商品&nbsp;&nbsp;小计：</span>
-					<span class="price">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['denomination']}}</span>
+					<span class="price" v-if="!shop_goods[index]['denomination'] && !shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total']}}</span>
+					<span class="price" v-if="shop_goods[index]['denomination'] && !shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['denomination']}}</span>
+					<span class="price" v-if="!shop_goods[index]['denomination'] && shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['prom_reduce']}}</span>
+					<span class="price" v-if="shop_goods[index]['denomination'] && shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['denomination'] - shop_goods[index]['prom_reduce']}}</span>
 				</div>
 			</div>
 		</div>
@@ -67,7 +71,7 @@
 					<div class="main">
 						<div class="title">促销</div>
 						<div class="list">
-							<checklist :max="1" :min="1" :disabled="dis" label-position="left" :options="actList" v-model="actval"></checklist>
+							<checklist :max="1" :min="1" :disabled="dis" label-position="left" :options="actList" v-model="actval" @on-change="actchange"></checklist>
 						</div>
 					</div>	
 					<div class="close" @click="actState = false">关闭</div>
@@ -149,7 +153,15 @@ export default{
 			handler: function() {
 				this.pay_amount = 0;
 				this.shop_goods.map((item,index,arr) => {
-					this.pay_amount += parseFloat(item.sub_total)
+					if(item.denomination && item.prom_reduce){
+						this.pay_amount += (parseFloat(item.sub_total) - item.denomination - item.prom_reduce);
+					}else if(item.denomination && !item.prom_reduce){
+						this.pay_amount += (parseFloat(item.sub_total) - item.denomination);
+					}else if(!item.denomination && !item.prom_reduce){
+						this.pay_amount += (parseFloat(item.sub_total));
+					}else if(!item.denomination && item.prom_reduce){
+						this.pay_amount += (parseFloat(item.sub_total) - item.prom_reduce);
+					}
 				})
 			},
 			deep:true
@@ -199,6 +211,10 @@ export default{
 					voucher_hint: '', //优惠劵描述
 					goods_items: [], //商品列表
 				}
+				if(item['promotion_info'].length != 0){
+					goodobj.acttitle = item['promotion_info'][0]['prom_title']; //活动描述
+					goodobj.prom_reduce = item['promotion_info'][0]['prom_reduce']; //活动减免
+				}
 				if(item['voucher'].length != 0){
 					goodobj.voucher_id = item['voucher'][0]['voucher_id'];
 					goodobj.voucher_hint = item['voucher'][0]['title'];
@@ -211,15 +227,22 @@ export default{
 			})
 			this.shop_goods.map(function(sitem,sindex,sobj) {
 				data.enabled[sindex]['goods'].map(function(gitem,gindex,gobj){
-					sitem.goods_items.push({
-						prom_id: gitem.prom_id,
+					let obj = {
 						goods_id: gitem.goods_id,
 						sku_id: gitem.sku_id,
-						qty: gitem.qty
-					})
+						qty: gitem.qty,
+					}
+					if(data.enabled[sindex]['promotion_info'].length > 0){
+						obj.prom_id = data.enabled[sindex]['promotion_info'][0]['prom_id'];
+						console.log(data.enabled[sindex]['promotion_info'][0]['prom_id'],44)
+					}else{
+						obj.prom_id = "";
+					}
+					sitem.goods_items.push(obj)
 				})
 			})
-			console.log(this.shop_goods)
+
+			console.log(this.shop_goods,11111)
 		},
 		//选择优惠劵
 		choosecoupon(index){
@@ -252,7 +275,6 @@ export default{
 			let _this = this;
 			this.actList = [];
 			this.couponIndex = index;
-			this.actState = true;
 			this.orderData.enabled[index]['promotion_info'].map(function(item,index,arr){
 				console.log(item)
 				_this.actList.push({
@@ -260,7 +282,22 @@ export default{
 					key: item.prom_id
 				})
 			})
-
+			this.$set(_this.actval,0,_this.shop_goods[index]['goods_items'][0]['prom_id'])
+			this.actState = true;
+		},
+		actchange(val, label){
+			let _this = this;
+			if(val.length != 0 && label.length != 0){
+				this.shop_goods[_this.couponIndex]['goods_items'].map(function(items, indexs, arrs){
+					_this.$set(items,'prom_id',val[0])
+				})
+				_this.$set(_this.shop_goods[_this.couponIndex],'acttitle',label[0])
+				this.orderData.enabled[this.couponIndex]['promotion_info'].map(function(pitem,pindex,parr){
+					if(pitem.prom_id == val[0]){
+						_this.$set(_this.shop_goods[_this.couponIndex],'prom_reduce',pitem['prom_reduce']);
+					}
+				})
+			}
 		},
 		route_address(){
 			if(this.address){
