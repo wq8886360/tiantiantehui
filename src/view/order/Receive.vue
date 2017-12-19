@@ -1,16 +1,16 @@
 <template>
-	<div class="evaluate">
-		<scroller  v-if='evaluate_length!=0' lock-x scrollbar-y use-pullup use-pulldown height="-100" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">
-			<ul class="evaluate_ul">
-				<li v-for='(item,index) in evaluate_data'>
-					<div class="evaluate_top">
+	<div class="Receive">
+		<scroller v-if='Receive_length!=0' lock-x scrollbar-y use-pullup use-pulldown height="-100" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">
+			<ul class="Receive_ul">
+				<li v-for='(item,index) in Receive_data'>
+					<div class="Receive_top">
 						<img src="../../assets/img/storeIconAct.png" alt="">
 						<span class="title">{{item.store_name}} > </span>
 						<span class="success">{{item.status_text}}</span>
 					</div>
-					<div class="evaluate_con"  @click='orders_id(item.id)'>
-						<div class="evaluate_all" v-for='(itenm,index) in item.order_goods'>
-							<div class="evaluate_left">
+					<div class="Receive_con"  @click='orders_id(item.id)'>
+						<div class="Receive_all" v-for='(itenm,index) in item.order_goods'>
+							<div class="Receive_left">
 								<img :src="itenm.thumb" alt="">
 								<div class="appellation">
 									<div class="text">
@@ -20,7 +20,7 @@
 									<div class="model_number">{{itenm.sku_desc}}</div>
 								</div>
 							</div>
-							<div class="evaluate_right">
+							<div class="Receive_right">
 								<div class="now">￥{{itenm.price}}</div>
 								<div class="discount">￥{{itenm.market_price}}</div>
 								<div class="quantity">x{{itenm.qty}}</div>	
@@ -32,40 +32,51 @@
 							<span>共{{item.qty}}件商品</span>
 							<span>合计:</span>
 							<span class="coin">￥{{item.total_amount}}</span>
-							<span>(含运费￥{{item.shipping_fee}})</span>
+							<span>(含运费￥{{item.Receive_fee}})</span>
 						</div>
 					</div>
 					<div class="view_v">
 						<div class="view_t">
+							<span class="logistics_n">延长收货</span>
 							<span @click="logistics(item.id)" class="logistics_n">查看物流</span>
-							<span class="appraise_c" @click='appraise(index)'>评价</span>
+							<span @click='show=true' class="appraise_c">确认收货</span>
 						</div>
 					</div>
 				</li>
 			</ul>
 			<div v-if='missing' class="missing">您已经没有更多的订单了</div>
-		</scroller>
-		<div v-if='evaluate_length==0' class="order">
+		</scroller>	
+		<div v-if='Receive_length==0' class="order">
 			<img src="../../assets/img/img_empty_dingdan@2x.png" alt="">
 			<div class="none">暂无订单信息</div>
 		</div>
+		<div v-transfer-dom>
+      		<confirm v-model="show" @on-confirm="onConfirm">
+      			<strong class="weui-dialog__title">要确认收货吗？</strong>
+      			<div class="sure_s">确认收货后卖家将收到您的货款</div>
+      		</confirm>
+   		</div>
 	</div>
 </template>
 <script>
 import {orderlist} from '../../http/api'
-import {Scroller} from 'vux'
+import { TransferDom,Confirm,Scroller} from 'vux'
 export default{
+	directives: {
+		TransferDom
+	},
 	components: {
-  		Scroller
-  	},
+		Confirm,
+		Scroller
+	},
 	data(){
 		return{
-			evaluate_data:null, //待评价数据
+			show:false,//点击确认收货的弹窗
+			Receive_data:null, //待评价数据
 			page:1, //页数
 			page_size:10, //总页数
-			statusd:3,	//传过去的状态
-			key_word:null,	//关键词
-			evaluate_length:null,//数据的长度
+			statusd:2,	//传过去的状态
+			Receive_length:null,//数据的长度
       		status: { //上拉刷新下拉加载的状态
         		pullupStatus: 'default',
         		pulldownStatus: 'default'
@@ -77,21 +88,21 @@ export default{
 	methods:{
 		/*待评价的api*/
 		orderlist_api(){
-			orderlist({page: 1,page_size: this.page_size,status:this.statusd,key_word:this.key_word}).then((response) => {
+			orderlist({page: 1,page_size: this.page_size,status:this.statusd}).then((response) => {
 				let res=response.data;
 				if(res.code==1000){
 					console.log(res)
-					this.evaluate_data=res.data.orders;
-					this.evaluate_length=this.evaluate_data;
+					this.Receive_data=res.data.orders;
+					this.Receive_length=this.Receive_data.length;
 					this.total_page=res.data.total_page
 				}
 			})
 		},
-		appraise(index){
-			this.$router.push({path:"/rate",query:{evaluate_data:this.evaluate_data[index]}})
-		},
 		orders_id(item_id){
 			this.$router.push({path:"/orderdetails",query:{orders_id:item_id}})
+		},
+		onConfirm(){
+			console.log(11)
 		},
 		logistics(item_id){
 			this.$router.push({path:"/logistics",query:{orders_id:item_id}})
@@ -106,8 +117,8 @@ export default{
       		  		orderlist({page: this.page,page_size: this.page_size,status:this.statusd}).then((response) => {
 						let res=response.data;
 						if(res.code==1000){
-							this.evaluate_data.push(res.data.orders[0])
-							console.log(this.evaluate_data)
+							this.Receive_data.push(res.data.orders[0])
+							console.log(this.allorder_data)
 						}
 					})	
       		  	}else{
@@ -131,11 +142,12 @@ export default{
     	},
 	},
 	created(){
-		this.key_word=this.data
+		// this.key_word=this.data
 		this.orderlist_api();
+
 	}
 }
 </script>
 <style lang='less'>
-	@import '../../assets/css/component/evaluate.less';
+	@import '../../assets/css/component/Receive.less';
 </style>

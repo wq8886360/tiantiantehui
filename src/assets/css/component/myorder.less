@@ -1,8 +1,8 @@
-.allorder{
+.myorder{
 	width: 100vw;
-	height:100%;
-	margin-top: 0.27rem;
-	.allorder_ul{
+	height: 100%;
+	background: #F7F7F7;
+	.search_ul{
 		width: 100%;
 		height: 100%;
 		li{
@@ -11,7 +11,7 @@
 			background: #ffffff;
 			margin-bottom: 0.27rem;
 			min-height:7.12rem;
-			.allorder_top{
+			.search_top{
 				padding: 0.37rem 0.27rem 0.37rem 0.27rem;
 				img{
 					width: 0.36rem;
@@ -37,15 +37,15 @@
 					font-size: 0.35rem;
 				}
 			}
-			.allorder_con{
+			.search_con{
 				width: 100%;
 				height: 100%;
 				border-top: 1px solid #EEEEEE;
 				border-bottom: 1px solid #EEEEEE;
-				.allorder_all{
+				.search_all{
 					padding: 0.27rem 0.2rem 0.27rem 0.2rem;
 					overflow: hidden;
-					.allorder_left{
+					.search_left{
 						width: 7.37rem;
 						float: left;
 						img{
@@ -90,7 +90,7 @@
 							}
 						}
 					}
-					.allorder_right{
+					.search_right{
 						float: right;
 						overflow: hidden;
 						.now{
@@ -169,54 +169,84 @@
 		text-align: center;
 		padding: 0.17rem 0 0.37rem 0px;
 	}
-	.order{
-		width: 100vw;
-		height: 100%;
-		background: #fff;
-		img{
-			width: 4.03rem;
-			height: 3.11rem;
-			display: block;
-			margin:0 auto;
-			padding-top: 3rem;
-		}
-		.none{
-			text-align: center;
-			font-size: 0.24rem;
-			margin-top: 0.5rem;
-			color:#858585;
-		}
-	}
 }
-.sure{
-	width: 100vw;
-	height: 1.33rem;
-	background: #FB0036;
-	color:#fff;
-	font-size: 0.43rem;
-	text-align: center;
-	line-height: 1.33rem;
-	margin-top: 2.72rem;
+.weui-search-bar{
+	background-color: #FFFFFF !important;
 }
-.weui-cell{
+.weui-search-bar__box{
+	background-color: #EDEDED !important;
+}
+.weui-search-bar:before{
+	border-top:1px solid transparent !important;
+}
+.weui-search-bar:after{
+	border-bottom:1px solid transparent !important;
+}
+.weui-search-bar__box .weui-search-bar__input{
+	color:#858585 !important;	
+	font-size: 0.37rem !important;
+}
+.weui-search-bar__cancel-btn{
+	color:#1C1B20  !important;
 	font-size: 0.37rem !important;
 	font-family: PingFang-SC-Regular !important;
-	color:#1C1B20 !important;
 }
-.weui-cells_checkbox .weui-check:checked + .vux-checklist-icon-checked:before{
-	color: #FB0036 !important;
+.vux-tab .vux-tab-item{
+	background: none !important;
 }
-.weui-cells__title{
-	color:#1C1B20 !important;
-	font-family: PingFang-SC-Regular !important;
-	font-size: 0.43rem!important;
-	text-align: center !important;
-	margin-bottom: 0.45rem !important;
+.vux-tab .vux-tab-item.vux-tab-selected{
+	color:#FB0036 !important;
+	border-bottom:1px solid transparent !important;
 }
-.close{
-	position: absolute;
-	top: 0.4rem;
-	right: 0.27rem;
+.vux-tab-bar-inner{
+	background: #FB0036 !important;
+	height: 0.03rem !important;
+}
+.weui-search-bar__label span{
+	margin-top: 0.1rem !important;
+	
+}
+.white{
+	width: 100vw;
+	height: 100vh;
+	background: #fff;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	.seacher{
+		padding: 1.5rem 0.27rem 1.5rem 0.27rem;
+		.seacher_top{
+			overflow: hidden;
+			span{
+				font-family: PingFang-SC-Regular;
+				color:#858585;
+				font-size: 0.37rem;
+				vertical-align: middle;
+			}
+			img{
+				width: 0.4rem;
+				height: 0.4rem;
+				float: right;
+				margin-top: 0.1rem;
+			}
+		}
+		.seacher_ul{
+			width: 100%;
+			height: 100%;
+			margin-top: 0.4rem;
+			li{
+				display: inline-block;
+				border: 1px solid #858585;
+				color:#1C1B20;
+				font-family: PingFang-SC-Regular;
+				font-size: 0.35rem;
+				padding: 0.17rem 0.21rem 0.17rem 0.21rem;
+				border-radius: 3px;
+				margin-right: 0.4rem;
+				margin-bottom:0.4rem;
+			}
+		}
+	}
 }
 .vux-cell-value{
 	color: black!important;
@@ -234,7 +264,4 @@
 	margin-top: 0.3rem;
 	color:#999999;
 	font-size: 0.21rem;
-}
-.xs-plugin-pullup-container{
-	display: none !important;
 }
