@@ -37,6 +37,7 @@ export default {
         return {  
             label:'',//头部列表
             list:'',//评价信息
+            listToatl:'',//评价信息总的
             spanIndex:'0',
             info:{
                 goods_id:'',
@@ -60,6 +61,7 @@ export default {
                 if(response.data.code='1000'){
                     this.label=response.data.data.label
                     this.list=response.data.data.list.data
+                    this.listTatal=response.data.data.list.data
                     this.totalSize=response.data.data.list.allPage
                     console.log(this.list,'this.list')
                 }
@@ -89,10 +91,16 @@ export default {
             if(this.$route.path=='/Eva'){
                 if(document.body.scrollHeight!=document.documentElement.clientHeight){
                     if(document.body.scrollHeight-document.body.scrollTop-document.documentElement.clientHeight<='5'){
-
                        if(this.info.page<this.totalSize){
                             this.info.page++
-                            this.getList()
+                            commentList(this.info).then((response)=>{
+                                if(response.data.code='1000'){
+                                    this.listTatal=response.data.data.list.data
+                                    for(var i=0;i<this.listTatal.length;i++){
+                                        this.list.push(this.listTatal[i])
+                                    }
+                                }
+                            })
                         }else{
                             this.$vux.toast.text('没有更多的内容了', 'middle')
                         }
@@ -103,13 +111,12 @@ export default {
         },
     },
   created(){
-    
-   if(this.$route.query.comment_id!='a'){
+    if(this.$route.query.comment_id==null){
+        this.info.goods_id=this.$route.query.goods_id
+    }else{
         this.info.id=this.$route.query.comment_id
         this.info.goods_id=this.$route.query.goods_id
-   }else{
-        this.info.goods_id=this.$route.query.goods_id
-   }
+    }
     this.getList()
   }  
 }  

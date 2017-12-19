@@ -26,9 +26,9 @@
 			</div>
 		</div>
 		<tab id='tab' :class="{'tabFixed':tabFix}">
-      		<tab-item selected @on-item-click="onItemClick"><p class='imgBox'><img v-if='index==0' src="../../assets/img/storeIcon.png" alt=""><img v-else src="../../assets/img/storeIconAct.png" alt=""></p><p class='text'>店铺首页</p></tab-item>
+      		<tab-item :selected='index==0' @on-item-click="onItemClick"><p class='imgBox'><img v-if='index==0' src="../../assets/img/storeIcon.png" alt=""><img v-else src="../../assets/img/storeIconAct.png" alt=""></p><p class='text'>店铺首页</p></tab-item>
       		<tab-item @on-item-click="onItemClick"><p>567</p><p class='text'>店铺宝贝</p></tab-item>
-      		<tab-item @on-item-click="onItemClick"><p>12</p><p class='text'>促销</p></tab-item>
+      		<tab-item :selected='index==2'  @on-item-click="onItemClick"><p>12</p><p class='text'>促销</p></tab-item>
       		<tab-item @on-item-click="onItemClick"><p>12</p><p class='text'>新品</p></tab-item>
     	</tab>
 		<div class='backgroundBox'>
@@ -122,6 +122,7 @@ export default{
 			})
     	},
     	onItemClick (index) {
+    		console.log(index,'index')
       		this.index=index
     	},
     	//点击关注
@@ -152,6 +153,13 @@ export default{
 	created() {
 		this.storeId = this.$route.query.store_id;
 		this.getStoreInfo()
+		if(this.$route.query.idx!=null){	
+			if(this.$route.query.idx==0){
+				this.index=this.$route.query.idx
+			}else if(this.$route.query.idx==2){
+				this.index=this.$route.query.idx
+			}
+		}
 
 	},
 	mounted() {

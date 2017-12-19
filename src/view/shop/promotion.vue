@@ -99,9 +99,6 @@ export default{
     		}else{
     			this.tabFix=false
     		}
-    		console.log(document.body.scrollTop);
-           	console.log(document.body.scrollHeight);
-           	console.log(document.body.clientHeight);
            	if(document.body.scrollTop+document.body.clientHeight>=document.body.scrollHeight){
            		console.log(1111)
           		if(this.total>this.info.pageSize*this.info.page){
