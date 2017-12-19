@@ -1,82 +1,190 @@
 <template>
 	<div class="allorder">
-		<ul class="allorder_ul">
-			<li v-for='(item,index) in allorder_data'>
-				<div class="allorder_top">
-					<img src="../../assets/img/storeIconAct.png" alt="">
-					<span class="title">{{item.store_name}} > </span>
-					<span class="success">{{item.status_text}}</span>
-				</div>
-				<div class="allorder_con">
-					<div class="allorder_all" v-for='(itenm,index) in item.order_goods'>
-						<div class="allorder_left">
-							<img :src="itenm.thumb" alt="">
-							<div class="appellation">
-								<div class="text">
-									<span v-if='itenm.offered== "拼"' class="spell">{{itenm.offered}}</span>
-									<span>{{itenm.title}}</span>
+		<scroller v-if='allorder_length!=0' lock-x scrollbar-y use-pullup use-pulldown height="-100" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">	 
+			<ul class="allorder_ul">
+				<li v-for='(item,index) in allorder_data'>
+					<div class="allorder_top">
+						<img src="../../assets/img/storeIconAct.png" alt=""	>
+						<span class="title">{{item.store_name}} > </span>
+						<span class="success">{{item.status_text}}</span>
+					</div>
+					<div class="allorder_con" @click='orders_id(item.id)'>
+						<div class="allorder_all" v-for='(itenm,index) in item.order_goods'>
+							<div class="allorder_left">
+								<img :src="itenm.thumb" alt="">
+								<div class="appellation">
+									<div class="text">
+										<span v-if='itenm.offered== "拼"' 	class="spell">{{itenm.offered}}</span>
+										<span>{{itenm.title}}</span>
+									</div>
+									<div class="model_number">{{itenm.sku_desc}}</div>
 								</div>
-								<div class="model_number">{{itenm.sku_desc}}</div>
+							</div>
+							<div class="allorder_right">
+								<div class="now">￥{{itenm.price}}</div>
+								<div class="discount">￥{{itenm.market_price}}</div>
+								<div class="quantity">x{{itenm.qty}}</div>
 							</div>
 						</div>
-						<div class="allorder_right">
-							<div class="now">￥{{itenm.price}}</div>
-							<div class="discount">￥{{itenm.market_price}}</div>
-							<div class="quantity">X{{itenm.qty}}</div>
+					</div>
+					<div class="pieces">
+						<div class="pieces_right">
+							<span>共{{item.qty}}件商品</span>
+							<span>合计:</span>
+							<span class="coin">￥{{item.total_amount}}</span>
+							<span>(含运费￥{{item.shipping_fee}})</span>
 						</div>
 					</div>
-				</div>
-				<div class="pieces">
-					<div class="pieces_right">
-						<span>共{{item.qty}}件商品</span>
-						<span>合计:</span>
-						<span class="coin">￥{{item.total_amount}}</span>
-						<span>(含运费￥{{item.shipping_fee}})</span>
+					<div class="view_v">
+						<div class="view_t">
+							<span @click="logistics(item.id)" v-if='item.status==3 || item.	status==2' class="logistics_n">查看物流</span>
+							<span v-if='false' class="appraise_c">邀请好友	</span>
+							<span v-if='item.status==0' class="logistics_n"	>联系商家</span>
+							<span v-if='item.status==0' class="logistics_n"	 @click='cancelorder_show(item.id)'>取消订单</span>
+							<span v-if='item.status==1' class="logistics_n"	>提醒发货</span>
+							<span v-if='item.status==2' class="logistics_n"	>延长收货</span>
+							<span v-if='item.status==3' class="appraise_c" 	@click='appraise(	index)'>评价</span>
+							<span v-if='item.status==0' class="appraise_c">	付款</span>
+							<span v-if='item.status==2' class="appraise_c" 	@click='show=true'>	确认收货</span>
+						</div>
 					</div>
-				</div>
-				<div class="view_v">
-					<div class="view_t">
-						<span v-if='item.status==0' class="appraise_c">付款</span>
-						<span v-if='item.status==0' class="logistics">联系商家</span>
-						<span v-if='item.status==0' class="logistics">取消订单</span>
-						<span v-if='item.status==1' class="logistics">提醒发货</span>
-						<span v-if='item.status==2' class="logistics">延长收货</span>
-						<span v-if='item.status==2' class="appraise_c">确认收货</span>
-						<span v-if='item.status==3' class="appraise_c" @click='appraise(index)'>评价</span>
-						<span v-if='item.status==3 || item.status==2' class="logistics">查看物流</span>
-						<span v-if='false' class="appraise_c">邀请好友</span>
-					</div>
-				</div>
-			</li>
-		</ul>
+				</li>
+			</ul>
+			<div v-if='missing' class="missing">您已经没有更多的订单了</div>
+		</scroller>
+		<div v-transfer-dom>
+			<popup v-model="attrsState" position="bottom" max-height="80%">	
+				<img src="../../assets/img/close_gray.png" alt="" class="close" @click='attrsState=false'>
+			 	<checklist label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
+			 	<div class="sure" @click='order_sure()'>提交</div>
+			</popup>
+		</div>
+		<div v-if='allorder_length==0' class="order">
+			<img src="../../assets/img/img_empty_dingdan@2x.png" alt="">
+			<div class="none">暂无订单信息</div>
+		</div>
+		<div v-transfer-dom>
+      		<confirm v-model="show" @on-confirm="onConfirm">
+      			<strong class="weui-dialog__title">要确认收货吗？</strong>
+      			<div class="sure_s">确认收货后卖家将收到您的货款</div>
+      		</confirm>
+   		</div>
 	</div>	
 </template>
 <script>
-import {orderlist} from '../../http/api'
+import {orderlist,cancelorder} from '../../http/api'
+import { Popup, Checklist,TransferDom,Confirm,Scroller} from 'vux'
 export default{
+	directives: {
+		TransferDom
+	},
+	components: {
+    	Popup,
+    	Confirm,
+    	Checklist,
+    	Scroller
+  	},
 	data(){
 		return{
+			show:false,//点击确认收货的弹窗
 			allorder_data:null,//全部的数据
 			page:1, //页数
-			page_size:10, //总页数
-			status:'all',	//传过去的状态
-			key_word:null,	//关键词
-
+			order_Id:null,//订单id
+			page_size:10, //页容量
+			statusd:'all',	//传过去的状态
+			commonList: [ '我不想买了', '信息填写错误', '商家缺货','其他原因' ],
+			attrsState:false, //取消订单框的状态
+			title:'请选择原因',
+			radioValue:[],
+			allorder_length:null, //数据的长度
+      		status: { //上拉加载下拉刷新的状态
+        		pullupStatus: 'default',
+        		pulldownStatus: 'default'
+     		},
+     		total_page:null,//总页数
+     		missing:false, //没有数据的状态
 		}
 	},
 	methods:{
+		/*订单的api*/
 		orderlist_api(){
-			orderlist({page: this.page,page_size: this.page_size,status:this.status,key_word:''}).then((response) => {
+			orderlist({page: 1,page_size: this.page_size,status:this.statusd}).then((response) => {
 				let res=response.data;
 				if(res.code==1000){
-					console.log(res)
 					this.allorder_data=res.data.orders;
+					this.allorder_length=this.allorder_data.length;
+					this.total_page=res.data.total_page;
+					console.log(res)
 				}
 			})
 		},
+		/*点击出现取消订单的弹窗*/
+		cancelorder_show(item_id){
+			this.attrsState=true;
+			this.order_Id=item_id;
+		},
+		/*取消订单api*/
+		cancelorder_api(){
+			cancelorder({order_id:this.order_Id}).then((response)=>{
+				let res=response.data;
+				if(res.code==1000){
+					this.attrsState=false;
+					this.orderlist_api()
+				}
+			})
+		},
+		/*取消订单提交*/
+		order_sure(){
+			this.cancelorder_api();
+		},
+		/*进入评价页面*/
 		appraise(index){
 			this.$router.push({path:"/rate",query:{evaluate_data:this.allorder_data[index]}})
-		}
+		},
+		/*进入订单详情页面*/
+		orders_id(item_id){
+			this.$router.push({path:"/orderdetails",query:{orders_id:item_id}})
+		},
+		onConfirm(){
+			console.log(1)
+		},
+		/*物流页面*/
+		logistics(item_id){
+			this.$router.push({path:"/logistics",query:{orders_id:item_id}})
+		},
+		/*上拉加载*/
+		loadMore () {
+      		setTimeout(() => {
+      		  this.page++;
+      		  setTimeout(() => {
+      		    this.$refs.scroller.donePullup();
+      		  	if(this.page<=this.total_page){
+      		  		orderlist({page: this.page,page_size: this.page_size,status:this.statusd}).then((response) => {
+						let res=response.data;
+						if(res.code==1000){
+							this.allorder_data.push(res.data.orders[0])
+							console.log(this.allorder_data)
+						}
+					})	
+      		  	}else{
+      		  		this.missing=true;
+      		  	}
+      		  },10)
+      		},1000)
+    	},
+    	/*下拉刷新*/
+    	refresh () {
+      		setTimeout(() => {
+      		  this.$nextTick(() => {
+      		    setTimeout(() => {
+      		      this.$refs.scroller.donePulldown()
+      		      this.pullupEnabled && this.$refs.scroller.enablePullup();
+      		      this.orderlist_api();
+      		      this.missing=false;
+      		    },10)
+      		  })
+      		}, 2000)
+    	},
 	},
 	created(){
 		this.orderlist_api();
