@@ -95,66 +95,64 @@
 		</div>
 		<!-- 评价 -->
 		<div class='appraiseBox'>
-			<div class='appraise'>
-				<p><div class='divLeft'><b>评价</b><b>(36)</b></div><div class='divRight'><span>好评率</span><span>{{data.goods_data.star_rate}}</span><i class='icon-right'></i></div></p>
+			<div class='appraise' @click='evaClick("a")'>
+				<p><div class='divLeft'><b>评价</b><b>({{data.goods_data.comments_num}})</b></div><div class='divRight'><span>好评率</span><span>{{data.goods_data.star_rate}}</span><i class='icon-right'></i></div></p>
 			</div>
-			<div class='appraiseInfo' style="width:100%;overflow:auto;">
+<!-- 			<div class='appraiseInfo' style="width:100%;overflow:auto;">
 		    	<scroller lock-y :scrollbar-x=false>
 		    		<div :style="'width:'+ data.comments.length * 7.4 + 'rem'">
-						<div class='infoLeft' v-for='item in data.comments'>
-							<div class='infoLeftCon'>
-								<div class='leftTitle'>
-									<img class='head'  :src="item.avatar" alt="">
-									<span>{{item.nickname}}</span>
-									<img class='level' v-if='item.vip_level=="0"' src="../../assets/img/V0.png" alt="">
-									<img class='level' v-if='item.vip_level=="1"' src="../../assets/img/V1.png" alt="">
-									<img class='level' v-if='item.vip_level=="2"' src="../../assets/img/V2.png" alt="">
-									<img class='level' v-if='item.vip_level=="3"' src="../../assets/img/V3.png" alt="">
-									<img class='level' v-if='item.vip_level=="4"' src="../../assets/img/V4.png" alt="">
-									<img class='level' v-if='item.vip_level=="5"' src="../../assets/img/V5.png" alt="">
-									<img class='level' v-if='item.vip_level=="6"' src="../../assets/img/V6.png" alt="">
-								</div>
-								<p>{{item.content}}</p>
-							</div>
-							<div class='infoRightCon'>
+			<div class='infoLeft' v-for='item in data.comments' >
+				<div class='infoLeftCon'>
+					<div class='leftTitle'>
+						<img class='head'  :src="item.avatar" alt="">
+						<span>{{item.nickname}}</span>
+						<img class='level' v-if='item.vip_level=="0"' src="../../assets/img/V0.png" alt="">
+						<img class='level' v-if='item.vip_level=="1"' src="../../assets/img/V1.png" alt="">
+						<img class='level' v-if='item.vip_level=="2"' src="../../assets/img/V2.png" alt="">
+						<img class='level' v-if='item.vip_level=="3"' src="../../assets/img/V3.png" alt="">
+						<img class='level' v-if='item.vip_level=="4"' src="../../assets/img/V4.png" alt="">
+						<img class='level' v-if='item.vip_level=="5"' src="../../assets/img/V5.png" alt="">
+						<img class='level' v-if='item.vip_level=="6"' src="../../assets/img/V6.png" alt="">
+					</div>
+					<p>{{item.content}}</p>
+				</div>
+				<div class='infoRightCon'>
+					<img :src="item.pics[0]" alt="">
+					<span>共{{item.pics.length}}张</span>
+				</div>
+			</div>
+	    </div>	
+	</scroller>
+	    	</div> -->
+ 			<div class='appraiseInfo'>
+ 				<scroller lock-y :scrollbar-x=false>
+ 		    		<div :style="'width:'+ (data['comments'].length * 4.1+3.39+count*3.3) + 'rem'">
+ 				    	<div class='infoLeft' v-for='item in data["comments"]'  @click='evaClick(item.id)'>
+ 							<div class='infoLeftCon'>
+ 								<div class='leftTitle'>
+ 									<img class='head' :src="item.avatar" alt="">
+ 									<span>{{item.nickname}}</span>
+ 									<img class='level' v-if='item.vip_level=="0"' src="../../assets/img/V0.png" alt="">
+ 									<img class='level' v-if='item.vip_level=="1"' src="../../assets/img/V1.png" alt="">
+ 									<img class='level' v-if='item.vip_level=="2"' src="../../assets/img/V2.png" alt="">
+ 									<img class='level' v-if='item.vip_level=="3"' src="../../assets/img/V3.png" alt="">
+ 									<img class='level' v-if='item.vip_level=="4"' src="../../assets/img/V4.png" alt="">
+ 									<img class='level' v-if='item.vip_level=="5"' src="../../assets/img/V5.png" alt="">
+ 									<img class='level' v-if='item.vip_level=="6"' src="../../assets/img/V6.png" alt="">
+ 								</div>
+ 								<p>{{item.content}}</p>
+ 							</div>
+ 							<div class='infoRightCon'>
 								<img :src="item.pics[0]" alt="">
 								<span>共{{item.pics.length}}张</span>
 							</div>
-						</div>
-				    </div>	
-				</scroller>
-	    	</div>
-<!-- 			<div class='appraiseInfo'>
-	<div class='infoLeft'>
-		<div class='infoLeftCon'>
-			<div class='leftTitle'>
-				<img class='head' src="../../assets/img/attentionWhite.png" alt="">
-				<span>是阿斯达</span>
-				<img class='level' src="../../assets/img/V1.png" alt="">
-			</div>
-			<p>哈登哈卡的风阿斯蒂芬加拉斯地方阿苏的房间里打发士大夫阿斯蒂芬卡迪夫撒旦法撒旦法阿斯蒂芬</p>
-		</div>
-		<div class='infoRightCon'>
-			<img src="../../assets/img/attentionWhite.png" alt="">
-		</div>
-	</div>
-	<div class='infoLeft'>
-		<div class='infoLeftCon'>
-			<div class='leftTitle'>
-				<img class='head' src="../../assets/img/attentionWhite.png" alt="">
-				<span>是阿斯达</span>
-				<img class='level' src="../../assets/img/V1.png" alt="">
-			</div>
-			<p>哈登哈卡的风阿斯蒂芬加拉斯地方阿苏的房间里打发士大夫阿斯蒂芬卡迪夫撒旦法撒旦法阿斯蒂芬</p>
-		</div>
-		<div class='infoRightCon'>
-			<img src="../../assets/img/attentionWhite.png" alt="">
-		</div>
-	</div>
-	<div class='infoLeft moreAppraise'>
-		<span>更多评论></span>
-	</div>
-</div> -->
+ 						</div>
+ 						<div class='infoLeft moreAppraise' v-if='data["comments"].length!=0'>
+ 							<span  @click='evaClick(0)'>更多评论></span>
+ 						</div>
+ 				    </div>	
+ 				</scroller>
+ 			</div>
 			<div class='border'></div>
 		</div>
 		<!-- 收藏 -->
@@ -432,6 +430,7 @@ export default{
 			goodNum: 1, //加入购物车数量
 			choosespecs: '', //选择后的规格
 			buytype: '', //购买方式（加入购物车||立即购买）
+			count:'',//含有图片的评论数量
 		}
 	},
 	watch:{
@@ -465,6 +464,9 @@ export default{
 		}
 	},
 	methods:{
+		evaClick(e){
+			this.$router.push({path: '/Eva',query:{comment_id:e,goods_id:this.goods_id}})
+		},
 		onItemClick (index) {
       		this.tabIndex=index
     	},
@@ -486,6 +488,14 @@ export default{
 						this.choosespecs += ` ${val.name}`;
 						this.bindId.push({id: '',name: val.name})
 					})
+					if(this.data.comments.length!='0'){
+						for(var i=0;i<this.data.comments.length;i++){
+							if(this.data.comments[i].pic.length!='0'){
+								this.count++
+							}
+						}					
+					}
+
 				}
 			})
 		},
@@ -498,7 +508,6 @@ export default{
     		}else{
     			this.goTop=false
     		}
-
    		},
    		//回到顶部
    		goToTop(){
