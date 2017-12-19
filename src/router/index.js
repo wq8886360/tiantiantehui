@@ -45,6 +45,10 @@ import Management from '@/view/order/management' //管理收货地址
 
 //订单列表
 import Myorder from '@/view/order/myorder' //我的订单
+import orderDetails from '@/view/order/orderdetails' //订单详情
+import Payoff from '@/view/order/payoff' //支付成功
+import successfuldeal from '@/view/order/successfuldeal' //交易成功
+import logistics from '@/view/order/logistics' //物流信息
 
 
 //我的评价
@@ -188,6 +192,26 @@ export default new Router({
             path: '/Eva',
             name: '商品页评价',
             component: Eva
+        },
+        {
+            path: '/orderdetails',
+            component: orderDetails,
+            name: "订单详情"
+        },
+        {
+            path: '/Payoff',
+            component: Payoff,
+            name: "支付成功"
+        },
+        {
+            path: '/successfuldeal',
+            component: successfuldeal,
+            name: "交易成功"
+        },
+        {
+            path: '/logistics',
+            component: logistics,
+            name: "物流信息"
         }
 	]
 })

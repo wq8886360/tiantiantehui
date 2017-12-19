@@ -62,3 +62,9 @@ export const modification =params => post('/member/address/edit',params); //编�
 //订单列表
 export const orderlist = params => get('/personalcenter/orderlist',params); //个人订单列表页
 export const orderdetail =params => get('/personalcenter/orderdetail',params); //个人订单详情页
+export const seacher= params => get('/personalcenter/searchhistory',params); //订单搜索历史
+export const delhistory= params =>get('/personalcenter/delhistory',params);//清空历史搜索记录
+export const traces = params => get('/personalcenter/traces',params); //查看物流
+export const cancelorder = params => post('/personalcenter/cancelorder',params);//取消订单
+export const remindseller= params => post('/personalcenter/remindseller',params);//提醒发货
+export const postpone = params => post('/personalcenter/postpone',params);//延迟发货
