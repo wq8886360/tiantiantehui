@@ -32,10 +32,8 @@ export default {
 	methods:{
 		getNewGoodsList(){
 			newGoodsList({storeId:this.$route.query.store_id}).then((response)=>{
-				console.log(response,'getNewGoodsList')
 				if(response.data.code==1000){
 					this.newSGoodsList=response.data.data.data
-					console.log(this.newSGoodsList)
 				}
 			})
 		}

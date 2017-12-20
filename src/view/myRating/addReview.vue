@@ -17,7 +17,7 @@
                 <div class='imgBox'  v-for='(item,index) in headerImage'><img class='imgMain' :src="item" alt=""><img class='trash' src="../../assets/img/trash.png"  alt=""  @click='deleted(index)'></div>
                 <div class='addImg' v-if='inputShow'>
                     <img src="../../assets/img/add.png" alt="">
-                    <input type="file" id="upload" accept="image" @change="upload" >
+                    <input type="file" id="upload" accept="image/*" @change="upload" >
                 </div>
             </div> 
         </div>
@@ -102,10 +102,8 @@ export default {
 			                var fd = new FormData();
 				            fd.append("file", blob, 'image.png');
 				            fd.fileName =  blob;
-                            console.log(fd,'fd111');
 			  	            self.$axios.post(srcUrl,fd).then((res) => {
                                 if (res.data.success) {
-                                     console.log(fd,'fd112');
                                     self.doMain=res.data.data.domain
                                     var src=self.doMain+res.data.data.relativePath[0]
                                     self.headerImage.push(src)
@@ -245,10 +243,7 @@ export default {
                 }  
             }  
             //进行最小压缩  
-            let ndata = canvas.toDataURL('image/jpeg', 0.1);  
-            console.log('压缩前：' + initSize);  
-            console.log('压缩后：' + ndata.length);  
-            console.log('压缩率：' + ~~(100 * (initSize - ndata.length) / initSize) + "%");  
+            let ndata = canvas.toDataURL('image/jpeg', 0.1);   
             tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;  
             return ndata;  
         }, 

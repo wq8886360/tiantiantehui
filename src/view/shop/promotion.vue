@@ -77,19 +77,15 @@ export default{
 		getPromotion(){ 
 			promotionGoodsList(this.info).then((response)=>{
 				if(response.data.code=='1000'){
-					console.log(response)
 					this.promotionList=response.data.data
 					this.promotionListDown=response.data.data
 					this.total=response.data.data.list.goods.total
-					console.log(this.total)
 				}
 			})
 		},
 		getInfo(item){
-			console.log(item)
 			this.info.promotionId=item.promotionId
 			this.info.type=item.type
-			console.log(this.info,'this.info')
 			this.getPromotion()
 		},
 		promo() {
@@ -100,7 +96,6 @@ export default{
     			this.tabFix=false
     		}
            	if(document.body.scrollTop+document.body.clientHeight>=document.body.scrollHeight){
-           		console.log(1111)
           		if(this.total>this.info.pageSize*this.info.page){
            			this.info.page=this.info.page+1
           			promotionGoodsList(this.info).then((response)=>{
