@@ -1,6 +1,5 @@
 <template>
 	<div class="goodsdetails" v-if="data">
-		<div class='text'>1312312312</div>
 		<!-- 商品banner -->
 		<swiper dots-position='center' :aspect-ratio="1/1">
 			<swiper-item v-for="(item, index) in pics" :key="index">
