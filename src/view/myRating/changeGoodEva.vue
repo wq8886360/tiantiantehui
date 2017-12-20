@@ -115,7 +115,6 @@ export default {
 			                var fd = new FormData();
 				            fd.append("file", blob, 'image.png');
 				            fd.fileName =  blob;
-                            console.log(fd,'fd111');
 			  	            self.$axios.post(srcUrl,fd).then((res) => {
 	                        	if (res.data.success) {
 					          		self.doMain=res.data.data.domain
@@ -258,10 +257,7 @@ export default {
                 }  
             }  
             //进行最小压缩  
-            let ndata = canvas.toDataURL('image/jpeg', 0.1);  
-            console.log('压缩前：' + initSize);  
-            console.log('压缩后：' + ndata.length);  
-            console.log('压缩率：' + ~~(100 * (initSize - ndata.length) / initSize) + "%");  
+            let ndata = canvas.toDataURL('image/jpeg', 0.1);    
             tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;  
             return ndata;  
         }, 

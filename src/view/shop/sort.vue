@@ -41,7 +41,6 @@ export default{
 			this.checkAll=index
 		},
 		search(name){
-			console.log(name)
 			this.$router.push({path:"/SortGoods",query:{storeId:this.$route.query.storeId,searchText:name}})
 		}
 	},

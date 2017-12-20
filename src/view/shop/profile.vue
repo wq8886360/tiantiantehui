@@ -110,7 +110,6 @@ export default{
 		//店铺简介api
    		api_introduce(){
    			introduce({storeId:this.storeId}).then((response)=>{
-   				console.log(response)
    				let res = response.data;
 				if(res.code==1000){
 					this.getdata=res.data;
@@ -124,11 +123,9 @@ export default{
    			this.isTrue=!this.isTrue;
    			if(this.isTrue){
    				delMark({storeId:this.storeId}).then((response)=>{
-    				console.log(response)
 				})
    			}else{
    				addMark({storeId:this.storeId}).then((response)=>{
-    				console.log(response)
 				})	
    			}
    		}
