@@ -321,6 +321,6 @@ export default{
 .weui-dialog__bd .sure_n{
 	margin-top: 0.3rem;
 	color:#999999;
-	font-size: 0.21rem;
+	font-size: 15px;
 }
 </style>

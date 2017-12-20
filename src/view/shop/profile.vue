@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<!--商品好评率-->
-		<div class="rate">
+		<div class="rate_c">
 			<div class="merchandise">
 			<div class="merchandise_c">
 				<span class="praise">商品好评率</span>
@@ -340,7 +340,7 @@ export default{
 }
 .profile .deposit_ul li .you{
 	float: right;
-	font-size: 0.16rem;
+	font-size:16px;
 	margin-top: 0.1rem;
 }
 .profile .Grey_b{

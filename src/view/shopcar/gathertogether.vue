@@ -72,7 +72,7 @@
     	<div class="clearing" v-if="cart_home">
     		<p class="smallscale">小计：¥{{cart_home['total_amount']}}</p>
     		<p class="reduce">可立减¥{{cart_home['total_reduce']}}</p>
-    		<div class="btn">去购物车</div>
+    		<div class="btn" @click='shopCar()'>去购物车</div>
     	</div>
 	</div>
 </template>
@@ -238,6 +238,7 @@ export default{
 	   		cartadd({goods_id: this.goods_id,sku_id: this.sku_id,qty: this.goodNum}).then((response) => {
 				if(response.data.code === 1000){
 					this.specsState = false;
+					this.$vux.toast.text('操作成功', 'middle')
 					this.api_cartHome();
 				}else{
 					this.$vux.toast.text(response.data.message, 'middle')
@@ -250,6 +251,10 @@ export default{
 			this.goods_id=goods_id;
 			this.api_singleSku();
 		},
+		//跳转购物车
+		shopCar(){
+			this.$router.push({path:'/shopcar'})
+		}
 	},
 	created(){
 		this.api_getjoingoodsstorecates();
