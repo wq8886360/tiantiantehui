@@ -74,7 +74,7 @@
 							<checklist :max="1" :min="1" :disabled="dis" label-position="left" :options="actList" v-model="actval" @on-change="actchange"></checklist>
 						</div>
 					</div>	
-					<div class="close" @click="actState = false">关闭</div>
+					<div class="pclose" @click="actState = false">关闭</div>
 				</div>
 			</popup>
 		</div>
@@ -89,7 +89,7 @@
 							<checklist :max="1" :min="1" label-position="left" :options="commonList" v-model="value" @on-change="change"></checklist>
 						</div>
 					</div>	
-					<div class="close" @click="couponState = false">关闭</div>
+					<div class="pclose" @click="couponState = false">关闭</div>
 				</div>
 			</popup>
 		</div>
