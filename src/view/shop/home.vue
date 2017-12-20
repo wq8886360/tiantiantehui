@@ -36,7 +36,7 @@
 				<div class="Doublerowlayout" v-if="item.block_module_type == 1">
 					<h1 v-if="item['title']">{{item.title}}</h1>
 					<h1 v-else>双列排版</h1>
-					<div class="box_list" v-if="item.data"  v-for="(items,index) in item.data" :key="index">
+					<div class="box_list" v-if="item.data.length!=0"  v-for="(items,index) in item.data" :key="index">
 						<div class="img">
 							<img :src="domain+items.thumb" alt="">
 						</div>
@@ -53,7 +53,7 @@
 				<div class="Singlelayout" v-if="item.block_module_type == 2">
 					<h1 v-if="item['title']">{{item.title}}</h1>
 					<h1 v-else>单列排版</h1>
-					<div v-if="item.data" class="list" v-for="(items,index) in item.data" :key="index">
+					<div v-if="item.data.length!=0" class="list" v-for="(items,index) in item.data" :key="index">
 						<div class="sl">
 							<img :src="domain+items.thumb" alt="">
 						</div>
