@@ -315,7 +315,7 @@
 				<div class="attrpopu couponspupu combo">
 					<div class="attrpoputitle">选择套餐<i class="icon-close right" @click="comboState = false"></i></div>
 					<div class="attrcontent">
-						<div style='overflow-y: scroll'>
+						<div style='overflow-y: scroll' class='comboScrollBox'>
 							<div class='comboBoxInfo' v-for='(item,index) in data.combo'  @click='gotoStore("2")'>
 								<p><span class='comboPrice'>套餐价</span><span class='priceCombo'><span class='priceInco'>￥</span><span>900</span></span><span class='grayPrice'>套餐原价￥1900</span></p>
 								<div style="width:100%;overflow:auto;">
