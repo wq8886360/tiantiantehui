@@ -17,7 +17,7 @@ export default{
 	},
 	methods:{
 		go(id){
-			this.$router.push({path: '/good/detail',query: {good_id: id}})
+			this.$router.push({path: '/good/detail',query: {goods_id: id}})
 		}
 	}
 }
