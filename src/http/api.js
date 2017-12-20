@@ -57,7 +57,11 @@ export const addressadd = params => post('/member/address/add', params); //添�
 export const addressall = params => post('/member/address/all', params); //收货地址列表
 export const orderbuy = params => post('/order/buy', params); //立即购买
 export const deletet = params => post('/member/address/remove', params); //删除收货地址
-export const modification =params => post('/member/address/edit',params); //编辑收货地址
+export const modification = params => post('/member/address/edit',params); //编辑收货地址
+export const ordercheckout = params => post('/order/checkout', params); //提交订单
+
+//支付
+export const getavailablepaymethod = params => post('/order/getavailablepaymethod', params); //获取支付方式列表
 
 //订单列表
 export const orderlist = params => get('/personalcenter/orderlist',params); //个人订单列表页

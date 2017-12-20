@@ -57,15 +57,15 @@
 				<div class="reporter">
 					<span>共计{{item.sub_count}}件商品&nbsp;&nbsp;小计：</span>
 					<span class="price" v-if="!shop_goods[index]['denomination'] && !shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total']}}</span>
-					<span class="price" v-if="shop_goods[index]['denomination'] && !shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['denomination']}}</span>
-					<span class="price" v-if="!shop_goods[index]['denomination'] && shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['prom_reduce']}}</span>
-					<span class="price" v-if="shop_goods[index]['denomination'] && shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['denomination'] - shop_goods[index]['prom_reduce']}}</span>
+					<span class="price" v-if="shop_goods[index]['denomination'] && !shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['denomination'] + Number(shop_goods[index]['shippingFee'])}}</span>
+					<span class="price" v-if="!shop_goods[index]['denomination'] && shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['prom_reduce'] + Number(shop_goods[index]['shippingFee'])}}</span>
+					<span class="price" v-if="shop_goods[index]['denomination'] && shop_goods[index]['prom_reduce']">¥ {{shop_goods[index]['sub_total'] - shop_goods[index]['denomination'] - shop_goods[index]['prom_reduce'] + Number(shop_goods[index]['shippingFee'])}}</span>
 				</div>
 			</div>
 		</div>
 
 		<!-- 活动弹窗 -->
-		<div v-transfer-dom class="coupon">
+		<div v-transfer-dom class="act">
 			<popup v-model="actState" position="bottom">
 				<div class="box">
 					<div class="main">
@@ -115,12 +115,31 @@
 		<!-- 底部支付 -->
 		<div class="pay">
 			合计：<span class="zong">¥{{pay_amount}}</span>
-			<div class="pay_btn">去支付</div>
+			<div class="pay_btn" @click="pay">去支付</div>
+		</div>
+
+		<!-- 支付方式弹窗 -->
+		<div v-transfer-dom class="paytype">
+			<popup v-model="paytypeState" position="bottom">
+				<div class="box">
+					<div class="title">
+						选择支付方式
+						<i class="icon-close right" @click="paytypeState = false"></i>
+					</div>
+					<div class="list" @click="zhifu(item.code)" v-for="(item,index) in pay_types">
+						<div class="left">
+							<img :src="item.pic" alt="">
+							<p>{{item.name}}</p>
+						</div>
+						<i class="icon-right"></i>
+					</div>
+				</div>
+			</popup>
 		</div>
 	</div>
 </template>
 <script>
-import { orderconfirm, orderbuy } from '../../http/api.js';
+import { orderconfirm, orderbuy, ordercheckout, getavailablepaymethod } from '../../http/api.js';
 import { XTextarea, TransferDom, Popup, Checklist } from 'vux';
 export default{
 	directives: {
@@ -146,6 +165,8 @@ export default{
 			couponIndex: null, //当前选择索引值
 			pay_amount: 0, //支付总计啊
 			dis: false, //促销活动是否可选
+			paytypeState: false,
+			pay_types: null, //支付方式
 		}
 	},
 	watch:{
@@ -154,13 +175,13 @@ export default{
 				this.pay_amount = 0;
 				this.shop_goods.map((item,index,arr) => {
 					if(item.denomination && item.prom_reduce){
-						this.pay_amount += (parseFloat(item.sub_total) - item.denomination - item.prom_reduce);
+						this.pay_amount += (parseFloat(item.sub_total) - item.denomination - item.prom_reduce + Number(item['shippingFee']));
 					}else if(item.denomination && !item.prom_reduce){
-						this.pay_amount += (parseFloat(item.sub_total) - item.denomination);
+						this.pay_amount += (parseFloat(item.sub_total) - item.denomination + Number(item['shippingFee']));
 					}else if(!item.denomination && !item.prom_reduce){
-						this.pay_amount += (parseFloat(item.sub_total));
+						this.pay_amount += (parseFloat(item.sub_total) + Number(item['shippingFee']));
 					}else if(!item.denomination && item.prom_reduce){
-						this.pay_amount += (parseFloat(item.sub_total) - item.prom_reduce);
+						this.pay_amount += (parseFloat(item.sub_total) - item.prom_reduce + Number(item['shippingFee']));
 					}
 				})
 			},
@@ -177,6 +198,9 @@ export default{
 				if(res.code == 1000){
 					this.orderData = res.data;
 					this.address = res.data.address;
+					if(res.data.address){
+						this.address_id = res.data.address.id
+					}
 					this.shop_goods_map(res.data)
 				}else{
 					this.$vux.toast.text(res.message, 'middle');
@@ -192,6 +216,9 @@ export default{
 				if(res.code == 1000){
 					this.orderData = res.data;
 					this.address = res.data.address;
+					if(res.data.address){
+						this.address_id = res.data.address.id
+					}
 					this.shop_goods_map(res.data)
 				}else{
 					this.$vux.toast.text(res.message, 'middle');
@@ -210,6 +237,7 @@ export default{
 					denomination: '', //优惠劵面额
 					voucher_hint: '', //优惠劵描述
 					goods_items: [], //商品列表
+					shippingFee: item.shippingFee
 				}
 				if(item['promotion_info'].length != 0){
 					goodobj.acttitle = item['promotion_info'][0]['prom_title']; //活动描述
@@ -305,9 +333,30 @@ export default{
 			}else{
 				this.$router.push({path: '/addadress'})
 			}
+		},
+		pay(){
+			this.paytypeState = true;
+		},
+		zhifu(code){
+			let params = {
+				shop_goods: JSON.stringify(this.shop_goods),
+				address_id: this.address_id,
+				paytype: code
+			}
+			//console.log(params)
+			ordercheckout(params).then((response) => {
+				//console.log(response)
+				if(response.data.code == 1000){
+					this.$vux.toast.text('订单生产成功', 'middle');
+				}
+			})
 		}
 	},
 	created(){
+		getavailablepaymethod().then((response) => {
+			console.log(response)
+			this.pay_types = response.data.data;
+		})
 		if(this.$route.query.address_id){
 			this.address_id = this.$route.query.address_id;
 		}else{
