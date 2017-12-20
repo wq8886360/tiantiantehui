@@ -28,7 +28,7 @@
 		<div v-transfer-dom>
       		<confirm v-model="show" @on-confirm="onConfirm">
       			<strong class="weui-dialog__title">提示</strong>
-      			<div class="sure">确定删除该地址</div>
+      			<div class="sure_n">确定删除该地址</div>
       		</confirm>
    		</div>
 	</div>
@@ -221,7 +221,7 @@ export default{
 .weui-dialog__btn_primary{
 	color: #FB0036;
 }
-.weui-dialog__bd .sure{
+.weui-dialog__bd .sure_n{
 	margin-top: 0.3rem;
 	color:#999999;
 	font-size: 0.21rem;
