@@ -150,7 +150,6 @@ export default {
 				    		page_size:this.pageSize,
 				    	}
 				    	memberCommentList(info).then((response) => {
-				    		console.log(response)
 				    		if(response.data.code==1000){
 				    			var data=response.data.data.list
 				    			for(var i=0;i<data.length;i++){
@@ -178,7 +177,6 @@ export default {
 </script>
 <style lang='less'>
 .ratingHome{
-
 	.fixed{
 		width:100%;
 		position:fixed;

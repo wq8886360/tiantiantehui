@@ -122,21 +122,18 @@ export default{
 			})
     	},
     	onItemClick (index) {
-    		console.log(index,'index')
       		this.index=index
     	},
     	//点击关注
     	attentionClick(){
     		if(this.attention){
     			delMark({storeId:this.storeId}).then((response)=>{
-    				console.log(response)
     				if(response.data.code==1000){
 						this.attention=!this.attention
     				}
 				})	
     		}else{
     			addMark({storeId:this.storeId}).then((response)=>{
-    				console.log(response)
     				if(response.data.code==1000){
 						this.attention=!this.attention
     				}

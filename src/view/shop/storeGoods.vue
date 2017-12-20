@@ -69,7 +69,6 @@ export default {
 			this.goodsInfo.storeId=this.$route.query.store_id
 			goodsList(this.goodsInfo).then((response)=>{
 				if(response.data.code==1000){
-					console.log(response,'reeeeee')
 					this.newSGoodsList=response.data.data.data
 					this.newSGoodsListDown=this.newSGoodsList
 					this.total=response.data.data.total

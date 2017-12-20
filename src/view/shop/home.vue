@@ -188,7 +188,6 @@ export default{
 	},
 	methods:{
 		onItemClick (index) {
-      		console.log('on item click:', index)
     	},
     	getVouchers(id){
     		getVoucher({voucher_id:id}).then((response)=>{
@@ -203,7 +202,6 @@ export default{
 		getStoreInfo(){
 			storeIndex({storeId:this.$route.query.id}).then((response)=>{
 				if(response.data.code==1000){
-					console.log(response,'111111')
 					this.storeInfo=response.data.data
 				}else{
 				}

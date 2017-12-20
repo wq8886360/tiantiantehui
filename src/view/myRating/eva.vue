@@ -57,13 +57,11 @@ export default {
     methods: {  
         getList(){
             commentList(this.info).then((response)=>{
-                console.log(response)
                 if(response.data.code='1000'){
                     this.label=response.data.data.label
                     this.list=response.data.data.list.data
                     this.listTatal=response.data.data.list.data
                     this.totalSize=response.data.data.list.allPage
-                    console.log(this.list,'this.list')
                 }
             })
         },
@@ -73,12 +71,9 @@ export default {
             this.getList()
         },
         zan(item,index){
-            console.log(item,'item')
-            console.log(index,'index')
             item.is_praise=!item.is_praise
             this.$set(this.list,index,item)
             commentPraise({comment_id:item.comment_id}).then((response)=>{
-                console.log(response)
                 if(response.data.code=='1000'){
                     this.$vux.toast.text(response.data.message, 'middle')
                     this.getList() 
@@ -89,7 +84,7 @@ export default {
         },
         menu() {
             if(this.$route.path=='/Eva'){
-                if(document.body.scrollHeight!=document.documentElement.clientHeight){
+                if(document.body.scrollTop!='0'){
                     if(document.body.scrollHeight-document.body.scrollTop-document.documentElement.clientHeight<='5'){
                        if(this.info.page<this.totalSize){
                             this.info.page++
