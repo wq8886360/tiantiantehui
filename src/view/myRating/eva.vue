@@ -71,11 +71,11 @@ export default {
             this.getList()
         },
         zan(item,index){
-            item.is_praise=!item.is_praise
             this.$set(this.list,index,item)
             commentPraise({comment_id:item.comment_id}).then((response)=>{
                 if(response.data.code=='1000'){
                     this.$vux.toast.text(response.data.message, 'middle')
+                    item.is_praise=!item.is_praise
                     this.getList() 
                 }else if(response.data.code=='1001'){
                     this.$vux.toast.text(response.data.message, 'middle')

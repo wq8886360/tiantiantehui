@@ -1,5 +1,6 @@
 <template>
 	<div class="goodsdetails" v-if="data">
+		<div class='text'>1312312312</div>
 		<!-- 商品banner -->
 		<swiper dots-position='center' :aspect-ratio="1/1">
 			<swiper-item v-for="(item, index) in pics" :key="index">
@@ -126,7 +127,7 @@
 	    	</div> -->
  			<div class='appraiseInfo' v-if='data["comments"].length!="0"'>
  				<scroller lock-y :scrollbar-x=false>
- 		    		<div :style="'width:'+ (data['comments'].length * 4.1+3.39+count*3.3) + 'rem'">
+ 		    		<div :style="'width:'+ (data['comments'].length * 4.3+3.6+count*3.3) + 'rem'">
  				    	<div class='infoLeft' v-for='item in data["comments"]'  @click='evaClick(item.id)'>
  							<div class='infoLeftCon'>
  								<div class='leftTitle'>
@@ -378,6 +379,7 @@
 				<div class="buy btn" @click="buynow">立即购买</div>
 			</div>
 		</div>
+
 	</div>
 </template>
 <script>
