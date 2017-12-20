@@ -311,7 +311,7 @@
 		</div>
 		<!-- 套餐弹窗 -->
 		<div v-transfer-dom>
-			<popup v-model="comboState" position="bottom" max-height="80%">
+			<popup v-model="comboState" class='popBox' position="bottom" max-height="80%">
 				<div class="attrpopu couponspupu combo">
 					<div class="attrpoputitle">选择套餐<i class="icon-close right" @click="comboState = false"></i></div>
 					<div class="attrcontent">
@@ -594,8 +594,8 @@ export default{
 	   		goodsfavoriteadd({goods_id: this.goods_id}).then((response) => {
 	   			console.log(response)
 	   			if(response.data.code == 1000){
-	   				this.is_fav = 1;
-	   				this.favorite_id = response.data.data.favorite_id;
+	   				this.is_fav = response.data.data.fid;
+	   				this.$vux.toast.text(response.data.message, 'middle')
 	   			}else{
 	   				this.$vux.toast.text(response.data.message, 'middle')
 	   			}
@@ -603,9 +603,11 @@ export default{
 	   	},
 	   	//取消关注
 	   	romovecollect(){
-	   		goodsfavoriteremove({ids: this.favorite_id}).then((response) => {
+	   		console.log(this.favorite_id,'this.favorite_id')
+	   		goodsfavoriteremove({ids:this.is_fav}).then((response) => {
 	   			if(response.data.code == 1000){
 	   				this.is_fav = 0;
+	   				this.$vux.toast.text(response.data.message, 'middle')
 	   			}else{
 	   				this.$vux.toast.text(response.data.message, 'middle')
 	   			}
