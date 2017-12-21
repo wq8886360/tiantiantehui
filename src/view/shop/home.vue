@@ -21,7 +21,7 @@
 	</ul>
 </div> -->
 		<div style="width:100%;overflow:auto; margin:0.333333rem 0;" class='disConut'> 
-    		<div style="width:100040px;color:white;-webkit-overflow-scrolling: touch;">       
+    		<div style="width:100040px;color:white;-webkit-overflow-scrolling: touch;" v-if='storeInfo.voucher.length!=0'>       
         		<div class='disCountBox' style="float:left;-webkit-overflow-scrolling: touch;"  v-for='item in storeInfo.voucher' @click='getVouchers(item.voucher_id)'>
         			<img v-if='item.is_get=="0"' class='ImgBox' src="../../assets/img/discount.png" alt="">
         			<img v-if='item.is_get=="1"' class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
@@ -31,7 +31,7 @@
     		</div>
 		</div>
 
-		 <div  v-for="(item,index) in storeInfo.body"> 
+		 <div  v-for="(item,index) in storeInfo.body" v-if='storeInfo.body!=null'> 
 				<!-- 双排 -->
 				<div class="Doublerowlayout" v-if="item.block_module_type == 1">
 					<h1 v-if="item['title']">{{item.title}}</h1>
@@ -140,7 +140,7 @@
 				<!-- 轮播图 -->
 				<div class='banner' v-if="item.block_module_type == 7">
 					<swiper :options="swiperOption" ref="mySwiper">
-					    <swiper-slide v-for="(items,index) in item.data" :key="index">
+					    <swiper-slide v-if='item.data.length!=0' v-for="(items,index) in item.data" :key="index">
 					    		<img :src="domain+items.thumb" alt="">
 					    		<div class='textBox'></div>
 					    		<p>{{items.description}}</p>

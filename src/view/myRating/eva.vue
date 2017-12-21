@@ -4,7 +4,11 @@
             <span v-for='(item,index) in label' v-bind:class="{ active: spanIndex==index}" @click='count(index,item)'>{{item.name}}({{item.count}})</span>
        </div>
        <div class='border'><b></b><i></i></div>
-       <div class='evaBox' v-for='(item,index) in list' v-if='list.length!="0"'>
+        <div v-if='list.length==0' class='noReview'>
+            <img src="../../assets/img/noReview.png" alt="">
+            <p>您还没有相关的评价</p>
+        </div>
+       <div class='evaBox' v-for='(item,index) in list' v-else>
             <div class='evaBoxCon'>
                 <img class='avtor' :src="item.avatar" alt="">
                 <span class='title'>{{item.nickname}}</span>
@@ -27,6 +31,8 @@
             </div>
             <div class='borderSim'><b></b><i></i></div>
        </div>
+
+
     </div>  
 </template>  
   
@@ -280,6 +286,24 @@ export default {
                 margin-top:0.04rem;
                 margin-left:0.186667rem;
             }
+        }
+    }
+    .noReview{
+        padding-top:3.333333rem;
+        img{
+
+            width:5.133333rem;
+            height:2.933333rem;
+            display:block;
+            margin:0 auto;
+        }
+        p{
+            font-size:0.4rem;
+            height:0.4rem;
+            line-height: 0.4rem;
+            margin-top:0.64rem;
+            color:#ccc;
+            text-align: center;
         }
     }
 }
