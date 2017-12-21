@@ -39,6 +39,7 @@
 						<div class="view_t">
 							<span @click="logistics(item.id)" class="logistics_n">查看物流</span>
 							<span class="appraise_c" @click='appraise(index)'>评价</span>
+							<span v-if='item.is_append==1' class="appraise_c" @click='supplemental(index)'>追加评论</span>
 						</div>
 					</div>
 				</li>
@@ -129,6 +130,10 @@ export default{
       		  })
       		}, 2000)
     	},
+    	/*追加评论*/
+   	 	supplemental(index){
+   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.evaluate_data[index]}})
+   	 	}
 	},
 	created(){
 		this.key_word=this.data

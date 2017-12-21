@@ -199,7 +199,6 @@ export default{
 					margin-right: 0.13rem;
 					margin-bottom: 0.13rem;
 					background: #fff;
-					min-height:7.1rem;
 					img{
 						width: 4.93rem;
 						height: 4.93rem;
@@ -214,6 +213,7 @@ export default{
 						-webkit-box-orient: vertical;
 						-webkit-line-clamp: 2;
 						overflow: hidden;
+						height: 0.9rem;
 					}
 					.coin_god{
 						padding-top: 0.27rem;
