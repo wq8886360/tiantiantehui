@@ -16,7 +16,7 @@
 							<i class="icon-right"></i>
 						</div>
 						<div class="right" v-if="!alledit">
-							<span>领卷</span>
+							<span @click="pickup(enabled_index)">领卷</span>
 							<i></i>
 							<span v-if="!enabled_item['edit']" @click="Localeditor(enabled_index)">编辑</span>
 							<span v-if="enabled_item['edit']" @click="ExitLocaleditor(enabled_index)">完成</span>
@@ -126,7 +126,7 @@
 				</div>
 				<div v-if="!alledit">
 					<div class="finalprice">
-						<p class="top"><span class="yun">不含运费</span><span class="heji">合计:</span><span class="pri">¥{{total_amount}}</span></p>
+						<p class="top"><span class="yun">不含运费</span><span class="heji">合计:</span><span v-if="!total_reduce" class="pri">¥{{total_amount}}</span><span v-else class="pri">¥{{total_amount - total_reduce}}</span></p>
 						<p class="bot">已优惠:¥{{total_reduce}}</p>
 					</div>
 					<div class="clearbtn" @click="clearing">
@@ -185,8 +185,45 @@
 					</popup>
 				</div>
 			</div>
-		</div>
 
+			<div v-transfer-dom>
+				<popup v-model="couponsState" position="bottom" max-height="80%">
+					<div class="attrpopu couponspupu">
+						<div class="attrpoputitle">领取店铺优惠卷<i class="icon-close right" @click="couponsState = false"></i></div>
+						<div class="attrcontent">
+							<scroller lock-x height="100%">
+								<div>
+									<div class="box" v-for="item in voucher">
+										<!-- 未领取 -->
+										<div class="bg" v-if="item['is_get'] == '0'"><img src="../../assets/img/pickupbg.png" alt=""></div>
+										<!-- 领取 -->
+										<div class="bg" v-if="item['is_get'] == '1'"><img src="../../assets/img/nopickupbg.png" alt=""></div>
+										<div class="content">
+											<div class="left">
+												¥{{item['denomination']}}
+											</div>
+											<div class="right">
+												<p class="rule" v-if="item['use_condition'] != '0'">满{{Number(item['use_condition'])}}使用</p>
+												<p class="rule" v-if="item['use_condition'] == '0'">无门槛优惠劵</p>
+												<p class="type">{{item['title']}}</p>
+												<!-- <p class="type" v-if="item['goods_scope'] == 'ALL'">全店通用</p>
+												<p class="type" v-if="item['goods_scope'] == 'ASSIGN'">指定商品</p> -->
+												<p class="time">有效期：{{item['start_time']}}-{{item['end_time']}}</p>
+												<div class="pickupbtn btn" v-if="item['is_get'] == '1'">已领取</div>
+											<div class="unpickupbtn btn" v-if="item['is_get'] == '0'" @click="getVoucher(item.voucher_id)">领取</div>
+											</div>
+
+										</div>
+									</div>
+								</div>	
+							</scroller>	
+						</div>
+					</div>
+				</popup>
+			</div>
+
+
+		</div>
 
 		<!-- 购物车没有商品 -->
 		<div v-else class="no_good">
@@ -201,8 +238,8 @@
 </template>
 <script>
 import Vue from 'vue';
-import { Flexbox, FlexboxItem, XNumber, Popup, TransferDom, Checker, CheckerItem, Checklist } from 'vux'
-import { cartHome, checkcartgoods, cartedit, cartremove, cartremovetofav } from '../../http/api.js'
+import { Flexbox, Scroller, FlexboxItem, XNumber, Popup, TransferDom, Checker, CheckerItem, Checklist } from 'vux'
+import { cartHome, checkcartgoods, cartedit, cartremove, cartremovetofav, getVoucher } from '../../http/api.js'
 export default{
 	directives: {
 		TransferDom
@@ -214,7 +251,8 @@ export default{
 		Popup,
 		Checker,
     	CheckerItem,
-    	Checklist
+    	Checklist,
+    	Scroller
 	},
 	data(){
 		return {
@@ -244,6 +282,8 @@ export default{
 			offerlistState: false, //优惠活动选择列表
 			commonList: [],
 			value: [],
+			couponsState: false,
+			voucher: null
 		}
 	},
 	computed: {
@@ -731,6 +771,21 @@ export default{
 				localStorage.info = JSON.stringify(data)
 				this.$router.push({path: "/confirmorder"})
 			}
+		},
+		//领取店铺优惠卷
+		pickup(enabled_index){
+			console.log(this.enabled)
+			this.voucher = this.enabled[enabled_index]['store_voucher'];
+			this.couponsState = true;
+		},
+		//普通领取优惠劵
+		getVoucher(voucher_id){
+			getVoucher({voucher_id: voucher_id}).then((response) => {
+				console.log(response)
+				if(response.data.code == 1000){
+					this.$vux.toast.text('领取成功', 'middle');
+				}
+			})
 		}
 	},
 	created(){
