@@ -38,7 +38,7 @@
 					<div class="view_v">
 						<div class="view_t">
 							<span class="logistics_n">联系商家</span>
-							<span class="logistics_n" @click='attrsState=true'>取消订单</span>
+							<span class="logistics_n" @click='cancelorder_show(item.id)'>取消订单</span>
 							<span class="appraise_c">付款</span>
 						</div>
 					</div>
@@ -51,16 +51,16 @@
 			<div class="none">暂无订单信息</div>
 		</div>
 		<div v-transfer-dom>
-			<popup v-model="attrsState" position="bottom" max-height="80%">	
-				<img src="../../assets/img/close_gray.png" alt="" class="close" @click='attrsState=false'>
-			 	<checklist label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
-			 	<div class="sure" @click='attrsState=false'>提交</div>
+			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
+				<img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
+			 	<checklist  @on-change="change" label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
+			 	<div class="sure" @click='order_sure()'>提交</div>
 			</popup>
 		</div>
 	</div>
 </template>
 <script>
-import {orderlist} from '../../http/api'
+import {orderlist,cancelorder} from '../../http/api'
 import { Popup, Checklist,TransferDom,Scroller} from 'vux'
 export default{
 	directives: {
@@ -76,6 +76,7 @@ export default{
 			payment_data:null, //待评价数据
 			page:1, //页数
 			page_size:10, //总页数
+			order_Id:null,//订单ID
 			statusd:0,	//传过去的状态
 			commonList: [ '我不想买了', '信息填写错误', '商家缺货','其他原因' ],
 			attrsState:false,
@@ -88,6 +89,7 @@ export default{
      		},
      		total_page:null,//总页数
      		missing:false,//没有数据的提示
+     		reason:null, //取消订单的val
 		}
 	},
 	methods:{
@@ -139,6 +141,29 @@ export default{
       		  })
       		}, 2000)
     	},
+    	/*点击出现取消订单的弹窗*/
+		cancelorder_show(item_id){
+			this.attrsState=true;
+			this.order_Id=item_id;
+		},
+		/*取消订单的选项的val*/
+		change(val, label) {
+			this.reason=val[0];
+   	 	},
+		/*取消订单api*/
+		cancelorder_api(){
+			cancelorder({order_id:this.order_Id,reason:this.reason}).then((response)=>{
+				let res=response.data;
+				if(res.code==1000){
+					this.attrsState=false;
+					this.orderlist_api()
+				}
+			})
+		},
+		/*取消订单提交*/
+		order_sure(){
+			this.cancelorder_api();
+		},
 	},
 	created(){
 		// this.key_word=this.data

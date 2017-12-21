@@ -26,7 +26,7 @@
 								<div class="quantity">x{{itenm.qty}}</div>
 							</div>
 						</div>
-					</div>
+					</div>	
 					<div class="pieces">
 						<div class="pieces_right">
 							<span>共{{item.qty}}件商品</span>
@@ -38,14 +38,15 @@
 					<div class="view_v">
 						<div class="view_t">
 							<span @click="logistics(item.id)" v-if='item.status==3 || item.	status==2' class="logistics_n">查看物流</span>
-							<span v-if='false' class="appraise_c">邀请好友	</span>
-							<span v-if='item.status==0' class="logistics_n"	>联系商家</span>
-							<span v-if='item.status==0' class="logistics_n"	 @click='cancelorder_show(item.id)'>取消订单</span>
-							<span v-if='item.status==1' class="logistics_n"	>提醒发货</span>
-							<span v-if='item.status==2' class="logistics_n"	>延长收货</span>
-							<span v-if='item.status==3' class="appraise_c" 	@click='appraise(	index)'>评价</span>
-							<span v-if='item.status==0' class="appraise_c">	付款</span>
+							<span v-if='false' class="appraise_c">邀请好友</span>
+							<span v-if='item.status==0' class="logistics_n">联系商家</span>
+							<span v-if='item.status==0' class="logistics_n"	@click='cancelorder_show(item.id)'>取消订单</span>
+							<span v-if='item.status==1' class="logistics_n"	@click='remindseller_api(item.id)'>提醒发货</span>
+							<span v-if='item.status==2' class="logistics_n"	@click="postpone_api(item.id)">延长收货</span>
+							<span v-if='item.status==3' class="appraise_c" 	@click='appraise(index)'>评价</span>
+							<span v-if='item.status==0' class="appraise_c">付款</span>
 							<span v-if='item.status==2' class="appraise_c" 	@click='show=true'>	确认收货</span>
+							<span v-if='item.is_append==1' class="appraise_c" @click='supplemental(index)'>追加评论</span>
 						</div>
 					</div>
 				</li>
@@ -53,9 +54,9 @@
 			<div v-if='missing' class="missing">您已经没有更多的订单了</div>
 		</scroller>
 		<div v-transfer-dom>
-			<popup v-model="attrsState" position="bottom" max-height="80%">	
-				<img src="../../assets/img/close_gray.png" alt="" class="close" @click='attrsState=false'>
-			 	<checklist label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
+			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
+				<img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
+			 	<checklist label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1" @on-change="change"></checklist>
 			 	<div class="sure" @click='order_sure()'>提交</div>
 			</popup>
 		</div>
@@ -72,7 +73,7 @@
 	</div>	
 </template>
 <script>
-import {orderlist,cancelorder} from '../../http/api'
+import {orderlist,cancelorder,postpone,remindseller} from '../../http/api'
 import { Popup, Checklist,TransferDom,Confirm,Scroller} from 'vux'
 export default{
 	directives: {
@@ -103,6 +104,7 @@ export default{
      		},
      		total_page:null,//总页数
      		missing:false, //没有数据的状态
+     		reason:null, //取消订单的val
 		}
 	},
 	methods:{
@@ -118,6 +120,10 @@ export default{
 				}
 			})
 		},
+		/*取消订单的选项的val*/
+		change(val, label) {
+			this.reason=val[0];
+   	 	},
 		/*点击出现取消订单的弹窗*/
 		cancelorder_show(item_id){
 			this.attrsState=true;
@@ -125,7 +131,7 @@ export default{
 		},
 		/*取消订单api*/
 		cancelorder_api(){
-			cancelorder({order_id:this.order_Id}).then((response)=>{
+			cancelorder({order_id:this.order_Id,reason:this.reason}).then((response)=>{
 				let res=response.data;
 				if(res.code==1000){
 					this.attrsState=false;
@@ -139,6 +145,7 @@ export default{
 		},
 		/*进入评价页面*/
 		appraise(index){
+			console.log(this.allorder_data[index])
 			this.$router.push({path:"/rate",query:{evaluate_data:this.allorder_data[index]}})
 		},
 		/*进入订单详情页面*/
@@ -185,6 +192,29 @@ export default{
       		  })
       		}, 2000)
     	},
+    	/*延长发货api*/
+   	 	postpone_api(item_id){
+   	 		postpone({order_id:item_id}).then((response)=>{
+   	 			let res=response.data;
+   	 			if(res.code==1000){
+   	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	},
+   	 	/*提醒发货*/
+   	 	remindseller_api(item_id){
+   	 		remindseller({order_id:item_id}).then((response)=>{
+   	 			let res=response.data;
+   	 			if(res.code==1000){
+   	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	},
+   	 	/*追加评论*/
+   	 	supplemental(index){
+   	 		console.log(index)
+   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.allorder_data[index]}})
+   	 	}
 	},
 	created(){
 		this.orderlist_api();

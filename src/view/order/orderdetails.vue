@@ -5,7 +5,11 @@
 				<div class="wait">{{order_data.notice_status.status_text}}</div>
 				<div class="surplus">{{order_data.notice_status.status_small}}</div>
 			</div>
-			<img class="logo_l" src="../../assets/img/proflie_logo.png" alt="">
+			<img v-if='order_data.status==-1' class="logo_l" src="../../assets/img/img_orderdetails_close@2x.png" alt="">
+			<img v-if='order_data.status==0' class="logo_l" src="../../assets/img/img_orderdetails_daifukuan@2x.png" alt="">
+			<img v-if='order_data.status==1' class="logo_l" src="../../assets/img/img_orderdetails_daifahuo@2x.png" alt="">
+			<img v-if='order_data.status==2' class="logo_l" src="../../assets/img/img_orderdetails_daishouhuo@2x.png" alt="">
+			<img v-if='order_data.status==3' class="logo_l" src="../../assets/img/img_orderdetails_success@2x.png" alt="">
 		</div>
 		<div class="orderdetails_con">
 			<div class="Order_number">
@@ -120,22 +124,23 @@
 					<span class="more" v-if='order_data.status==2' @click="state=!state">更多</span>
 					<div class="good_right">
 						<span v-if='order_data.status==1 || order_data.status==3 || order_data.status==0' class="lin_gray">联系商家</span>
-						<span v-if='order_data.status==2' class="lin_gray">延长发货</span>
-						<span  @click='attrsState=true' v-if='order_data.status==0' class="lin_gray">取消订单</span>
-						<span @click='logistics()' v-if='order_data.status==2 || order_data.status==3' class="lin_gray">查看物流</span>
+						<span v-if='order_data.status==2' class="lin_gray" @click='postpone_api()'>延长发货</span>
+						<span v-if='order_data.status==0' class="lin_gray" @click='cancelorder_show()'>取消订单</span>
+						<span v-if='order_data.status==2 || order_data.status==3' class="lin_gray" @click='logistics()'>查看物流</span>
 						<span v-if='false' class="lin_red">邀请好友</span>
-						<span v-if='order_data.status==1' class="lin_red">提醒发货</span>
+						<span v-if='order_data.status==1' class="lin_red" @click='remindseller_api()'>提醒发货</span>
 						<span v-if='order_data.status==2' class="lin_red" @click='show=true'>确认收货</span>
-						<span v-if='order_data.status==3' class="lin_red">评价</span>
+						<span v-if='order_data.status==3' class="lin_red" @click="appraise()">评价</span>
 						<span v-if='order_data.status==0' class="lin_red">付款</span>
+						<span v-if='order_data.is_append==1' class="lin_red">追加评论</span>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div v-transfer-dom>
-			<popup v-model="attrsState" position="bottom" max-height="80%">	
-				<img src="../../assets/img/close_gray.png" alt="" class="close" @click='attrsState=false'>
-			 	<checklist label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
+			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
+				<img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
+			 	<checklist  @on-change="change" label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
 			 	<div class="sure" @click='attrsState=false'>提交</div>
 			</popup>
 		</div>
@@ -148,7 +153,7 @@
 	</div>
 </template>
 <script>
-import {orderdetail} from '../../http/api'
+import {orderdetail,postpone,remindseller} from '../../http/api'
 import { Popup, Checklist,TransferDom,Confirm} from 'vux'
 export default{
 	directives: {
@@ -168,7 +173,8 @@ export default{
 			commonList: [ '我不想买了', '信息填写错误', '商家缺货','其他原因' ],
 			attrsState:false,
 			title:'请选择原因',
-			radioValue:[]
+			radioValue:[],
+			reason:null, //取消订单的val
 		}
 	},
 	methods:{
@@ -182,6 +188,10 @@ export default{
 				}
 			})
 		},
+		/*进入评价页面*/
+		appraise(){
+			this.$router.push({path:'/rate',query:{evaluate_data:this.order_data}})
+		},
 		/*复制*/
 		myCopy(){
  			var ele = document.getElementById("text");
@@ -194,7 +204,47 @@ export default{
 		/*查看物流*/
 		logistics(item_id){
 			this.$router.push({path:'/logistics',query:{order_id:this.order_id}})
-		}
+		},
+		/*点击出现取消订单的弹窗*/
+		cancelorder_show(){
+			this.attrsState=true;
+		},
+		/*取消订单api*/
+		cancelorder_api(){
+			cancelorder({order_id:this.order_Id,reason:this.reason}).then((response)=>{
+				let res=response.data;
+				if(res.code==1000){
+					this.attrsState=false;
+					this.orderlist_api()
+				}
+			})
+		},
+		/*取消订单提交*/
+		order_sure(){
+			this.cancelorder_api();
+		},
+		/*取消订单的选项的val*/
+		change(val, label) {
+			this.reason=val[0];
+   	 	},
+   	 	/*延长发货api*/
+   	 	postpone_api(item_id){
+   	 		postpone({order_id:this.order_id}).then((response)=>{
+   	 			let res=response.data;
+   	 			if(res.code==1000){
+   	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	},
+   	 	/*提醒发货*/
+   	 	remindseller_api(item_id){
+   	 		remindseller({order_id:item_id}).then((response)=>{
+   	 			let res=response.data;
+   	 			if(res.code==1000){
+   	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	}
 	},
 	created(){
 		this.order_id=this.$route.query.orders_id;
