@@ -3,6 +3,9 @@ import router from "../router/index.js";
 import qs from "qs";
 import store from "@/store/index.js"
 import Cookie from "js-cookie";
+import  { ToastPlugin } from 'vux'
+import Vue from 'vue'
+Vue.use(ToastPlugin)
 
 
 axios.defaults.withCredentials = true;
@@ -52,17 +55,19 @@ axios.interceptors.response.use(
         //clearTimeout(timer);
         //store.dispatch('CLOSTLOAD')
 
-        // 
         let code = res.data.code;
         if(code === 1000 && res.data.data){
           if(res.data.data.hasOwnProperty('token')){
             let time = res.data.data.token_expires_in/(60*60*24)
             Cookie.set('token', res.data.data.token, { expires: time });
           }
+        }else if(code === 203){ //登录过期
+          Vue.$vux.toast.text(res.data.message,'middle');
+          Cookie.remove("token");
+          router.push({path: '/user/login'});
+        }else{
+          Vue.$vux.toast.text(res.data.message,'middle');
         }
-    }else if(res.status == 203){ //登录过期
-      Cookie.remove("token");
-      router.push({path: '/user/login'});
     }
     return response
   },
