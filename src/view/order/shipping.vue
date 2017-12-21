@@ -37,7 +37,7 @@
 					</div>
 					<div class="view_v">
 						<div class="view_t">
-							<span class="logistics_n">提醒发货</span>
+							<span @click='remindseller_api(item.id)' class="logistics_n">提醒发货</span>
 						</div>
 					</div>
 				</li>
@@ -119,6 +119,15 @@ export default{
       		  })
       		}, 2000)
     	},
+    	/*提醒发货*/
+   	 	remindseller_api(item_id){
+   	 		remindseller({order_id:item_id}).then((response)=>{
+   	 			let res=response.data;
+   	 			if(res.code==1000){
+   	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	}
 	},
 	created(){
 		// this.key_word=this.data

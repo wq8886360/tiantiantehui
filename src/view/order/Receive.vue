@@ -37,7 +37,7 @@
 					</div>
 					<div class="view_v">
 						<div class="view_t">
-							<span class="logistics_n">延长收货</span>
+							<span @click="postpone_api(item.id)" class="logistics_n">延长收货</span>
 							<span @click="logistics(item.id)" class="logistics_n">查看物流</span>
 							<span @click='show=true' class="appraise_c">确认收货</span>
 						</div>
@@ -140,6 +140,15 @@ export default{
       		  })
       		}, 2000)
     	},
+    	/*延长发货api*/
+   	 	postpone_api(item_id){
+   	 		postpone({order_id:item_id}).then((response)=>{
+   	 			let res=response.data;
+   	 			if(res.code==1000){
+   	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	},
 	},
 	created(){
 		// this.key_word=this.data

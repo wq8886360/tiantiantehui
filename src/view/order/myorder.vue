@@ -19,7 +19,7 @@
    			<evaluate v-if='index==4'></evaluate>
    		</div>
    		<!--搜索出来的数据-->
-   		<div class="search"  v-if='search_data!=null'>
+   		<div class="search_sc"  v-if='search_data!=null'>
 			<scroller lock-x scrollbar-y use-pullup use-pulldown height="-100" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">
    				<ul class="search_ul">
 					<li v-for='(item,index) in search_data'>
@@ -60,12 +60,13 @@
 								<span @click="logistics(item.id)" v-if='item.status==3 || item.status==2' class="logistics_n">查看物流</span>
 								<span v-if='false' class="appraise_c">邀请好友</span>
 								<span v-if='item.status==0' class="logistics_n">联系商家</span>
-								<span v-if='item.status==0' class="logistics_n" @click='attrsState=true'>取消订单</span>
-								<span v-if='item.status==1' class="logistics_n">提醒发货</span>
-								<span v-if='item.status==2' class="logistics_n">延长收货</span>
+								<span v-if='item.status==0' class="logistics_n" @click='cancelorder_show(item.id)'>取消订单</span>
+								<span v-if='item.status==1' class="logistics_n" @click='remindseller_api(item_id)'>提醒发货</span>
+								<span v-if='item.status==2' class="logistics_n" @click="postpone_api(item.id)">延长收货</span>
 								<span v-if='item.status==3' class="appraise_c" @click='appraise(index)'>评价</span>
 								<span v-if='item.status==0' class="appraise_c">付款</span>
 								<span v-if='item.status==2' class="appraise_c" @click='show=true'>确认收货</span>
+								<span v-if='item.is_append==1' class="appraise_c" @click="supplemental(index)">追加评论</span>
 							</div>
 						</div>
 					</li>
@@ -75,14 +76,14 @@
 		</div>
 		<!--取消订单的弹窗-->
 		<div v-transfer-dom>
-			<popup v-model="attrsState" position="bottom" max-height="80%">	
-				<img src="../../assets/img/close_gray.png" alt="" class="close" @click='attrsState=false'>
-			 	<checklist label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
-			 	<div class="sure" @click='attrsState=false'>提交</div>
+			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
+				<img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
+			 	<checklist @on-change="change" label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
+			 	<div class="sure" @click='order_sure();'>提交</div>
 			</popup>
 		</div>
 		<!--点击搜索聚焦出来的白色背景-->
-		<div class="white" v-if='state'>
+		<div class="white" v-if='statedd'>
 			<div class="seacher">
 				<div class="seacher_top">
 					<span>搜索历史</span>
@@ -105,7 +106,7 @@
 </template>
 
 <script>
-import {orderlist,seacher,delhistory}  from '../../http/api'
+import {orderlist,seacher,delhistory,cancelorder,postpone,remindseller}  from '../../http/api'
 import { Tab, TabItem,Search,Popup, Checklist,TransferDom,Confirm,Scroller} from 'vux'
 import allorder from './allorder';
 import evaluate from './evaluate';
@@ -136,6 +137,7 @@ export default{
       		value: '', //搜索框里面的提示
       		index:0, //tab切换的索引值
       		page:1, //页码
+      		order_Id:null,//订单id
       		page_size:10, //页容量
       		statusd:'all', //传过去的状态
       		search_data:null, //搜索的数据
@@ -143,7 +145,7 @@ export default{
 			attrsState:false, //取消订单弹窗的状态
 			title:'请选择原因', //取消订单的标题
 			radioValue:[], 
-			state:false, //点击搜索框聚焦的时候出来的白色背景的状态
+			statedd:false, //点击搜索框聚焦的时候出来的白色背景的状态
 			lishi_data:null,//历史记录的数据
       		status: { //上拉加载下拉刷新的状态
         		pullupStatus: 'default',
@@ -151,6 +153,7 @@ export default{
      		},
      		total_page:null,//总页数
      		missing:false,//没有数据的状态
+     		reason:null, //取消订单的val
 		}
 	},
 	methods:{
@@ -163,6 +166,10 @@ export default{
 					this.total_page=res.data.total_page
 				}
 			})
+		},
+		/*进入订单详情页面*/
+		orders_id(item_id){
+			this.$router.push({path:'/orderdetails',query:{orders_id:item_id}})
 		},
 		/*历史订单api*/
 		seacher_api(){
@@ -193,19 +200,21 @@ export default{
 		},
 		/*搜索框的聚焦*/
 		onFocus(){
+			this.value='';
 			this.search_data=null;
-			this.state=true;
-			this.seacher_api();
+			console.log(this.value)
+			this.statedd=true;
 		},
 		/*搜索框成功搜索*/
 		onSubmit(){
 			this.orderlist_api();
-			this.state=false;
+			this.statedd=false;
+			this.seacher_api();
 		},
 		/*搜索框的取消按钮*/
 		onCancel(){
 			this.search_data=null;
-			this.state=false;
+			this.statedd=false;
 		},
 		onConfirm() {
 			console.log('ddddsd')	
@@ -249,6 +258,51 @@ export default{
       		  })
       		}, 2000)
     	},
+    	/*点击出现取消订单的弹窗*/
+		cancelorder_show(item_id){
+			this.attrsState=true;
+			this.order_Id=item_id;
+		},
+		/*取消订单api*/
+		cancelorder_api(){
+			cancelorder({order_id:this.order_Id,reason:this.reason}).then((response)=>{
+				let res=response.data;
+				if(res.code==1000){
+					this.attrsState=false;
+					this.orderlist_api()
+				}
+			})
+		},
+		/*取消订单提交*/
+		order_sure(){
+			this.cancelorder_api();
+		},
+		/*取消订单的选项的val*/
+		change(val, label) {
+			this.reason=val[0];
+   	 	},
+   	 	/*延长发货api*/
+   	 	postpone_api(item_id){
+   	 		postpone({order_id:item_id}).then((response)=>{
+   	 			let res=response.data;
+   	 			if(res.code==1000){
+   	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	},
+   	 	/*提醒发货*/
+   	 	remindseller_api(item_id){
+			remindseller({order_id:item_id}).then((response)=>{
+   	 			let res=response.data;
+   	 			if(res.code==1000){
+   	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	},
+   	 	/*追加评论*/
+   	 	supplemental(index){
+   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.search_data[index]}})
+   	 	}
 	},
 	created(){
 		/*历史订单api*/
