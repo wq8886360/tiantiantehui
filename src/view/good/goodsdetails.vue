@@ -309,8 +309,9 @@
 				</div>
 			</popup>
 		</div>
+
 		<!-- 套餐弹窗 -->
-		<div v-transfer-dom>
+ 		<div v-transfer-dom>
 			<popup v-model="comboState" class='popBox' position="bottom" max-height="80%">
 				<div class="attrpopu couponspupu combo">
 					<div class="attrpoputitle">选择套餐<i class="icon-close right" @click="comboState = false"></i></div>
@@ -320,7 +321,7 @@
 								<p><span class='comboPrice'>套餐价</span><span class='priceCombo'><span class='priceInco'>￥</span><span>900</span></span><span class='grayPrice'>套餐原价￥1900</span></p>
 								<div style="width:100%;overflow:auto;">
 						    		<scroller lock-y :scrollbar-x=false>
-						    			<div :style="'width:'+ data.combo[index].goods.length * 2.66 + 'rem'"><!-- :style="'width:'+ data.combo.goods.length * 2.66 + 'rem'" -->
+						    			<div :style="'width:'+ data.combo[index].goods.length * 2.66 + 'rem'">
 									    	<div class='comboDetail'  style="float:left;" v-for='items in item.goods'>
 									    		<div>
 									    			<img :src="items.thumb" alt="">
@@ -334,7 +335,7 @@
 					</div>
 				</div>
 			</popup>
-		</div>
+		</div> 
 		<!-- 商品sku -->
 		<div v-transfer-dom class="sku_dig">
 			<popup v-model="specsState" position="bottom" max-height="80%">
