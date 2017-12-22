@@ -1,6 +1,6 @@
 <template>
 	<div class="newGoods">
-		<div class='news'  v-for="(item,index) in newSGoodsList">
+		<div class='news'  v-for="(item,index) in newSGoodsList" v-if='newSGoodsList.length!=0'>
 			<p><span>{{item.day}}</span></p>
 			<ul>
 				<li v-for="itemLi in item.data">
@@ -14,6 +14,10 @@
 				</li>
 			</ul>
 		</div>
+		<div v-else class='noReview'>
+            <img src="../../assets/img/noReview.png" alt="">
+            <p>没有相关商品</p>
+        </div>
 	</div>
 </template>
 <script>
@@ -42,6 +46,24 @@ export default {
 </script>
 <style lang="less">
 .newGoods{
+	.noReview{
+		padding-top:3.333333rem;
+		img{
+
+			width:5.133333rem;
+			height:2.933333rem;
+			display:block;
+			margin:0 auto;
+		}
+		p{
+			font-size:0.4rem;
+			height:0.4rem;
+			line-height: 0.4rem;
+			margin-top:0.64rem;
+			color:#ccc;
+			text-align: center;
+		}
+	}
 	.news{
 		background:#F7F7F7;
 		overflow: hidden;
@@ -115,6 +137,9 @@ export default {
 			}
 		}
 	}	
+	.news:last-child{
+		padding-bottom:2rem;
+	}
 }
 
 

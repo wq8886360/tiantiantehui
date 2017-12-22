@@ -46,6 +46,7 @@ export default {
     },  
     created(index){
         this.goodsInfo=this.$route.query.items
+        console.log(this.goodsInfo)
     },
     methods: {  
         upload (e) {  

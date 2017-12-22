@@ -9,7 +9,11 @@
 			<li @click='goodsFour("priceDown")' class='active' v-if='goodsInfo.sort=="priceDown"' ><i>价格</i><img src="../../assets/img/pricedown.png" alt=""></li>
 
 		</ul>
-		<div class='storeGoodsList'>
+		<div v-if='newSGoodsList.length==0' class='noReview'>
+            <img src="../../assets/img/noReview.png" alt="">
+            <p>没有相关商品</p>
+        </div>
+		<div v-else class='storeGoodsList'>
 			<div class='news'>
 				<ul>
 					<li v-for='item in newSGoodsList'> 
@@ -108,6 +112,24 @@ export default {
 
 .storeGoods{
 	overflow-y: scroll;
+	.noReview{
+		padding-top:3.333333rem;
+		img{
+
+			width:5.133333rem;
+			height:2.933333rem;
+			display:block;
+			margin:0 auto;
+		}
+		p{
+			font-size:0.4rem;
+			height:0.4rem;
+			line-height: 0.4rem;
+			margin-top:0.64rem;
+			color:#ccc;
+			text-align: center;
+		}
+	}
 	.fourFlex{
 		display:-webkit-flex;
 		display:flex;
@@ -149,6 +171,7 @@ export default {
 		z-index:10000;
 	}
 	.storeGoodsList{
+		padding-bottom:2rem;
 		.news{
 			background:#F7F7F7;
 			overflow: hidden;
