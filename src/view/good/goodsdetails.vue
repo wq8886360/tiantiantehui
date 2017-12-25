@@ -107,7 +107,7 @@
 					<div class='appraise' @click='evaClick("a")'>
 						<p><div class='divLeft'><b>评价</b><b>({{data.goods_data.comments_num}})</b></div><div class='divRight'><span>好评率</span><span>{{data.goods_data.star_rate}}</span><i class='icon-right'></i></div></p>
 					</div>
-			 		<div class='appraiseInfo' style="width:100%;overflow:auto;">
+			 		<!-- <div class='appraiseInfo' style="width:100%;overflow:auto;">
 				    	<scroller lock-y :scrollbar-x=false>
 				    		<div :style="'width:'+ data.comments.length * 7.4 + 'rem'">
 								<div class='infoLeft' v-for='item in data.comments' >
@@ -132,7 +132,7 @@
 								</div>
 			   				</div>	
 						</scroller>
-			    	</div>
+			    	</div> -->
 					<div class='appraiseInfo' v-if='data["comments"].length!="0"'>
 						<scroller lock-y :scrollbar-x=false>
 				    		<div :style="'width:'+ (data['comments'].length * 4.3+3.6+count*3.3) + 'rem'">
