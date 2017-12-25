@@ -52,6 +52,8 @@ import orderDetails from '@/view/order/orderdetails' //订单详情
 import Payoff from '@/view/order/payoff' //支付成功
 import successfuldeal from '@/view/order/successfuldeal' //交易成功
 import logistics from '@/view/order/logistics' //物流信息
+import Offerdetails from '@/view/good/Offerdetails' //详情优惠券
+import packdetails from '@/view/good/packdetails' //套餐详情
 
 
 //我的评价
@@ -220,6 +222,16 @@ export default new Router({
             path: '/logistics',
             component: logistics,
             name: "物流信息"
+        },
+        {
+            path: '/Offerdetails',
+            component: Offerdetails,
+            name: "详情优惠券"
+        },
+        {
+            path: '/packdetails',
+            component: packdetails,
+            name: "套餐详情"
         }
 	]
 })
