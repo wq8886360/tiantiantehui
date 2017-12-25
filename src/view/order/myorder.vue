@@ -302,15 +302,16 @@ export default{
    	 	supplemental(index){
    	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.search_data[index]}})
    	 	},
-   	 	/*确认收货按钮*/
-		onConfirm() {
-			this.confirmreceipt_api();
-   		},
+
    	 	Comeout(item_index){
    	 		this.show=true
    	 		this.order_d=item_index
 
    	 	},
+   	 	/*确认收货按钮*/
+		onConfirm() {
+			this.confirmreceipt_api();
+   		},
    	 	/*确认收货*/
    	 	confirmreceipt_api(){
    	 		confirmreceipt({order_id:this.order_d}).then((response)=>{
