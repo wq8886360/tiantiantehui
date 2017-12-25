@@ -38,7 +38,7 @@
 	        			</div> 
         				<p class='timeBox'>时间：2015.1.11结束</p>
 						<div style="width:100%;overflow:auto;-webkit-overflow-scrolling: touch;" class='comboDiv'> 
-				    		<div style="width:100040px;-webkit-overflow-scrolling: touch;""> 
+				    		<div style="width:100040px;-webkit-overflow-scrolling: touch;"> 
 				        		<div class='comboCon' style="float:left;" v-for='items in item.data'>
 				        			<div class='single'>
 				        				<img :src="items.whole_thumb" alt="">
@@ -85,6 +85,7 @@ export default{
 					this.promotionList=response.data.data
 					this.promotionListDown=response.data.data
 					this.total=response.data.data.list.goods.total
+					console.log(this.promotionList)
 				}
 			})
 		},

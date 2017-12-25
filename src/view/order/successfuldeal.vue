@@ -6,7 +6,7 @@
 				<div class="pay_bottom">卖家将收到您的</div>
 			</div>
 			<div class="success_right">
-				<img src="../../assets/img/proflie_logo.png" alt="">
+				<img src="../../assets/img/img_orderdetails_success@2x.png" alt="">
 			</div>
 		</div>
 		<div class="two_btn">
@@ -74,8 +74,8 @@ export default{
 				}
 			}
 			.success_right{
-				width: 2.13rem;
-				height: 2.48rem;
+				width:3.4rem;
+				height:2.67rem;
 				float: right;
 				margin-right: 1.07rem;
 				margin-top: 2.87rem;

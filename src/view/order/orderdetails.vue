@@ -1,5 +1,6 @@
 <template>
 	<div class="orderdetails" v-if='order_data'>
+		<!--订单详情头部-->
 		<div class="orderdetails_top">
 			<div class="orderdetails_left">
 				<div class="wait">{{order_data.notice_status.status_text}}</div>
@@ -9,8 +10,9 @@
 			<img v-if='order_data.status==0' class="logo_l" src="../../assets/img/img_orderdetails_daifukuan@2x.png" alt="">
 			<img v-if='order_data.status==1' class="logo_l" src="../../assets/img/img_orderdetails_daifahuo@2x.png" alt="">
 			<img v-if='order_data.status==2' class="logo_l" src="../../assets/img/img_orderdetails_daishouhuo@2x.png" alt="">
-			<img v-if='order_data.status==3' class="logo_l" src="../../assets/img/img_orderdetails_success@2x.png" alt="">
+			<img v-if='order_data.status==3 || order_data.status==4' class="logo_l" src="../../assets/img/img_orderdetails_success@2x.png" alt="">
 		</div>
+		<!--订单号码、收货地址、用户留言、copy按钮-->
 		<div class="orderdetails_con">
 			<div class="Order_number">
 				<div class="Ordernumber_c">
@@ -110,13 +112,25 @@
 							<span>支付方式:</span>
 							<span>{{order_data.paytype}}</span>
 						</div>
-						<div>
+						<div v-if='order_data.create_time!=null' style="margin-bottom:0.1rem;">
 							<span>下单时间：</span>
 							<span>{{order_data.create_time}}</span>
 						</div>
+						<div v-if='order_data.pay_time!=null' style="margin-bottom:0.1rem;">
+							<span>付款时间：</span>
+							<span>{{order_data.pay_time}}</span>
+						</div>
+						<div  v-if='order_data.send_time!=null' style="margin-bottom:0.1rem;">
+							<span>成交时间：</span>
+							<span>{{order_data.send_time}}</span>
+						</div>
+						<div v-if='order_data.receive_time!=null'>
+							<span>下单时间：</span>
+							<span>{{order_data.receive_time}}</span>
+						</div>
 					</div>
 				</div>
-				<div class="good_have" v-if='order_data.status!=null'>
+				<div class="good_have" v-if='order_data.status!=-1'>
 					<div class="bianh" v-if='state'>
 						<div class="contact">联系商家</div>
 						<div class="three_jiao"></div>
@@ -129,7 +143,7 @@
 						<span v-if='order_data.status==2 || order_data.status==3' class="lin_gray" @click='logistics()'>查看物流</span>
 						<span v-if='false' class="lin_red">邀请好友</span>
 						<span v-if='order_data.status==1' class="lin_red" @click='remindseller_api()'>提醒发货</span>
-						<span v-if='order_data.status==2' class="lin_red" @click='show=true'>确认收货</span>
+						<span v-if='order_data.status==2' class="lin_red" @click='Comeout()'>确认收货</span>
 						<span v-if='order_data.status==3' class="lin_red" @click="appraise()">评价</span>
 						<span v-if='order_data.status==0' class="lin_red">付款</span>
 						<span v-if='order_data.is_append==1' class="lin_red">追加评论</span>
@@ -137,6 +151,7 @@
 				</div>
 			</div>
 		</div>
+		<!--取消订单的弹窗-->
 		<div v-transfer-dom>
 			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
 				<img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
@@ -144,6 +159,7 @@
 			 	<div class="sure" @click='attrsState=false'>提交</div>
 			</popup>
 		</div>
+		<!--确认收货弹窗-->
 		<div v-transfer-dom>
       		<confirm v-model="show" @on-confirm="onConfirm">
       			<strong class="weui-dialog__title">要确认收货吗？</strong>
@@ -153,7 +169,7 @@
 	</div>
 </template>
 <script>
-import {orderdetail,postpone,remindseller} from '../../http/api'
+import {orderdetail,postpone,remindseller,confirmreceipt} from '../../http/api'
 import { Popup, Checklist,TransferDom,Confirm} from 'vux'
 export default{
 	directives: {
@@ -202,7 +218,7 @@ export default{
 			console.log(1)
 		},
 		/*查看物流*/
-		logistics(item_id){
+		logistics(){
 			this.$router.push({path:'/logistics',query:{order_id:this.order_id}})
 		},
 		/*点击出现取消订单的弹窗*/
@@ -228,7 +244,7 @@ export default{
 			this.reason=val[0];
    	 	},
    	 	/*延长发货api*/
-   	 	postpone_api(item_id){
+   	 	postpone_api(){
    	 		postpone({order_id:this.order_id}).then((response)=>{
    	 			let res=response.data;
    	 			if(res.code==1000){
@@ -237,11 +253,28 @@ export default{
    	 		})
    	 	},
    	 	/*提醒发货*/
-   	 	remindseller_api(item_id){
-   	 		remindseller({order_id:item_id}).then((response)=>{
+   	 	remindseller_api(){
+   	 		remindseller({order_id:this.order_id}).then((response)=>{
    	 			let res=response.data;
    	 			if(res.code==1000){
    	 				this.$vux.toast.text(res.message, 'middle')
+   	 			}
+   	 		})
+   	 	},
+   	 	/*点击获取当前的订单Id*/
+   	 	Comeout(){
+   	 		this.show=true
+   	 	},
+   	 	/*确认收货按钮*/
+		onConfirm() {
+			this.confirmreceipt_api();
+   		},
+   		/*确认收货*/
+   	 	confirmreceipt_api(){
+   	 		confirmreceipt({order_id:this.order_id}).then((response)=>{
+   	 			let res = response.data;
+   	 			if(res.code==1000){
+   	 				this.orderlist_api()
    	 			}
    	 		})
    	 	}

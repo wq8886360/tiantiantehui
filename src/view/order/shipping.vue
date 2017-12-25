@@ -1,5 +1,6 @@
 <template>
 	<div class="shipping">
+		<!--列表页-->
 		<scroller v-if='shipping_length!=0' lock-x scrollbar-y use-pullup use-pulldown height="-100" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh"	 v-model="status" ref="scroller">	
 			<ul class="shipping_ul"> 
 				<li v-for='(item,index) in shipping_data'>
@@ -44,6 +45,7 @@
 			</ul>
 			<div v-if='missing' class="missing">您已经没有更多的订单</div>
 		</scroller>
+		<!--没有订单显示的图片-->
 		<div v-else class="order">
 			<img src="../../assets/img/img_empty_dingdan@2x.png" alt="">
 			<div class="none">暂无订单信息</div>
@@ -51,7 +53,7 @@
 	</div>
 </template>
 <script>
-import {orderlist} from '../../http/api'
+import {orderlist,remindseller} from '../../http/api'
 import {Scroller} from 'vux'
 export default{
 	components: {

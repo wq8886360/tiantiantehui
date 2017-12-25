@@ -534,6 +534,8 @@
 		bottom: 0;
 		left: 0.24rem;
 		right: 0.24rem;
+		overflow-y:scroll;
+		-webkit-overflow-scrolling:touch;
 		.box{
 			height: 1.87rem;
 			width: 100%;
@@ -720,6 +722,9 @@
 		overflow: visible;
 	}
 }
+.pop_l .vux-popup-dialog{
+	overflow:visible !important;
+}
 /*商品规格弹窗*/
 .specspopu{
 	padding: 0.51rem 0.24rem 1.07rem;
@@ -817,4 +822,21 @@
 			}
 		}
 	}
+}
+.tab_tab .vux-tab .vux-tab-item{
+	background: none !important;
+}
+.tab_tab .vux-tab .vux-tab-item.vux-tab-selected{
+	color:#FB0036 !important;
+	border-bottom:1px solid transparent !important;
+}
+.tab_tab .vux-tab .vux-tab-ink-bar{
+	background-color: transparent !important;
+}
+.tab_tab .vux-tab-bar-inner{
+	background-color: #FB0036 !important;
+}
+.tab_tab  .vux-tab .vux-tab-item{
+	font-weight:100 !important;
+	font-size: 0.4rem !important;
 }

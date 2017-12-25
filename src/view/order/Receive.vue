@@ -1,5 +1,6 @@
 <template>
 	<div class="Receive">
+		<!--列表页-->
 		<scroller v-if='Receive_length!=0' lock-x scrollbar-y use-pullup use-pulldown height="-100" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">
 			<ul class="Receive_ul">
 				<li v-for='(item,index) in Receive_data'>
@@ -39,17 +40,19 @@
 						<div class="view_t">
 							<span @click="postpone_api(item.id)" class="logistics_n">延长收货</span>
 							<span @click="logistics(item.id)" class="logistics_n">查看物流</span>
-							<span @click='show=true' class="appraise_c">确认收货</span>
+							<span @click='Comeout(item.id)' class="appraise_c">确认收货</span>
 						</div>
 					</div>
 				</li>
 			</ul>
 			<div v-if='missing' class="missing">您已经没有更多的订单了</div>
 		</scroller>	
+		<!--没有订单显示的图片-->
 		<div v-if='Receive_length==0' class="order">
 			<img src="../../assets/img/img_empty_dingdan@2x.png" alt="">
 			<div class="none">暂无订单信息</div>
 		</div>
+		<!--确认收货的弹窗-->
 		<div v-transfer-dom>
       		<confirm v-model="show" @on-confirm="onConfirm">
       			<strong class="weui-dialog__title">要确认收货吗？</strong>
@@ -59,7 +62,7 @@
 	</div>
 </template>
 <script>
-import {orderlist} from '../../http/api'
+import {orderlist,postpone,confirmreceipt} from '../../http/api'
 import { TransferDom,Confirm,Scroller} from 'vux'
 export default{
 	directives: {
@@ -83,6 +86,7 @@ export default{
      		},
      		total_page:null,//总页数
      		missing:false,//没有数据的提示
+     		order_d:null,//确认收货的id
 		}
 	},
 	methods:{
@@ -149,6 +153,25 @@ export default{
    	 			}
    	 		})
    	 	},
+   	 	/*点击获取当前的订单Id*/
+   	 	Comeout(item_index){
+   	 		this.show=true
+   	 		this.order_d=item_index
+
+   	 	},
+   	 	/*确认收货按钮*/
+		onConfirm() {
+			this.confirmreceipt_api();
+   		},
+   	 	/*确认收货*/
+   	 	confirmreceipt_api(){
+   	 		confirmreceipt({order_id:this.order_d}).then((response)=>{
+   	 			let res = response.data;
+   	 			if(res.code==1000){
+   	 				this.orderlist_api()
+   	 			}
+   	 		})
+   	 	}
 	},
 	created(){
 		// this.key_word=this.data

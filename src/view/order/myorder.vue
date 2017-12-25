@@ -1,8 +1,9 @@
 <template>
 	<div class="myorder">
+		<!--搜索框-->
 		<search placeholder="搜索所有订单" v-model="value" position="absolute" @on-focus="onFocus" @on-cancel="onCancel" @on-submit="onSubmit" ref="search">
    		</search>
-
+		<!--tab分页-->
 		<tab :line-width="1" custom-bar-width="60px">
       		<tab-item selected @on-item-click="onItemClick">全部</tab-item>
       		<tab-item @on-item-click="onItemClick">待付款</tab-item>
@@ -65,7 +66,7 @@
 								<span v-if='item.status==2' class="logistics_n" @click="postpone_api(item.id)">延长收货</span>
 								<span v-if='item.status==3' class="appraise_c" @click='appraise(index)'>评价</span>
 								<span v-if='item.status==0' class="appraise_c">付款</span>
-								<span v-if='item.status==2' class="appraise_c" @click='show=true'>确认收货</span>
+								<span v-if='item.status==2' class="appraise_c" @click='Comeout(item.id)'>确认收货</span>
 								<span v-if='item.is_append==1' class="appraise_c" @click="supplemental(index)">追加评论</span>
 							</div>
 						</div>
@@ -106,7 +107,7 @@
 </template>
 
 <script>
-import {orderlist,seacher,delhistory,cancelorder,postpone,remindseller}  from '../../http/api'
+import {orderlist,seacher,delhistory,cancelorder,postpone,remindseller,confirmreceipt}  from '../../http/api'
 import { Tab, TabItem,Search,Popup, Checklist,TransferDom,Confirm,Scroller} from 'vux'
 import allorder from './allorder';
 import evaluate from './evaluate';
@@ -154,6 +155,7 @@ export default{
      		total_page:null,//总页数
      		missing:false,//没有数据的状态
      		reason:null, //取消订单的val
+     		order_d:null,//确认收货的订单id
 		}
 	},
 	methods:{
@@ -216,9 +218,6 @@ export default{
 			this.search_data=null;
 			this.statedd=false;
 		},
-		onConfirm() {
-			console.log('ddddsd')	
-   		},
    		appraise(index){
 			this.$router.push({path:"/rate",query:{evaluate_data:this.search_data[index]}})
 		},
@@ -302,6 +301,24 @@ export default{
    	 	/*追加评论*/
    	 	supplemental(index){
    	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.search_data[index]}})
+   	 	},
+   	 	/*确认收货按钮*/
+		onConfirm() {
+			this.confirmreceipt_api();
+   		},
+   	 	Comeout(item_index){
+   	 		this.show=true
+   	 		this.order_d=item_index
+
+   	 	},
+   	 	/*确认收货*/
+   	 	confirmreceipt_api(){
+   	 		confirmreceipt({order_id:this.order_d}).then((response)=>{
+   	 			let res = response.data;
+   	 			if(res.code==1000){
+   	 				this.orderlist_api()
+   	 			}
+   	 		})
    	 	}
 	},
 	created(){

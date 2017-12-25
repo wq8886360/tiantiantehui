@@ -1,5 +1,6 @@
 <template>
 	<div class="logistics" v-if='logistics_data'>
+		<!--头部-->
 		<div class="logistics_top">
 			<div class="logistics_left">
 				<img :src="logistics_data.thumb"  alt="">
@@ -17,8 +18,9 @@
 				</div>
 			</div>
 		</div>
+		<!--物流的具体信息-->
 		<div class="logistics_c">
-			<div :class="styles">
+			<div :class="styles" v-if='traces_length!=0'>
        			<timeline>
        				<div v-for='(item,index) in logistics_data.traces'>
            				<timeline-item>
@@ -27,9 +29,13 @@
            				</timeline-item>
            			</div>	
         		</timeline>
-        	</div>	
-        	<div v-if='isTrue' @click='logist_g()' class="message">查看你的物流信息</div>
+        	</div>
+			<div v-if='traces_length!=0'>
+        		<div v-if='isTrue' @click='logist_g()' class="message">查看你的物流信息</div>
+        	</div>
+        	<div v-else class="now_no">暂无物流信息</div>	
 		</div>
+		<!--你的足迹-->
 		<div class="success_c">
 			<div class="title">
 				<span class="line"></span>
@@ -38,7 +44,7 @@
 			</div>
 			<ul class="success_ul">
 				<li v-for='(item,index) in logistics_data.history.mark_data'>
-					<img :src="item.thumb"  alt="">
+					<img class="photo" :src="item.thumb"  alt="">
 					<div class="titll">
 						{{item.title}}
 					</div>
@@ -62,13 +68,14 @@ export default{
   	},
 	data(){
 		return{
-			order_id:52,
+			order_id:null,
 			page:1,
 			page_size:10,
 			logistics_data:null,
 			styles:'logistics_cond',
 			isTrue:true,
 			traces_data:null,
+			traces_length:null,//物流信息的长度
 		}
 	},
 	methods:{
@@ -78,6 +85,7 @@ export default{
 				if(res.code==1000){
 					this.logistics_data=res.data;
 					this.traces_data=this.logistics_data.traces.reverse()
+					this.traces_length=this.logistics_data.traces.length;
 				}
 			})
 		},
@@ -88,6 +96,8 @@ export default{
 	},
 	created(){
 		this.traces_api();
+		this.order_id=this.$route.order_id;
+		console.log(this.order_id)
 	}
 }
 </script>
@@ -164,6 +174,13 @@ export default{
 		.color_red{
 			color:#FB0036;
 		}
+		.now_no{
+			font-size: 0.32rem;
+			color:#1C1B20;
+			text-align: center;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+		}
 	}
 	.success_c{
 			width: 100vw;
@@ -199,7 +216,8 @@ export default{
 					margin-right: 0.13rem;
 					margin-bottom: 0.13rem;
 					background: #fff;
-					img{
+					.photo{
+						display: block;
 						width: 4.93rem;
 						height: 4.93rem;
 					}

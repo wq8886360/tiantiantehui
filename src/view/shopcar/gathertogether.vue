@@ -132,10 +132,12 @@ export default{
 				let idArrStr = idArr.join('_');
 				//查询sku
 				this.sku.map((val,index,arr) => {
+					console.log(val)
 					if(val['specs'] == idArrStr){
 						if(val.thumb){
 							this.defaultimage = val.thumb;
 						}
+						
 						this.defaultprice = val.price;
 						this.specstitle = val.name;
 						this.stock = val.stock;
@@ -204,6 +206,7 @@ export default{
 			singleSku({goods_id:this.goods_id}).then((response) => {
 				let res = response.data;
 				if(res.data.code=1000){
+					console.log(res)
 					this.data = res.data;
 					this.specs = res.data.specs;
 					this.sku = res.data.sku;
@@ -213,7 +216,6 @@ export default{
 					this.bindId = [];
 					res.data.specs.forEach((val,index,arr) => {
 						this.bindId.push({id: '',name: val.name})
-
 					})
 				}
 			})
@@ -231,6 +233,7 @@ export default{
 	   		if(is_up){
 	   			this.sku_id = this.skuid;
 	   			is_up = true;
+	   			this.specstitle='请选择规格';
 	   			this.cartadd_api()
 	   		}
 	   	},
