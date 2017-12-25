@@ -8,7 +8,7 @@
 	        		</div>
 	    		</div>
 			</div>
-			<div class='promotionGoods'>
+			<div class='promotionGoods' v-if='promotionList.list.goods.data.length!=0'>
 				<div class='time' v-if='promotionList.list!=null' v-show='promotionList.list.remark'>
 					<p class='remark' v-for='item in promotionList.list.remark'>{{item}}</p>
 				</div>
@@ -50,6 +50,11 @@
 					</div>
 				</div>
 			</div>
+			<div v-else class='noReview'>
+	            <img src="../../assets/img/noReview.png" alt="">
+	            <p>没有相关商品</p>
+	        </div>
+
 
 		</div>
 		
@@ -126,6 +131,7 @@ export default{
 /* ----------------------------------- */
 .promotion{
 	.promotionBox{
+		padding-bottom:2rem;
 		.pushBox{
 			border-top:1px solid #EEEEEE;
 			.pushCon{

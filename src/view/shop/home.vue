@@ -20,8 +20,8 @@
 		</li>
 	</ul>
 </div> -->
-		<div style="width:100%;overflow:auto; margin:0.333333rem 0;" class='disConut'> 
-    		<div style="width:100040px;color:white;-webkit-overflow-scrolling: touch;" v-if='storeInfo.voucher.length!=0'>       
+		<div style="width:100%;overflow:auto; padding:0.333333rem 0;border-bottom:0.266667rem solid #f7f7f7" class='disConut' v-if='storeInfo.voucher.length!=0'> 
+    		<div style="width:100040px;color:white;-webkit-overflow-scrolling: touch;">       
         		<div class='disCountBox' style="float:left;-webkit-overflow-scrolling: touch;"  v-for='item in storeInfo.voucher' @click='getVouchers(item.voucher_id)'>
         			<img v-if='item.is_get=="0"' class='ImgBox' src="../../assets/img/discount.png" alt="">
         			<img v-if='item.is_get=="1"' class='ImgBox' src="../../assets/img/discountCoupon.png" alt="">
@@ -30,20 +30,19 @@
         		</div>
     		</div>
 		</div>
-
-		 <div  v-for="(item,index) in storeInfo.body" v-if='storeInfo.body!=null'> 
+		<div  v-for="(item,index) in storeInfo.body" v-if='storeInfo.body!=null' class='allBox'> 
 				<!-- 双排 -->
 				<div class="Doublerowlayout" v-if="item.block_module_type == 1">
 					<h1 v-if="item['title']">{{item.title}}</h1>
 					<h1 v-else>双列排版</h1>
 					<div class="box_list" v-if="item.data.length!=0"  v-for="(items,index) in item.data" :key="index">
-						<div class="img">
+						<div class="img" v-if='items.thumb!=null'>
 							<img :src="domain+items.thumb" alt="">
 						</div>
 						<div class='goodsInfo'>
-							<p class="title">{{items.title}}</p>
+							<p class="title" v-if='items.title!=null'>{{items.title}}</p>
 							<div class="sale">
-								<p class="price"><span>¥</span><b>{{items.price}}</b></p>
+								<p class="price" v-if='items.price!=null'><span>¥</span><b>{{items.price}}</b></p>
 								<p class="SalesVolume">已售：12899</p>
 							</div>
 						</div>
@@ -153,6 +152,10 @@
 					</swiper>
 				</div>
 			</div> 
+			<div v-else class='noReview'>
+	            <img src="../../assets/img/noReview.png" alt="">
+	            <p>您还没有相关的评价</p>
+	        </div>
 	</div>
 </template>
 <script>
@@ -218,6 +221,25 @@ export default{
 }
 </script>
 <style>
+	.noReview{ padding-top:3.333333rem;}
+	.noReview	img{
+
+			width:5.133333rem;
+			height:2.933333rem;
+			display:block;
+			margin:0 auto;
+		}
+	.noReview	p{
+			font-size:0.4rem;
+			height:0.4rem;
+			line-height: 0.4rem;
+			margin-top:0.64rem;
+			color:#ccc;
+			text-align: center;
+		}
+	.allBox{
+		padding-bottom:2rem;
+	}
 
 /* ---------------底部----------------------- */
 .storeHome{

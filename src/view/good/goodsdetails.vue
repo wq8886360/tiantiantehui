@@ -313,11 +313,43 @@
 												</div>
 											</div>
 										</div>
+<<<<<<< HEAD
 								</scroller>	
+=======
+									</div>
+								</div>
+						</scroller>	
+					</div>
+				</div>
+			</popup>
+		</div>
+
+		<!-- 套餐弹窗 -->
+ 		<div v-transfer-dom>
+			<popup v-model="comboState" class='popBox' position="bottom" max-height="80%">
+				<div class="attrpopu couponspupu combo">
+					<div class="attrpoputitle">选择套餐<i class="icon-close right" @click="comboState = false"></i></div>
+					<div class="attrcontent">
+						<div style='overflow-y: scroll' class='comboScrollBox'>
+							<div class='comboBoxInfo' v-for='(item,index) in data.combo'  @click='gotoStore("2")'>
+								<p><span class='comboPrice'>套餐价</span><span class='priceCombo'><span class='priceInco'>￥</span><span>900</span></span><span class='grayPrice'>套餐原价￥1900</span></p>
+								<div style="width:100%;overflow:auto;">
+						    		<scroller lock-y :scrollbar-x=false>
+						    			<div :style="'width:'+ data.combo[index].goods.length * 2.66 + 'rem'">
+									    	<div class='comboDetail'  style="float:left;" v-for='items in item.goods'>
+									    		<div>
+									    			<img :src="items.thumb" alt="">
+									    		</div>
+									    	</div>
+									    </div>	
+								    </scroller>
+						    	</div>
+>>>>>>> 53b2fe9b5a8968d7ce68d2968a0c93569c1a9743
 							</div>
 						</div>
 					</popup>
 				</div>
+<<<<<<< HEAD
 				<!-- 套餐弹窗 -->
 				<div class='pop_l' v-transfer-dom>
 					<popup v-model="comboState" class='popBox' position="bottom" max-height="80%">
@@ -340,6 +372,28 @@
 								    	</div>
 									</div>
 								</div>	
+=======
+			</popup>
+		</div> 
+		<!-- 商品sku -->
+		<div v-transfer-dom class="sku_dig">
+			<popup v-model="specsState" position="bottom" max-height="80%">
+				<div class="specspopu">
+					<i class="icon-close right" @click="specsState = false"></i>
+					<div class="thumb"><img :src="defaultimage" alt=""></div>
+					<div class="title">
+						<p class="price">¥{{defaultprice}}</p>
+						<p class="stock">库存{{stock}}件</p>
+						<p class="specification">{{specstitle}}</p>
+					</div>
+					<div class="list">
+						<div class="content" v-for="(item,index) in specs">
+							<p class="specsTitle">{{item['name']}}</p>
+							<div>
+								<checker v-model="bindId[index]['id']" radio-required default-item-class="uncheck" selected-item-class="check">
+									<checker-item v-for="(items,index) in item['values']" :value="items['id']" :key="index">{{items['name']}}</checker-item>
+								</checker>
+>>>>>>> 53b2fe9b5a8968d7ce68d2968a0c93569c1a9743
 							</div>
 						</div>
 					</popup>
