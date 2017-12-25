@@ -1,5 +1,6 @@
 <template>
 	<div class="allorder">
+		<!--列表页-->
 		<scroller v-if='allorder_length!=0' lock-x scrollbar-y use-pullup use-pulldown height="-100" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">	 
 			<ul class="allorder_ul">
 				<li v-for='(item,index) in allorder_data'>
@@ -45,7 +46,7 @@
 							<span v-if='item.status==2' class="logistics_n"	@click="postpone_api(item.id)">延长收货</span>
 							<span v-if='item.status==3' class="appraise_c" 	@click='appraise(index)'>评价</span>
 							<span v-if='item.status==0' class="appraise_c">付款</span>
-							<span v-if='item.status==2' class="appraise_c" 	@click='show=true'>	确认收货</span>
+							<span v-if='item.status==2' class="appraise_c" 	@click='Comeout(item.id)'>确认收货</span>
 							<span v-if='item.is_append==1' class="appraise_c" @click='supplemental(index)'>追加评论</span>
 						</div>
 					</div>
@@ -53,6 +54,7 @@
 			</ul>
 			<div v-if='missing' class="missing">您已经没有更多的订单了</div>
 		</scroller>
+		<!--取消订单的弹窗-->
 		<div v-transfer-dom>
 			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
 				<img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
@@ -60,10 +62,12 @@
 			 	<div class="sure" @click='order_sure()'>提交</div>
 			</popup>
 		</div>
+		<!--暂无订单的现实的图片-->
 		<div v-if='allorder_length==0' class="order">
 			<img src="../../assets/img/img_empty_dingdan@2x.png" alt="">
 			<div class="none">暂无订单信息</div>
 		</div>
+		<!--确认收货的弹窗-->
 		<div v-transfer-dom>
       		<confirm v-model="show" @on-confirm="onConfirm">
       			<strong class="weui-dialog__title">要确认收货吗？</strong>
@@ -73,7 +77,7 @@
 	</div>	
 </template>
 <script>
-import {orderlist,cancelorder,postpone,remindseller} from '../../http/api'
+import {orderlist,cancelorder,postpone,remindseller,confirmreceipt} from '../../http/api'
 import { Popup, Checklist,TransferDom,Confirm,Scroller} from 'vux'
 export default{
 	directives: {
@@ -105,6 +109,7 @@ export default{
      		total_page:null,//总页数
      		missing:false, //没有数据的状态
      		reason:null, //取消订单的val
+     		order_d:null,//确认收货的
 		}
 	},
 	methods:{
@@ -151,9 +156,6 @@ export default{
 		/*进入订单详情页面*/
 		orders_id(item_id){
 			this.$router.push({path:"/orderdetails",query:{orders_id:item_id}})
-		},
-		onConfirm(){
-			console.log(1)
 		},
 		/*物流页面*/
 		logistics(item_id){
@@ -212,8 +214,26 @@ export default{
    	 	},
    	 	/*追加评论*/
    	 	supplemental(index){
-   	 		console.log(index)
    	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.allorder_data[index]}})
+   	 	},
+   	 	/*点击获取当前的订单Id*/
+   	 	Comeout(item_index){
+   	 		this.show=true
+   	 		this.order_d=item_index
+
+   	 	},
+   	 	/*确认收货按钮*/
+		onConfirm() {
+			this.confirmreceipt_api();
+   		},
+   	 	/*确认收货*/
+   	 	confirmreceipt_api(){
+   	 		confirmreceipt({order_id:this.order_d}).then((response)=>{
+   	 			let res = response.data;
+   	 			if(res.code==1000){
+   	 				this.orderlist_api()
+   	 			}
+   	 		})
    	 	}
 	},
 	created(){

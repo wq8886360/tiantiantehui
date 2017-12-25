@@ -39,6 +39,7 @@ export const cartremovetofav = params => post('/cart/removetofav', params);//购
 export const getjoingoodsstorecates = params => post('/cart/getjoingoodsstorecates', params); //凑单类目接口
 export const joingoods = params => post('/cart/joingoods', params); //凑单接口
 export const singleSku = params => post('/goods/getgoodssku', params); //凑单sku接口
+export const getcombodetail = params =>post('/goods/getcombodetail',params);//获取套餐详情
 
 //评价
 //评价列表 
@@ -50,6 +51,7 @@ export const commentAdd = params => post('/member/comment/add', params); //添�
 export const personalcenterOrderlist = params => get("/personalcenter/orderlist", params); //我的个人中心
 export const commentList = params => get("/comment/list", params); //商品详情的评价列表
 export const commentPraise = params => post('/comment/praise', params); //点赞
+
 
 //订单
 export const orderconfirm = params => post('/order/confirm', params); //确认订单
@@ -72,3 +74,4 @@ export const traces = params => get('/personalcenter/traces',params); //查看�
 export const cancelorder = params => post('/personalcenter/cancelorder',params);//取消订单
 export const remindseller= params => post('/personalcenter/remindseller',params);//提醒发货
 export const postpone = params => post('/personalcenter/postpone',params);//延迟发货
+export const confirmreceipt = params => post('/personalcenter/confirmreceipt',params);//确认收货

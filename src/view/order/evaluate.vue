@@ -1,5 +1,6 @@
 <template>
 	<div class="evaluate">
+		<!--列表页-->
 		<scroller  v-if='evaluate_length!=0' lock-x scrollbar-y use-pullup use-pulldown height="-100" @on-pullup-loading="loadMore" @on-pulldown-loading="refresh" v-model="status" ref="scroller">
 			<ul class="evaluate_ul">
 				<li v-for='(item,index) in evaluate_data'>
@@ -46,6 +47,7 @@
 			</ul>
 			<div v-if='missing' class="missing">您已经没有更多的订单了</div>
 		</scroller>
+		<!--没有订单显示的图片-->
 		<div v-if='evaluate_length==0' class="order">
 			<img src="../../assets/img/img_empty_dingdan@2x.png" alt="">
 			<div class="none">暂无订单信息</div>

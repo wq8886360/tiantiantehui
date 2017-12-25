@@ -36,6 +36,9 @@ import SortSecond from '@/view/shop/sortSecond' //店铺二级分类
 import Default from '@/view/good/default' //入口页面
 import Goodsdetails from '@/view/good/goodsdetails' //商品详情
 
+import Offerdetails from '@/view/good/Offerdetails' //详情优惠券
+import packdetails from '@/view/good/packdetails' //套餐详情
+
 //购物车
 import Shopcar from '@/view/shopcar/shopcar' //购物车页面
 import Gathertogether from '@/view/shopcar/gathertogether' //凑单
@@ -220,6 +223,16 @@ export default new Router({
             path: '/logistics',
             component: logistics,
             name: "物流信息"
+        },
+        {
+            path: '/Offerdetails',
+            component: Offerdetails,
+            name: "详情优惠券"
+        },
+        {
+            path: '/packdetails',
+            component: packdetails,
+            name: "套餐详情"
         }
 	]
 })
