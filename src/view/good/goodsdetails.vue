@@ -107,61 +107,35 @@
 					<div class='appraise' @click='evaClick("a")'>
 						<p><div class='divLeft'><b>评价</b><b>({{data.goods_data.comments_num}})</b></div><div class='divRight'><span>好评率</span><span>{{data.goods_data.star_rate}}</span><i class='icon-right'></i></div></p>
 					</div>
-			 		<div class='appraiseInfo' style="width:100%;overflow:auto;">
-				    	<scroller lock-y :scrollbar-x=false>
-				    		<div :style="'width:'+ data.comments.length * 7.4 + 'rem'">
-								<div class='infoLeft' v-for='item in data.comments' >
-									<div class='infoLeftCon'>
-										<div class='leftTitle'>
-											<img class='head'  :src="item.avatar" alt="">
-											<span>{{item.nickname}}</span>
-											<img class='level' v-if='item.vip_level=="0"' src="../../assets/img/V0.png" alt="">
-											<img class='level' v-if='item.vip_level=="1"' src="../../assets/img/V1.png" alt="">
-											<img class='level' v-if='item.vip_level=="2"' src="../../assets/img/V2.png" alt="">
-											<img class='level' v-if='item.vip_level=="3"' src="../../assets/img/V3.png" alt="">
-											<img class='level' v-if='item.vip_level=="4"' src="../../assets/img/V4.png" alt="">
-											<img class='level' v-if='item.vip_level=="5"' src="../../assets/img/V5.png" alt="">
-											<img class='level' v-if='item.vip_level=="6"' src="../../assets/img/V6.png" alt="">
-										</div>
-										<p>{{item.content}}</p>
-									</div>
-									<div class='infoRightCon'>
+ 					<div class='appraiseInfo' style="width:100%;overflow:auto;" v-if='data["comments"].length!="0"'>
+ 						<scroller lock-y :scrollbar-x='false'>
+ 				    		<div :style="'width:'+ (data['comments'].length * 4.3+3.6+count*3.3) + 'rem'">
+ 						    	<div class='infoLeft' v-for='item in data["comments"]'  @click='evaClick(item.id)'>
+ 									<div class='infoLeftCon'>
+ 										<div class='leftTitle'>
+ 											<img class='head' :src="item.avatar" alt="">
+ 											<span>{{item.nickname}}</span>
+ 											<img class='level' v-if='item.vip_level=="0"' src="../../assets/img/V0.png" alt="">
+ 											<img class='level' v-if='item.vip_level=="1"' src="../../assets/img/V1.png" alt="">
+ 											<img class='level' v-if='item.vip_level=="2"' src="../../assets/img/V2.png" alt="">
+ 											<img class='level' v-if='item.vip_level=="3"' src="../../assets/img/V3.png" alt="">
+ 											<img class='level' v-if='item.vip_level=="4"' src="../../assets/img/V4.png" alt="">
+ 											<img class='level' v-if='item.vip_level=="5"' src="../../assets/img/V5.png" alt="">
+ 											<img class='level' v-if='item.vip_level=="6"' src="../../assets/img/V6.png" alt="">
+ 										</div>
+ 										<p>{{item.content}}</p>
+ 									</div>
+ 									<div class='infoRightCon' v-if='item.pics.length!="0"'>
 										<img :src="item.pics[0]" alt="">
 										<span>共{{item.pics.length}}张</span>
 									</div>
-								</div>
-			   				</div>	
-						</scroller>
-			    	</div>
-					<div class='appraiseInfo' v-if='data["comments"].length!="0"'>
-						<scroller lock-y :scrollbar-x=false>
-				    		<div :style="'width:'+ (data['comments'].length * 4.3+3.6+count*3.3) + 'rem'">
-						    	<div class='infoLeft' v-for='item in data["comments"]'  @click='evaClick(item.id)'>
-									<div class='infoLeftCon'>
-										<div class='leftTitle'>
-											<img class='head' :src="item.avatar" alt="">
-											<span>{{item.nickname}}</span>
-											<img class='level' v-if='item.vip_level=="0"' src="../../assets/img/V0.png" alt="">
-											<img class='level' v-if='item.vip_level=="1"' src="../../assets/img/V1.png" alt="">
-											<img class='level' v-if='item.vip_level=="2"' src="../../assets/img/V2.png" alt="">
-											<img class='level' v-if='item.vip_level=="3"' src="../../assets/img/V3.png" alt="">
-											<img class='level' v-if='item.vip_level=="4"' src="../../assets/img/V4.png" alt="">
-											<img class='level' v-if='item.vip_level=="5"' src="../../assets/img/V5.png" alt="">
-											<img class='level' v-if='item.vip_level=="6"' src="../../assets/img/V6.png" alt="">
-										</div>
-										<p>{{item.content}}</p>
-									</div>
-									<div class='infoRightCon' v-if='item.pics.length!="0"'>
-										<img :src="item.pics[0]" alt="">
-										<span>共{{item.pics.length}}张</span>
-									</div>
-								</div>
-								<div class='infoLeft moreAppraise' v-if='data["comments"].length!=0'>
-									<span  @click='evaClick(0)'>更多评论></span>
-								</div>
-						    </div>	
-						</scroller>
-					</div>
+ 								</div>
+ 								<div class='infoLeft moreAppraise' v-if='data["comments"].length!=0'>
+ 									<span  @click='evaClick(0)'>更多评论></span>
+ 								</div>
+ 						    </div>	
+ 						</scroller>
+ 					</div>
 					<div class='border'></div>
 				</div>
 				<!-- 收藏 -->
