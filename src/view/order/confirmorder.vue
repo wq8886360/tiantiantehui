@@ -226,7 +226,7 @@ export default{
 			})
         },
         api_orderbuycombo(){
-            let goodinfo = '{"combo_id":14,"goods_sku":{"56":211}}';
+            let goodinfo = '{"combo_id":14,"goods_sku":{"56":211,"54": ""}}';
             orderbuycombo({address_id:this.address_id, combo: goodinfo}).then((response) => {
                 console.log(response)
 				let res = response.data;
