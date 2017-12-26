@@ -60,6 +60,7 @@ export const orderbuy = params => post('/order/buy', params); //立即购买
 export const deletet = params => post('/member/address/remove', params); //删除收货地址
 export const modification = params => post('/member/address/edit',params); //编辑收货地址
 export const ordercheckout = params => post('/order/checkout', params); //提交订单
+export const orderbuycombo = params => post('/order/buycombo', params); //套餐购买
 
 //支付
 export const getavailablepaymethod = params => post('/order/getavailablepaymethod', params); //获取支付方式列表
