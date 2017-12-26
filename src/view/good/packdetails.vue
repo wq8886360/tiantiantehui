@@ -115,6 +115,11 @@ export default{
 			goodNum: 1, //加入购物车数量
 			map_arr:[], //请选择的时候更改的数组
 			sku_id: '', //确定后的sku_id
+			combb_id:null,//传过去的套餐Id
+			arr_ard:[],
+			arr_new:[],
+			arr_xin:[],
+			goods_sku:{}
 		}
 	},
 	watch:{
@@ -158,6 +163,13 @@ export default{
 				let res = response.data;
 				if(res.code==1000){
 					this.packdetails_data=res.data;
+					console.log(this.packdetails_data)
+					this.arr_ard=this.packdetails_data.current_combo.goods.map((val,index,arr)=>{
+						return val.goods_id
+					})
+					console.log(this.arr_ard)
+					console.log(this.arr_ard)
+					this.combb_id=this.packdetails_data.current_combo.combo_id;
 					this.packdetails_data.current_combo.goods.map((val,index,arr)=>{
 						this.map_arr.push({choice:null})
 					})
@@ -190,14 +202,14 @@ export default{
 	   		this.bindId.forEach((val,index,arr) => {
 	   			if(!val['id']){
 	   				is_up = false
-	   				this.$vux.toast.text(`请选择${val['name']}`, 'middle')
-	   				return false;
+	   				this.$vux.toast.text(`请选择${val['name']}`, 'middle') 
 	   			}
 	   		})
 	   		if(is_up){
 	   			is_up = true;
 	   			this.specsState=false;
-	   			this.sku_id = this.skuid
+	   			this.sku_id = this.skuid;
+	   			console.log()
 	   			if(this.specstitle!='请选择规格'){
 	   				this.map_arr[this.index_index].choice='已选择'+this.specstitle;
 	   				console.log(this.specstitle)
@@ -205,21 +217,39 @@ export default{
 	   			}else{
 	   				this.specstitle='请选择规格';
 	   			}
-	   		}
+	   			this.goods_sku[this.goods_id]=this.sku_id;
+	   			console.log(this.goods_sku)
+			}
 	   	},
+	   	unArray (Arr) {  
+		  var newArr = [],hash = {};//hash位hash表 
+		   for (var i = 0; i < Arr.length; i++) {      
+		      if (!hash[Arr[	i]]){//如果hash表里没有第i项则         
+		         hash[Arr[i]] = true;//把第i项插入到hash表里       
+		         newArr.push(Arr[i])//把Arr数组的第i项插入新数组。此方法的时间消耗长，内存消耗大；    
+		      }   
+		   };    
+		    return newArr;
+		},
 	   	//立即购买
 	   	immediately(){
 	   		this.specsState = false;
-	   		console.log(this.sku_id)
-	   		let params = {
-   				goods_id: this.goods_id,
-   				num: this.goodNum,
-   				sku_id: this.sku_id
-   			}
-   			localStorage.type = 'buynow';
-   			localStorage.info=JSON.stringify(params)
-	   		this.$router.push({path:'/confirmorder'})
-	   	}
+	   		for (var i=0;i<this.map_arr.length;i++) {
+	   			if(this.map_arr[i].choice==null){
+	   				this.$vux.toast.text('请选择规格','middle') 
+	   			}else{
+	   				let params = {
+   						num: this.goodNum,
+   						combo_id:this.combb_id,
+   						goods_sku:this.goods_sku
+   					}
+   					localStorage.type = 'buymeal';
+   					localStorage.info=JSON.stringify(params)
+	   				this.$router.push({path:'/confirmorder'})
+	   			}
+	   		}
+
+	   	},
 	},
 	created(){
 		this.getcombodetail_api();
