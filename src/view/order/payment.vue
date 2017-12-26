@@ -15,7 +15,7 @@
 								<div class="appellation">
 									<div class="text">
 										<span v-if='itenm.offered== "拼"' class="spell">{{itenm.offered}}</span>
-										<span>{{itenm.title}}</span>
+										<span class="spell_bottom">{{itenm.title}}</span>
 									</div>
 									<div class="model_number">{{itenm.sku_desc}}</div>
 								</div>
