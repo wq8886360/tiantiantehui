@@ -96,7 +96,8 @@ export default{
 	},
 	created(){
 		this.traces_api();
-		this.order_id=this.$route.order_id;
+		this.order_id=this.$route.query.orders_id;
+		console.log(this.$route.order_id)
 		console.log(this.order_id)
 	}
 }
