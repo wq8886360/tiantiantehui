@@ -139,7 +139,7 @@
 	</div>
 </template>
 <script>
-import { orderconfirm, orderbuy, ordercheckout, getavailablepaymethod } from '../../http/api.js';
+import { orderconfirm, orderbuy, ordercheckout, getavailablepaymethod, orderbuycombo } from '../../http/api.js';
 import { XTextarea, TransferDom, Popup, Checklist } from 'vux';
 export default{
 	directives: {
@@ -224,7 +224,24 @@ export default{
 					this.$vux.toast.text(res.message, 'middle');
 				}
 			})
-		},
+        },
+        api_orderbuycombo(){
+            let goodinfo = '{"combo_id":14,"goods_sku":{"56":211}}';
+            orderbuycombo({address_id:this.address_id, combo: goodinfo}).then((response) => {
+                console.log(response)
+				let res = response.data;
+				if(res.code == 1000){
+					this.orderData = res.data;
+					this.address = res.data.address;
+					if(res.data.address){
+						this.address_id = res.data.address.id
+					}
+					this.shop_goods_map(res.data)
+				}else{
+					this.$vux.toast.text(res.message, 'middle');
+				}
+            })
+        },
 		//遍历组合shop_goods
 		shop_goods_map(data){
 			var _this = this;
@@ -362,12 +379,15 @@ export default{
 		}else{
 			this.address_id = 0
 		}
-		let type = localStorage.type;
+        let type = localStorage.type;
+        type = 'buymeal'
 		//立即购买
 		if(type == 'buynow'){
 			this.api_orderconfirm_direct();
 			this.dis = false;
-		}else{
+		}else if(type == 'buymeal'){
+            this.api_orderbuycombo();
+        }else{
 			this.api_orderconfirm();
 			this.dis = true;
 		}
