@@ -64,6 +64,7 @@ import EvaDetail from '@/view/myRating/evaDetail'
 import EvaSuccess from '@/view/myRating/evaSuccess'
 import ChangeGoodEva from '@/view/myRating/changeGoodEva'
 import Eva from '@/view/myRating/eva'
+import AddBatchEva from '@/view/myRating/addBatchEva'
 
 
 //测试
@@ -202,6 +203,11 @@ export default new Router({
             path: '/Eva',
             name: '商品页评价',
             component: Eva
+        },
+        {
+            path: '/addBatchEva',
+            name: '批量追加',
+            component: AddBatchEva
         },
         {
             path: '/orderdetails',

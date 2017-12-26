@@ -51,6 +51,7 @@ export const commentAdd = params => post('/member/comment/add', params); //添�
 export const personalcenterOrderlist = params => get("/personalcenter/orderlist", params); //我的个人中心
 export const commentList = params => get("/comment/list", params); //商品详情的评价列表
 export const commentPraise = params => post('/comment/praise', params); //点赞
+export const batchAppend = params => post('/member/comment/batch_append', params); //批量追评
 
 //订单
 export const orderconfirm = params => post('/order/confirm', params); //确认订单
