@@ -90,7 +90,7 @@
 				</div>
 				<div class="line"></div>
 				<!-- 选择 -->
-				<div class="div_box choose" @click="specsState = true">
+				<div class="div_box choose" @click="specschoose">
 					<div class="label">选择</div>
 					<span>{{choosespecs}}</span>
 					<i class="icon-right right"></i>
@@ -559,7 +559,9 @@ export default{
 	   			is_up = true;
 	   			if(this.buytype == 'buynow'){
 	   				this.router_confirmorder();
-	   			}else{
+                }else if(this.buytype == 'unchoose'){
+                    this.specsState = false;
+                }else{
 	   				this.cartadd_api();
 	   			}
 	   		}
@@ -579,7 +581,11 @@ export default{
 	   	joincar(){
 	   		this.buytype = 'joincar';
 	   		this.specsState = true;
-	   	},
+        },
+        specschoose(){
+            this.buytype = 'unchoose';
+            this.specsState = true;
+        },
 	   	//跳转购物车
 	   	gotoshopcar(){
 	   		this.$router.push({path: '/shopcar'})
