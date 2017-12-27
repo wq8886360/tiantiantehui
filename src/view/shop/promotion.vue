@@ -16,7 +16,7 @@
 				<div v-if='promotionList.list!=null'>
 					<div class='news' v-if='promotionList.list.goods.data!=null'>
 						<ul v-if='promotionList.list.goods.data.length!=0'>
-							<li v-for='item in promotionList.list.goods.data'>
+							<li v-for='item in promotionList.list.goods.data' @click='gotoDetail(item)'>
 								<div class='imgBox'>
 									<img :src="item.whole_thumb" alt="">
 								</div>
@@ -89,6 +89,9 @@ export default{
 		} 
 	},
 	methods:{
+		gotoDetail(item){
+			this.$router.push({path:"/good/detail",query:{goods_id:item.item_id}})
+		},
 		getPromotion(){ 
 			promotionGoodsList(this.info).then((response)=>{
 				console.log(response,'response')
