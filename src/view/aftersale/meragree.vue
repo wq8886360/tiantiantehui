@@ -1,7 +1,7 @@
 <template>
 	<div class="meragree">
 		<!-- 物流计时插件 -->
-		<div class="pink"></div>
+		<Exchange></Exchange>
 		<!-- 转行条 -->
 		<div class="line"></div>
 		<!-- 退货地址 -->
@@ -40,7 +40,8 @@
 
 <script>
 import Offcial from './public/offcialshop'
-import Relation from './public/relationmer'	
+import Relation from './public/relationmer'
+import Exchange from './public/exchangeTop'	
 export default {
 	data() {
 		return {
@@ -49,7 +50,8 @@ export default {
 	},
 	components:{
 		Offcial,
-		Relation
+		Relation,
+		Exchange
 	}
 }	
 
@@ -58,6 +60,7 @@ export default {
 <style lang="less">
 	.meragree {
 		margin-bottom: 1.33rem;
+		background-color: #F7F7F7;
 	}
 	/*物流计时*/
 	.pink {
@@ -75,7 +78,7 @@ export default {
 	.sales-return {
 		box-sizing: border-box;
 		padding: 0 0.27rem;
-
+		background-color: #fff;
 		.sare-title {
 			padding: 0.36rem 0;
 			font-size: 0.37rem;
