@@ -1,0 +1,18 @@
+.collection_gray{
+	padding: 0.1rem 0.2rem 0.1rem 0.2rem;
+	border-radius: 27px;
+	border: 1px solid #1C1B20;
+	font-size: 0.37rem;
+	color:#1C1B20;
+}
+.btn_coll{
+	margin-left: 0.17rem;
+	margin-right: 0.1rem;
+}
+.collection_red{
+	padding: 0.1rem 0.2rem 0.1rem 0.2rem;
+	border-radius: 27px;
+	border: 1px solid #FB0036;
+	font-size: 0.37rem;
+	color:#FB0036;
+}
