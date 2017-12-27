@@ -69,6 +69,11 @@ import AddBatchEva from '@/view/myRating/addBatchEva'
 
 //退换货流程
 import Servicetype from '@/view/aftersale/servicetype' //选择服务类型
+//换货流程
+import Barterapply from '@/view/aftersale/barterapply' //换货申请
+import Applyex from '@/view/aftersale/applyexchange' //申请换货
+import Meragree from '@/view/aftersale/meragree' //商家同意换货
+import Uncommitted from '@/view/aftersale/uncommitted'  //换货关闭-用户未提交
 
 
 //测试
@@ -247,6 +252,26 @@ export default new Router({
             path: '/servicetype',
             component: Servicetype,
             name: '选择服务类型'
+        },
+        {
+            path:'/barterapply',
+            component:Barterapply,
+            name:'换货申请'
+        },
+        {
+            path:'/applyexchange',
+            component:Applyex,
+            name:'申请换货'
+        },
+        {
+            path:'/meragree',
+            component:Meragree,
+            name:'商家同意换货'
+        },
+        {
+            path:'/uncommitted',
+            component:Uncommitted,
+            name:'关闭 用户未提交'
         }
 	]
 })

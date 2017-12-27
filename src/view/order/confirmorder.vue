@@ -257,11 +257,11 @@ export default{
 					goods_items: [], //商品列表
 					shippingFee: item.shippingFee
 				}
-				if(item['promotion_info'].length != 0){
+				if(item['promotion_info'].length != 0 && item['promotion_info']){
 					goodobj.acttitle = item['promotion_info'][0]['prom_title']; //活动描述
 					goodobj.prom_reduce = item['promotion_info'][0]['prom_reduce']; //活动减免
 				}
-				if(item['voucher'].length != 0){
+				if(item['voucher'].length != 0 && item['voucher']){
 					goodobj.voucher_id = item['voucher'][0]['voucher_id'];
 					goodobj.voucher_hint = item['voucher'][0]['title'];
 					goodobj.denomination = item['voucher'][0]['denomination'];
