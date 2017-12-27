@@ -74,6 +74,7 @@ import Barterapply from '@/view/aftersale/barterapply' //换货申请
 import Applyex from '@/view/aftersale/applyexchange' //申请换货
 import Meragree from '@/view/aftersale/meragree' //商家同意换货
 import Uncommitted from '@/view/aftersale/uncommitted'  //换货关闭-用户未提交
+import Refund from '@/view/aftersale/Refund' //退款申请
 
 
 //测试
@@ -272,6 +273,11 @@ export default new Router({
             path:'/uncommitted',
             component:Uncommitted,
             name:'关闭 用户未提交'
+        },
+        {
+            path: '/Refund',
+            component: Refund,
+            name: '退款申请'
         }
 	]
 })
