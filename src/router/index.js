@@ -67,6 +67,10 @@ import Eva from '@/view/myRating/eva'
 import AddBatchEva from '@/view/myRating/addBatchEva'
 
 
+//退换货流程
+import Servicetype from '@/view/aftersale/servicetype' //选择服务类型
+
+
 //测试
 import Person from '@/view/test/person'
 
@@ -238,6 +242,11 @@ export default new Router({
             path: '/packdetails',
             component: packdetails,
             name: "套餐详情"
+        },
+        {
+            path: '/servicetype',
+            component: Servicetype,
+            name: '选择服务类型'
         }
 	]
 })

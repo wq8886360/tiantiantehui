@@ -226,7 +226,8 @@ export default{
 			})
         },
         api_orderbuycombo(){
-            //let goodinfo = '{"combo_id":14,"goods_sku":{"56":211,"54": ""}}';
+            let goodinfo = localStorage.info;
+            console.log(goodinfo)
             orderbuycombo({address_id:this.address_id, combo: goodinfo}).then((response) => {
                 console.log(response)
 				let res = response.data;
@@ -380,7 +381,6 @@ export default{
 			this.address_id = 0
 		}
         let type = localStorage.type;
-        type = 'buymeal'
 		//立即购买
 		if(type == 'buynow'){
 			this.api_orderconfirm_direct();
