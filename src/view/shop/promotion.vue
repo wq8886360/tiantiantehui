@@ -1,6 +1,6 @@
 <template>
-	<div class="promotion" v-if='promotionList'>
-		<div class='promotionBox'>
+	<div class="promotion" >
+		<div class='promotionBox' v-if='promotionList!=""'>
 			<div style="width:100%;overflow:auto; -webkit-overflow-scrolling: touch;" class='pushBox' :class="{'tabBarFixed':tabFix}"> 
 	    		<div style="width:100040px;color:white;-webkit-overflow-scrolling: touch;">       
 	        		<div class='pushCon' style="float:left;" v-for='item in promotionList.lable'>
@@ -8,55 +8,65 @@
 	        		</div>
 	    		</div>
 			</div>
-			<div class='promotionGoods' v-if='promotionList.list.goods.data.length!=0'>
-				<div class='time' v-if='promotionList.list!=null' v-show='promotionList.list.remark'>
+
+			<div class='promotionGoods' >
+				<div class='time' v-if='promotionList.label!=null' v-show='promotionList.list.remark'>
 					<p class='remark' v-for='item in promotionList.list.remark'>{{item}}</p>
 				</div>
-				<div class='news'>
-					<ul v-if='promotionList.list!=null'>
-						<li v-for='item in promotionList.list.goods.data'>
-							<div class='imgBox'>
-								<img :src="item.whole_thumb" alt="">
+				<div v-if='promotionList.list!=null'>
+					<div class='news' v-if='promotionList.list.goods.data!=null'>
+						<ul v-if='promotionList.list.goods.data.length!=0'>
+							<li v-for='item in promotionList.list.goods.data'>
+								<div class='imgBox'>
+									<img :src="item.whole_thumb" alt="">
+								</div>
+								<div class='titlePrice'>
+									<p>{{item.title}}</p>
+									<div class='price'><span>￥</span><b>{{item.price}}</b><i>￥{{item.market_price}}</i></div>
+								</div>
+								<p class='gift' v-show='item.giftGoodsName'><span>赠品</span>{{item.giftGoodsName}}</p>
+							</li>
+						</ul>
+						<div v-else class='noReview'>
+				            <img src="../../assets/img/noReview.png" alt="">
+				            <p>没有相关商品</p>
+				        </div>
+					</div>
+					<div  class='combo' v-else-if='promotionList.list.goods!=null'>
+						<div v-for='item in promotionList.list.goods' class='comboBottom'  v-if='promotionList.list.goods.length!=0' @click='combo(item.id)'>
+							<div class='comboPriceBox'>
+				    			<div>
+					    			<span class='comboPrice'>套餐价</span>
+			        				<i>￥</i>
+			        				<b>{{item.price}}</b>
+			        				<span class='oldPrice'>套餐原价￥{{item.old_price}}</span>
+				    			</div>
+		        			</div> 
+	        				<p class='timeBox'>时间：2015.1.11结束</p>
+							<div style="width:100%;overflow:auto;-webkit-overflow-scrolling: touch;" class='comboDiv'> 
+					    		<div style="width:100040px;-webkit-overflow-scrolling: touch;"> 
+					        		<div class='comboCon' style="float:left;" v-for='items in item.data'>
+					        			<div class='single'>
+					        				<img :src="items.whole_thumb" alt="">
+					        			</div>
+					        			<p>{{items.title}}</p>
+					        		</div>
+					    		</div>
 							</div>
-							<div class='titlePrice'>
-								<p>{{item.title}}</p>
-								<div class='price'><span>￥</span><b>{{item.price}}</b><i>￥{{item.market_price}}</i></div>
-							</div>
-							<p class='gift' v-show='item.giftGoodsName'><span>赠品</span>{{item.giftGoodsName}}</p>
-						</li>
-					</ul>
-				</div>
-				<div v-if='promotionList.list!=null' v-show='!promotionList.list.remark'  class='combo'>
-					<div v-for='item in promotionList.list.goods' class='comboBottom'>
-						<div class='comboPriceBox'>
-			    			<div>
-				    			<span class='comboPrice'>套餐价</span>
-		        				<i>￥</i>
-		        				<b>{{item.price}}</b>
-		        				<span class='oldPrice'>套餐原价￥{{item.old_price}}</span>
-			    			</div>
-	        			</div> 
-        				<p class='timeBox'>时间：2015.1.11结束</p>
-						<div style="width:100%;overflow:auto;-webkit-overflow-scrolling: touch;" class='comboDiv'> 
-				    		<div style="width:100040px;-webkit-overflow-scrolling: touch;"> 
-				        		<div class='comboCon' style="float:left;" v-for='items in item.data'>
-				        			<div class='single'>
-				        				<img :src="items.whole_thumb" alt="">
-				        			</div>
-				        			<p>{{items.title}}</p>
-				        		</div>
-				    		</div>
 						</div>
 					</div>
+
 				</div>
+				<div v-else class='noReview'>
+		            <img src="../../assets/img/noReview.png" alt="">
+		            <p>没有相关商品</p>
+		        </div>
 			</div>
-			<div v-else class='noReview'>
-	            <img src="../../assets/img/noReview.png" alt="">
-	            <p>没有相关商品</p>
-	        </div>
-
-
 		</div>
+		<div v-else class='noReview'>
+            <img src="../../assets/img/noReview.png" alt="">
+            <p>没有相关商品</p>
+        </div>
 		
 	</div>
 </template>
@@ -68,7 +78,7 @@ export default{
 			info:{
 				storeId:'',
 				promotionId:'',
-				type:'',
+				type:'combo',
 				page:1,
 				pageSize:30,
 			},
@@ -81,12 +91,23 @@ export default{
 	methods:{
 		getPromotion(){ 
 			promotionGoodsList(this.info).then((response)=>{
+				console.log(response,'response')
 				if(response.data.code=='1000'){
-					this.promotionList=response.data.data
-					this.promotionListDown=response.data.data
-					this.total=response.data.data.list.goods.total
-					console.log(this.promotionList)
+					if(JSON.stringify(response.data.data)=="{}"){
+						this.promotionList=''
+						this.promotionListDown=''
+						this.total=''
+					}else{
+						this.promotionList=response.data.data
+						this.promotionListDown=response.data.data
+						if(response.data.data.list!=null){
+							this.total=response.data.data.list.goods.total
+						}			
+					}
+
 				}
+				console.log(this.promotionList,'this.promotionList')
+
 			})
 		},
 		getInfo(item){
@@ -117,6 +138,9 @@ export default{
            		}
            	}
    		},
+   		combo(id){
+   			this.$router.push({path:'/packdetails',query:{combo_id:id}})
+   		}
     },
 	created() {	
 		this.info.storeId=this.$route.query.store_id
@@ -130,6 +154,25 @@ export default{
 <style  lang="less">
 /* ----------------------------------- */
 .promotion{
+	.noReview{
+		background:white;
+		padding-top:3.333333rem;
+		img{
+
+			width:5.133333rem;
+			height:2.933333rem;
+			display:block;
+			margin:0 auto;
+		}
+		p{
+			font-size:0.4rem;
+			height:0.4rem;
+			line-height: 0.4rem;
+			margin-top:0.64rem;
+			color:#ccc;
+			text-align: center;
+		}
+	}
 	.promotionBox{
 		padding-bottom:2rem;
 		.pushBox{
