@@ -16,7 +16,7 @@
 		<div v-else class='storeGoodsList'>
 			<div class='news'>
 				<ul>
-					<li v-for='item in newSGoodsList'> 
+					<li v-for='item in newSGoodsList' @click='gotoDetail(item)'> 
 						<div class='imgBox'>
 							<img :src="item.whole_thumb" alt="">
 						</div>
@@ -54,6 +54,9 @@ export default {
 		this.getGoodsList()
 	},
 	methods:{
+		gotoDetail(item){
+			this.$router.push({path:"/good/detail",query:{goods_id:item.item_id}})
+		},
 		goodsFour(index){
 			this.goodsInfo.sort=index
 			if(index=='priceDown'){

@@ -1,7 +1,7 @@
 <template>
 	<div class="sort">
-		<ul class='sortUlBox' >
-			<li>
+		<ul class='sortUlBox' v-if='sortList==""'>
+			<li >
 				<p><span>全部</span><i class='icon-right'></i></p>
 			</li> 
 			<li v-for="(item,index) in sortList.data">
@@ -15,6 +15,11 @@
 			</li>
 			
 		</ul>
+		<div v-else class='noReview'>
+            <img src="../../assets/img/noReview.png" alt="">
+            <p>没有分类</p>
+        </div>
+
 	</div>
 </template>
 <script>
@@ -58,7 +63,25 @@ html,body{
 	height:100%;
 }
 .sort{
-	height:100%;
+	height:100%;	
+	.noReview{
+		padding-top:3.333333rem;
+		img{
+
+			width:5.133333rem;
+			height:2.933333rem;
+			display:block;
+			margin:0 auto;
+		}
+		p{
+			font-size:0.4rem;
+			height:0.4rem;
+			line-height: 0.4rem;
+			margin-top:0.64rem;
+			color:#ccc;
+			text-align: center;
+		}
+	}
 	.sortUlBox{
 		height:100%;
 		li:first-child{
