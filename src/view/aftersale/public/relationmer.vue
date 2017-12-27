@@ -22,11 +22,16 @@ export default{
 
 <style>
 	.relationmer {
+		width: 100%;
+		height: 1.33rem;
 		box-sizing: border-box;
 		overflow: hidden;
 		padding: 0.31rem 0.27rem;
 		color: #FB0036;
+		background-color: #fff;
 		border-top: 1px solid #D8D8D8;
+		position: fixed;
+		bottom: 0;
 	}
 	.relationmer .merchant {
 		width: 1.87rem;
