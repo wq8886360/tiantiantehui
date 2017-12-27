@@ -70,14 +70,18 @@
 									<div class="price">￥{{item.price}}</div>
 									<div class="price_hide">￥{{item.market_price}}</div>
 									<div class="quantity">x{{item.qty}}</div>
+									<div v-if='item.refund_button_desc!="" ' class="sales">{{item.refund_button_desc}}</div>
 								</div>
 							</div>
 							<div class="gifts" v-if='item.gift.length!=0'>
-								<img :src="item.gift.thumb" alt="">
-								<div class="gifts_c">
-									<div class="gifts_right">{{item.gift.title}}</div>
+								<div class="corner"></div>
+								<div class="corner_right">
+									<div class="conn_left">
+										<div class="writing">赠品</div>
+										<img class="photo_c" :src="item.gift.thumb" alt="">
+										<div class="title">{{item.gift.title}}</div>
+									</div>
 								</div>
-								<div class="ceng">赠品</div>
 							</div>
 						</div>
 					</li>
