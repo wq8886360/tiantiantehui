@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { XNumber, Popup,TransferDom,Checklist,} from 'vux'
+import { XNumber, Popup,TransferDom,Checklist} from 'vux'
 export default{
 	directives: {
 		TransferDom
@@ -57,7 +57,7 @@ export default{
 	components: {		
     	XNumber, 
     	Popup, 
-    	Checklist, 	
+    	Checklist
 	},	
 	data(){
 		return {
