@@ -361,11 +361,11 @@ export default{
 				address_id: this.address_id,
 				paytype: code
 			}
-			//console.log(params)
 			ordercheckout(params).then((response) => {
-				//console.log(response)
+				console.log(response)
 				if(response.data.code == 1000){
-					this.$vux.toast.text('订单生产成功', 'middle');
+                    let jump_url = encodeURIComponent(window.location.host + '/#/Payoff');
+					window.location.href = response.data.data.pay_url + '&' + jump_url;
 				}
 			})
 		}
@@ -373,7 +373,8 @@ export default{
 	created(){
 		getavailablepaymethod().then((response) => {
 			console.log(response)
-			this.pay_types = response.data.data;
+            this.pay_types = response.data.data.pay_method;
+            //console.log(this.pay_types)
 		})
 		if(this.$route.query.address_id){
 			this.address_id = this.$route.query.address_id;
