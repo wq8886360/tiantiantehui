@@ -29,7 +29,7 @@
 		</div>
 		<div class="others">
 			<div class="category">其他套餐</div>
-			<div class="others_con" v-for='(item,index) in packdetails_data.others_combo'>
+			<div class="others_con" v-for='(item,index) in packdetails_data.others_combo' @click='jump(item.combo_id)'>
 				<div class="titlle">
 					<span class="Setmeal">套餐价</span>
 					<span class="coin">￥</span>
@@ -116,10 +116,7 @@ export default{
 			map_arr:[], //请选择的时候更改的数组
 			sku_id: '', //确定后的sku_id
 			combb_id:null,//传过去的套餐Id
-			arr_ard:[],
-			arr_new:[],
-			arr_xin:[],
-			goods_sku:{}
+			goods_sku:{},
 		}
 	},
 	watch:{
@@ -133,9 +130,9 @@ export default{
 				idArr.sort(function (x,y) {
 		            return x-y;
 		        });
-		        console.log(idArr,888)
+		        
 				let idArrStr = idArr.join('_');
-				console.log(idArrStr)
+				
 				//查询sku
 				this.sku.map((val,index,arr) => {
 					if(val['specs'] == idArrStr){
@@ -159,27 +156,24 @@ export default{
 	methods:{
 		/*详情的数据的api*/
 		getcombodetail_api(){
-			getcombodetail({combo_id:14,goods_id:54}).then((response)=>{
+			console.log(this.combo_id)
+			getcombodetail({combo_id:this.combo_id,goods_id:54}).then((response)=>{
 				let res = response.data;
 				if(res.code==1000){
 					this.packdetails_data=res.data;
 					console.log(this.packdetails_data)
-					this.arr_ard=this.packdetails_data.current_combo.goods.map((val,index,arr)=>{
-						return val.goods_id
-					})
-					console.log(this.arr_ard)
-					console.log(this.arr_ard)
 					this.combb_id=this.packdetails_data.current_combo.combo_id;
 					this.packdetails_data.current_combo.goods.map((val,index,arr)=>{
 						this.map_arr.push({choice:null})
 					})
+
 				}
 			})
 		},
 		earphone(item_goods_id,index){
 			this.index_index=index;
 			this.goods_id=item_goods_id;
-			getcombodetail({combo_id:14,goods_id:item_goods_id}).then((response)=>{
+			getcombodetail({combo_id:this.combo_id,goods_id:item_goods_id}).then((response)=>{
 				let res = response.data;
 				if(res.code==1000){
 					this.sku_data=res.data.current_combo.goods[index].goods_info;
@@ -209,7 +203,7 @@ export default{
 	   			is_up = true;
 	   			this.specsState=false;
 	   			this.sku_id = this.skuid;
-	   			console.log()
+	   			
 	   			if(this.specstitle!='请选择规格'){
 	   				this.map_arr[this.index_index].choice='已选择'+this.specstitle;
 	   				console.log(this.specstitle)
@@ -221,37 +215,41 @@ export default{
 	   			console.log(this.goods_sku)
 			}
 	   	},
-	   	unArray (Arr) {  
-		  var newArr = [],hash = {};//hash位hash表 
-		   for (var i = 0; i < Arr.length; i++) {      
-		      if (!hash[Arr[	i]]){//如果hash表里没有第i项则         
-		         hash[Arr[i]] = true;//把第i项插入到hash表里       
-		         newArr.push(Arr[i])//把Arr数组的第i项插入新数组。此方法的时间消耗长，内存消耗大；    
-		      }   
-		   };    
-		    return newArr;
-		},
 	   	//立即购买
 	   	immediately(){
 	   		this.specsState = false;
-	   		for (var i=0;i<this.map_arr.length;i++) {
+	   		let mes=[];
+	   		console.log(this.map_arr.length,1111111)
+	   		for(let i in this.map_arr){
 	   			if(this.map_arr[i].choice==null){
-	   				this.$vux.toast.text('请选择规格','middle') 
+	   				mes.push(this.map_arr[i]['choice'])
+	   				
 	   			}else{
-	   				let params = {
-   						num: this.goodNum,
-   						combo_id:this.combb_id,
-   						goods_sku:this.goods_sku
-   					}
-   					localStorage.type = 'buymeal';
-   					localStorage.info=JSON.stringify(params)
-	   				this.$router.push({path:'/confirmorder'})
+	   				if(this.map_arr[i].choice.length<=0){
+	   					mes.length==0
+	   				}
 	   			}
 	   		}
-
+	   		
+	   		if(mes.length==0){
+	   			let params = {
+   					num: this.goodNum,
+   					combo_id:this.combb_id,
+   					goods_sku:this.goods_sku
+   				}
+   				localStorage.type = 'buymeal';
+   				localStorage.info=JSON.stringify(params)
+	   			this.$router.push({path:'/confirmorder'})
+	   		}else{
+	   			this.$vux.toast.text('请选择套餐里的规格', 'middle');
+	   		}
 	   	},
+	   	jump(combo_id){
+	   		this.$router.push({path:'./packdetails',query:{combo_id:combo_id}})
+	   	}
 	},
 	created(){
+		this.combo_id=this.$route.query.combo_id;
 		this.getcombodetail_api();
 	}
 }	

@@ -280,7 +280,6 @@ html,body{
 }
 .banner{
 	width:100%;
-	padding:0.066667rem 0;
 	border-bottom:0.266667rem solid #f7f7f7;
 }
 .banner .swiper-slide{
