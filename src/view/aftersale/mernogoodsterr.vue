@@ -1,5 +1,5 @@
 <template>
-	<div class="meragree">
+	<div class="mernogoodsterr">
 		<!-- 物流计时组件 -->
 		<Exchange></Exchange>
 		<!-- 计时提示组件 -->
@@ -19,18 +19,13 @@
 		</div>
 		<!-- 转行条 -->
 		<div class="line"></div>
-		<!-- 收货地址 -->
-		<div class="sales-return">
-			<div class="sare-title">收货地址</div>
-			<div class="sare-parlic">
-				<div class="man-phone">
-					<span class="consignee">收件人：来自阿拉斯加的南极圈的..</span>
-					<span class="sare-ph">联系电话：13569855874</span>
-				</div>
-				<p class="address">浙江省 杭州市 滨江区 江陵路1916号星耀城二期29楼705</p>
-			</div>
+		<!-- 用户退货物流 -->
+		<div class="logistics">
+			<span class="logspan">用户退货物流</span>
+			<span class="logname">百世快递(656655656454)
+			</span>
+			<i class="icon-right right"></i>
 		</div>
-		<!-- 转行条 -->
 		<div class="line"></div>
 		<!-- 物品详情子组件 -->
 		<Offcial></Offcial>
@@ -62,7 +57,7 @@ export default {
 </script>
 
 <style lang="less">
-	.meragree {
+	.mernogoodsterr {
 		margin-bottom: 1.33rem;
 		background-color: #F7F7F7;
 
@@ -105,6 +100,29 @@ export default {
 			.address {
 				margin-top: 0.27rem;
 			}
+		}
+	}
+	/*退货物流*/
+	.logistics {
+		background-color: #fff;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0.35rem 0.27rem;
+		border-bottom: 1px solid #eee;
+		overflow: hidden;
+		line-height: 1;
+		.logspan {
+			font-size: 0.37rem;
+			float: left;
+		}
+		.logname {
+			font-size: 0.32rem;
+			color: #858585;
+			/*float: right;*/
+			margin-left: 3.07rem;
+		}
+		.icon-right {
+			margin-top: 0.05rem;
 		}
 	}
 }

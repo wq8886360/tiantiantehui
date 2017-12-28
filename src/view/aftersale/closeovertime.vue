@@ -1,5 +1,5 @@
 <template>
-	<div class="applychange">
+	<div class="closeovertime">
 		<!-- 申请计时子组件 -->
 		<Exchange></Exchange>
 		<!-- 计时提示子组件 -->
@@ -39,7 +39,7 @@ export default{
 </script>
 
 <style lang="less">
-	.applychange {
+	.closeovertime {
 		background-color: #F7F7F7;
 		height: 100vh;
 
