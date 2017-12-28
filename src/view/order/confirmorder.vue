@@ -372,7 +372,7 @@ export default{
 				if(response.data.code == 1000){
                     let jump_url = encodeURIComponent(window.location.host + '/#/Payoff');
                     console.log(jump_url)
-					//window.location.href = response.data.data.pay_url + '&' + jump_url;
+					window.location.href = response.data.data.pay_url + '&' + jump_url;
 				}
 			})
 		}
