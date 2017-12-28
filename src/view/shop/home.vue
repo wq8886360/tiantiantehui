@@ -30,12 +30,16 @@
         		</div>
     		</div>
 		</div>
-		<div  v-for="(item,index) in storeInfo.body" v-if='storeInfo.body!=null' class='allBox'> 
+			<div v-if='storeInfo.body==null' class='noReview'>
+	            <img src="../../assets/img/noReview.png" alt="">
+	            <p>您还没有相关的商品</p>
+	        </div>
+			<div  v-for="(item,index) in storeInfo.body" v-else class='allBox'> 
 				<!-- 双排 -->
-				<div class="Doublerowlayout" v-if="item.block_module_type == 1">
+				<div class="Doublerowlayout" v-if="item.block_module_type == 1" >
 					<h1 v-if="item['title']">{{item.title}}</h1>
 					<h1 v-else>双列排版</h1>
-					<div class="box_list" v-if="item.data.length!=0"  v-for="(items,index) in item.data" :key="index">
+					<div class="box_list" v-if="item.data!=''"  v-for="(items,index) in item.data" :key="index" @click='doubleLayout(items)'>
 						<div class="img" v-if='items.thumb!=null'>
 							<img :src="domain+items.thumb" alt="">
 						</div>
@@ -49,10 +53,10 @@
 					</div>
 				</div> 
 				<!-- 单排 -->
-				<div class="Singlelayout" v-if="item.block_module_type == 2">
+				<div class="Singlelayout" v-if="item.block_module_type == 2" >
 					<h1 v-if="item['title']">{{item.title}}</h1>
 					<h1 v-else>单列排版</h1>
-					<div v-if="item.data.length!=0" class="list" v-for="(items,index) in item.data" :key="index">
+					<div v-if="item.data.length!=0" class="list" v-for="(items,index) in item.data" :key="index"  @click='doubleLayout(items)'>
 						<div class="sl">
 							<img :src="domain+items.thumb" alt="">
 						</div>
@@ -76,71 +80,43 @@
 				</div> 
 				<!-- 单列图片 -->
 				<div class="Singlepicture" v-if="item.block_module_type == 5">
-					<div class="img">
-						<img v-if="!item.data[0].thumb" src="http://v20-wx.shunliandongli.com/joinin/20170824/20170824140723361h.jpg" alt="">
-						<img v-else :src="domain+item.data[0].thumb" alt="">
-					</div>
-					<div v-if="item.data[0].description" class="title">
-						{{item.data[0].description}}
+					<div v-for='items in item.data' @click='doubleLayout(items)'>
+						<div class="img">
+							<img :src="items.whole_thumb" alt="">
+						</div>
+						<div  class="title">
+							{{item.data[0].description}}
+						</div>
 					</div>
 				</div> 
 				<!-- 双列图片 -->
 				<div class="Doublepicture"  v-if="item.block_module_type == 6">
-					<div class="double left">
+					<div class="double left" v-for='items in item.data'  @click=doubleLayout(items)>
 						<div class="img">
-							<img v-if="!item.data[0].thumb" src="http://v20-wx.shunliandongli.com/joinin/20170824/20170824140723361h.jpg" alt="">
-							<img v-else :src="domain+item.data[0].thumb" alt="">
+							<img :src="items.whole_thumb" alt="">
 						</div>
-						<div v-if="item.data[0].description" class="title">
-							{{item.data[0].description}}
-						</div>
-					</div>
-					<div class="double right">
-						<div class="img">
-							<img v-if="!item.data[1].thumb" src="http://v20-wx.shunliandongli.com/joinin/20170824/20170824140723361h.jpg" alt="">
-							<img v-else :src="domain+item.data[1].thumb" alt="">
-						</div>
-						<div v-if="item.data[1].description" class="title">
-							{{item.data[1].description}}
+						<div  class="title">
+							{{items.description}}
 						</div>
 					</div>
 				</div>
 			
 				<!-- 三列图片 -->
 		 		<div class="Threepicture" v-if="item.block_module_type == 8">
-					<div class="three left">
+					<div class="three left" v-for='items in item.data' @click=doubleLayout(items)>
 						<div class="img">
-							<img v-if="!item.data[0].thumb" src="http://v20-wx.shunliandongli.com/joinin/20170824/20170824140723361h.jpg" alt="">
-							<img v-else :src="domain+item.data[0].thumb" alt="">
-						</div>
-						<div v-if="item.data[0].description" class="title">
-							{{item.data[0].description}}
-						</div>
-					</div>
-					<div class="three center">
-						<div class="img">
-							<img v-if="!item.data[1].thumb" src="http://v20-wx.shunliandongli.com/joinin/20170824/20170824140723361h.jpg" alt="">
-							<img v-else :src="domain+item.data[1].thumb" alt="">
+							<img :src="items.whole_thumb" alt="">
 						</div>
 						<div class="title">
-							{{item.data[1].description}}
-						</div>
-					</div>
-					<div class="three right">
-						<div class="img">
-							<img v-if="!item.data[2].thumb" src="http://v20-wx.shunliandongli.com/joinin/20170824/20170824140723361h.jpg" alt="">
-							<img v-else :src="domain+item.data[2].thumb" alt="">
-						</div>
-						<div class="title">
-							{{item.data[2].description}}
+							{{items.description}}
 						</div>
 					</div>
 				</div> 
 				<!-- 轮播图 -->
 				<div class='banner' v-if="item.block_module_type == 7">
 					<swiper :options="swiperOption" ref="mySwiper">
-					    <swiper-slide v-if='item.data.length!=0' v-for="(items,index) in item.data" :key="index">
-					    		<img :src="domain+items.thumb" alt="">
+					    <swiper-slide v-if='item.data.length!=0' v-for="(items,index) in item.data" :key="index" >
+					    		<img :src="domain+items.thumb" alt="" @click=doubleLayout(items)>
 					    		<div class='textBox'></div>
 					    		<p>{{items.description}}</p>
 					    		<!-- <div class='curcleNum'>	
@@ -152,10 +128,7 @@
 					</swiper>
 				</div>
 			</div> 
-			<div v-else class='noReview'>
-	            <img src="../../assets/img/noReview.png" alt="">
-	            <p>您还没有相关的评价</p>
-	        </div>
+			
 	</div>
 </template>
 <script>
@@ -190,6 +163,24 @@ export default{
 		} 
 	},
 	methods:{
+		doubleLayout(item){
+			console.log(item)
+			if(item.type=='goods'){
+				this.$router.push({path:"/good/detail",query:{goods_id:item.item_id}})
+			}else if(item.type=='category'){
+				this.$router.push({path:"sort",query:{storeId:item.item_id}})
+			}else if(item.type=='other'){
+				/*this.$router.push({path:"sort",query:{storeId:item.item_id}})*/
+				if(item.item_id=='1'){
+					this.$router.push({path:"store",query:{store_id:this.$route.query.store_id}})
+				}else if(item.item_id=='2'){
+					this.$router.push({path:"store",query:{store_id:this.$route.query.store_id,idx:2}})
+				}else if(item.item_id=='3'){
+					this.$router.push({path:"store",query:{store_id:this.$route.query.store_id,idx:3}})
+				}
+			}
+			
+		},
 		onItemClick (index) {
     	},
     	getVouchers(id){
@@ -214,6 +205,7 @@ export default{
 	created() {	
 		this.storeInfo=this.data
 		this.domain =this.storeInfo.baseUrl
+
 	},
 	mounted() {
    		/*console.log(document.getElementById("li").offsetWidth)*/
@@ -280,6 +272,7 @@ html,body{
 }
 .banner{
 	width:100%;
+	padding:0.066667rem 0;
 	border-bottom:0.266667rem solid #f7f7f7;
 }
 .banner .swiper-slide{
@@ -368,9 +361,10 @@ html,body{
         font-size:0.32rem;
         line-height: 0.48rem;
 	}
-	.Threepicture .right{
-	 	margin-right: 0;
+	.Threepicture .three:nth-child(3n+3){
+		margin-right: 0;
 	}
+
 
 
 /* -----------双列图片-------------- */
@@ -412,13 +406,13 @@ html,body{
 		border-bottom:0.266667rem solid #f7f7f7;
 	}
 	.Singlepicture .img{
-		padding-top: 0.133333rem;
         width:100%;
         height:4.8rem;
         overflow: hidden;
 	}
 	.Singlepicture .img img {
       	width: 100%;
+      	height:100%;
     }
  	.Singlepicture .title{
  		padding:0.4rem 0.293333rem 0.666667rem;

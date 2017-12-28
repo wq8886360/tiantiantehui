@@ -6,6 +6,7 @@
 		</div>
 		<!-- 物品图片部分 -->
 		<div class="offic-pic">
+		  <div class="waiceng">
 			<img src="" class="offic-print"></img>
 			<!-- 中间内容部分 -->
 			<div class="offic-details">
@@ -16,6 +17,16 @@
 			<div class="offic-price">
 				<p class="offic-pri">￥799.00</p>
 				<span class="mul">×1</span>
+			</div>
+		   </div>
+			<!-- 赠品 -->
+			<div class="complimentary">
+				<div class="compicon"></div>
+				<div class="compmatter">
+					<span class="comzengpin">赠品</span>
+					<img src="" alt="" class="comimg">
+					<span class="comwenzi">韩国女士触屏羊毛手裤一条</span>
+				</div>
 			</div>
 		</div>
 		<!-- 换货详情 -->
@@ -45,6 +56,9 @@ export default{
 </script>
 
 <style>
+	.official {
+		background-color: #fff;
+	}
 	/*物品表头*/
 	.offic-head {
 		box-sizing: border-box;
@@ -97,6 +111,56 @@ export default{
 		float: right;
 		font-size: 0.32rem;
 		color: #858585;
+	}
+	.waiceng {
+		overflow: hidden;
+	}
+	/*赠品*/
+	.complimentary {
+		box-sizing: border-box;
+		width: 100%;
+		/*height: 0.67rem;*/
+		padding: 0 0.67rem;
+		margin-top: 0.2rem;
+		overflow: hidden;	
+		font-size: 0.32rem;	
+	}
+	.complimentary .compicon {
+		width: 0.37rem;
+		height: 0.37rem;
+		border-left: 1px solid #eee;
+		border-bottom: 1px solid #eee;
+		margin-right: 0.08rem;
+		float: left;		
+	}
+	.complimentary .compmatter {
+		float: left;
+		overflow: hidden;
+		background-color: #eee;
+	}
+	.complimentary .comzengpin {
+		display: inline-block;
+		width: 0.33rem;
+		height: 0.67rem;
+		background-color: #F7073A;
+		font-size: 0.19rem;
+		line-height: 1;
+		float: left;
+	}
+	.complimentary .comimg {
+		width: 0.67rem;
+		height: 0.67rem;
+		float: left;
+		background-color: green;
+	}
+	.complimentary .comwenzi {
+		float: left;
+	}
+	.complimentary .comwenzi {
+		width: 5.93rem;
+		margin-left: 0.33rem;
+		/*float: left;*/
+		line-height: 2;
 	}
 	/*换货详情*/
 	.barter-details {

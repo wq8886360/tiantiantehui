@@ -3,7 +3,7 @@
 		<div class='news'  v-for="(item,index) in newSGoodsList" v-if='newSGoodsList.length!=0'>
 			<p><span>{{item.day}}</span></p>
 			<ul>
-				<li v-for="itemLi in item.data">
+				<li v-for="itemLi in item.data" @click='gotoDetail(itemLi)'>
 					<div class='imgBox'>
 						<img :src="itemLi.whole_thumb" alt="">
 					</div>
@@ -40,6 +40,9 @@ export default {
 					this.newSGoodsList=response.data.data.data
 				}
 			})
+		},
+		gotoDetail(item){
+			this.$router.push({path:"/good/detail",query:{goods_id:item.item_id}})
 		}
 	}
 }

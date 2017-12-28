@@ -14,16 +14,10 @@
 			</div>
 			<div class="bar-price">￥799.00</div>
 		</div>
-		<!-- 转行条 -->
-		<div class="brline"></div>
 		<!-- 换货原因 -->
 		<div class="bar-mer-cau" @click="barcau = true">换货原因 <span class="cause">大小/尺寸与描述不符 <i class="icon-right right"></i></span></div>
-		<!-- 转行条 -->
-		<div class="brline"></div>
 		<!-- 换货说明 -->
 		<div class="bar-mer-exp"><p class="bme">换货说明: </p></div>
-		<!-- 转行条 -->
-		<div class="brline"></div>
 		<!-- 上传凭证 -->
 		<div class="up-gist">
 			<div class="gist">上传凭证</div>
@@ -31,7 +25,6 @@
 		</div>
 		<!-- 提交申请 -->
 		<div class="refer-apply">提交申请</div>
-
 		<!-- 换货原因弹窗 -->
 		<div v-transfer-dom>
 			<popup v-model="barcau" position="bottom" height="66%">
@@ -82,6 +75,8 @@ export default{
 <style>
 .barterapply {
 	position: relative;
+	background-color: #F7F7F7;
+	margin-bottom: 1.33rem;
 }
 /*商品头部*/
 .bar-mer-head {
@@ -89,6 +84,7 @@ export default{
 	font-size: 0.37rem;
 	padding: 0.35rem 0.27rem;
 	border-top: 0.01rem solid #D8D8D8;
+	background-color: #fff;
 }
 /*换货内容*/
 .bar-mer-con {
@@ -96,6 +92,7 @@ export default{
 	padding: 0.27rem 0.27rem 0.83rem 0.27rem;
 	border-top:0.01rem solid #eee;
 	overflow: hidden;
+	background-color: #fff;
 }
 .bar-img {
 	width: 2.53rem;
@@ -129,17 +126,14 @@ export default{
 	float: right;
 	font-size: 0.37rem;
 }
-/*转行条*/
-.brline {
-	width: 100%;
-	height: 0.27rem;
-	background: #F7F7F7;
-}
+
 /*换货原因*/
 .bar-mer-cau {
+	margin-top: 0.27rem;
 	box-sizing: border-box;
 	padding: 0.49rem 0.27rem;
 	font-size: 0.37rem;
+	background-color: #fff;
 }
 .bar-mer-cau .cause {
 	overflow: hidden;
@@ -151,17 +145,20 @@ export default{
 }
 /*换货说明*/
 .bar-mer-exp {
+	margin-top: 0.27rem;
 	min-height: 1.99rem;
 	box-sizing: border-box;
 	padding: 0.27rem;
 	font-size: 0.37rem;
+	background-color: #fff;
 }
 /*上传凭证*/
 .up-gist {
+	margin-top: 0.27rem;
 	min-height: 6.28rem;
 	box-sizing: border-box;
 	padding: 0.53rem 0.27rem 1.6rem;
-
+	background-color: #fff;
 }
 .up-gist .up-pic {
 	width: 100%;
