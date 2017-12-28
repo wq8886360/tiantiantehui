@@ -6,7 +6,7 @@
 				<li v-for='(item,index) in allorder_data'>
 					<div class="allorder_top">
 						<img src="../../assets/img/storeIconAct.png" alt=""	>
-						<span class="title">{{item.store_name}} > </span>
+						<span class="title">{{item.store_name}} <i style="vertical-align: middle;color:black" class="icon-right"></i></span>
 						<span class="success">{{item.status_text}}</span>
 					</div>
 					<div class="allorder_con" @click='orders_id(item.id)'>
@@ -15,7 +15,7 @@
 								<img :src="itenm.thumb" alt="">
 								<div class="appellation">
 									<div class="text">
-										<span v-if='itenm.offered== "拼"' 	class="spell">{{itenm.offered}}</span>
+										<span v-if='itenm.offered== "拼"' class="spell">{{itenm.offered}}</span>
 										<span class="spell_bottom">{{itenm.title}}</span>
 									</div>
 									<div class="model_number">{{itenm.sku_desc}}</div>

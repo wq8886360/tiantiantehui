@@ -6,7 +6,7 @@
 				<li v-for='(item,index) in shipping_data'>
 					<div class="shipping_top">
 						<img src="../../assets/img/storeIconAct.png" alt="">
-						<span class="title">{{item.store_name}} > </span>
+						<span class="title">{{item.store_name}} <i style="vertical-align: middle;color:black" class="icon-right"></i></span>
 						<span class="success">{{item.status_text}}</span>
 					</div>
 					<div class="shipping_con" @click='orders_id(item.id)'>
