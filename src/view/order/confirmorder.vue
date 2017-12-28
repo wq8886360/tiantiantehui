@@ -282,17 +282,18 @@ export default{
 						goods_id: gitem.goods_id,
 						sku_id: gitem.sku_id,
 						qty: gitem.qty,
-					}
-					if(data.enabled[sindex]['promotion_info'].length > 0){
-						obj.prom_id = data.enabled[sindex]['promotion_info'][0]['prom_id'];
-						console.log(data.enabled[sindex]['promotion_info'][0]['prom_id'],44)
-					}else{
-						obj.prom_id = "";
-					}
+                    }
+                    if(data.enabled[sindex].hasOwnProperty("promotion_info")){
+                        if(data.enabled[sindex]['promotion_info'].length > 0){
+                            obj.prom_id = data.enabled[sindex]['promotion_info'][0]['prom_id'];
+                            console.log(data.enabled[sindex]['promotion_info'][0]['prom_id'],44)
+                        }
+                    }else{
+                        obj.prom_id = "";
+                    }
 					sitem.goods_items.push(obj)
 				})
 			})
-
 
 		},
 		//选择优惠劵
@@ -370,7 +371,8 @@ export default{
 				console.log(response)
 				if(response.data.code == 1000){
                     let jump_url = encodeURIComponent(window.location.host + '/#/Payoff');
-					window.location.href = response.data.data.pay_url + '&' + jump_url;
+                    console.log(jump_url)
+					//window.location.href = response.data.data.pay_url + '&' + jump_url;
 				}
 			})
 		}
