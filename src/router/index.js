@@ -94,6 +94,7 @@ import Platform from '@/view/aftersale/Platform'//申请平台介入
 import content from '@/view/aftersale/content'//提交物理信息
 import Arefund from '@/view/aftersale/Arefund' //退款申请
 
+
 //测试
 import Person from '@/view/test/person'
 
@@ -119,8 +120,7 @@ export default new Router({
                 {
                     path: 'classification',
                     component: Classification,
-                    meta:{name: "商品分类"}
-                    
+                    meta: { title: '商品分类' }
                 }
             ]
 		},
@@ -169,205 +169,218 @@ export default new Router({
         },
         {
             path: '/gathertogether',
-            meta:{name: '购物车凑单'},            
+            meta: { title: '购物车凑单' },
             component: Gathertogether
         },
         {
             path: '/confirmorder',
-            meta:{name: '确认订单'},          
+            meta: { title: '确认订单' },
             component: Confirmorder
         },
         {
             path: '/addadress',
             component: Addadress,
-            meta:{name: "添加收货地址"}
-            
+            meta: { title: '添加收货地址' },
         },
         {
             path: '/selectadress',
             component: Selectadress,
-            meta:{name: "选择收货地址"}
+            meta: { title: '选择收货地址' },
         },
         {
             path: '/management',
             component: Management,
-            meta:{name: "管理收货地址"}           
+            meta: { title: '管理收货地址' },
         },
         {
             path: '/myorder',
             component: Myorder,
-            meta:{name: "我的订单"}            
+            meta: { title: '我的订单' },
         },
         {
             path: '/MyRating',
-            meta:{name: '我的评价'},           
+            meta: { title: '我的评价' },
             component: MyRating
         },
         {
             path: '/Rate',
-            meta:{name: '发布评价'},            
+            meta: { title: '发布评价' },
             component: Rate
         },
         {
             path: '/additionalReview',
-            meta:{name: '追评'} ,          
+            meta: { title: '追评' },
             component: AdditionalReview
         },
         {
             path: '/evaDetail',
-            meta:{ name: '评价详情'},          
+            meta: { title: '评价详情' },
             component: EvaDetail
         },
         {
             path: '/evaSuccess',
-            meta:{name: '评价成功'},           
+            meta: { title: '评价成功' },
             component: EvaSuccess
         },
         {
             path: '/changeGoodEva',
-            meta:{name: '改为好评'},            
+            meta: { title: '改为好评' },
             component: ChangeGoodEva
         },
         {
             path: '/Eva',
-            meta:{name: '商品页评价'},           
+            meta: { title: '商品页评价' },
             component: Eva
         },
         {
             path: '/addBatchEva',
-            meta:{name: '批量追加'},           
+            meta: { title: '批量追加' },
             component: AddBatchEva
         },
         {
             path: '/orderdetails',
+            meta: { title: '订单详情' },
             component: orderDetails,
-            meta:{name: "订单详情"}            
         },
         {
             path: '/Payoff',
             component: Payoff,
-            meta:{name: "支付成功"}            
+            meta: { title: '支付成功' },
         },
         {
             path: '/successfuldeal',
             component: successfuldeal,
-            meta:{name: "交易成功"}            
+            meta: { title: '交易成功' },
         },
         {
             path: '/logistics',
             component: logistics,
-            meta:{name: "物流信息"}           
+            meta: { title: '物流信息' },
         },
         {
             path: '/Offerdetails',
             component: Offerdetails,
-            meta:{name: "详情优惠券"}           
+            meta: { title: '详情优惠券' },
         },
         {
             path: '/packdetails',
             component: packdetails,
-            meta:{name: "套餐详情"}           
+            meta: { title: '套餐详情' },
         },
         {
             path: '/servicetype',
             component: Servicetype,
-            meta:{name: '选择服务类型'}            
+            meta: { title: '选择服务类型' },
         },
         {
             path:'/barterapply',
             component:Barterapply,
-            meta:{ name:'换货申请'}          
+            meta: { title: '换货申请' },
         },
         {
             path:'/applyexchange',
             component:Applyex,
-            meta:{name:'申请换货'}            
+            meta: { title: '申请换货' },
         },
         {
             path:'/meragree',
             component:Meragree,
-            meta:{name:'商家同意换货'}            
+            meta: { title: '商家同意换货' },
         },
         {
             path:'/uncommitted',
             component:Uncommitted,
-            meta:{name:'关闭 用户未提交'}            
+            meta: { title: '关闭 用户未提交' },
         },
         {
             path: '/Refund',
             component: Refund,
-            meta:{name: '退款申请'}            
+            meta: { title: '退款申请' },
         },
         {
             path:'/merrefuse',
             component:Merrefuse,
-            meta:{name:'商家拒绝换货'}           
+            meta: { title: '商家拒绝换货' },
         },
         {
             path:'/affgoodsnone',
             component:Affgoodsnone,
-            meta:{name:'商家确认收货未发货'}            
+            meta: { title: '商家确认收货未发货' },
         },
         {
             path:'/mershipments',
             component:Mershipments,
-            meta:{name:'商家发货'}            
+            meta: { title: '商家发货' },
         },
         {
             path:'/bartersuccess',
             component:Bartersuccess,
-            meta:{name:'换货成功'}            
+            meta: { title: '换货成功' },
         },
         {
             path:'/usersendexp',
             component:Usersendexp,
-            meta:{ name:'用户已寄快递'}          
+            meta: { title: '用户已寄快递' },
         },
         {
             path:'/closeovertime',
             component:Closeovertime,
-            meta:{name:'换货关闭-用户操作超时'}
-            
+            meta: { title: '换货关闭-用户操作超时' },
         },
         {
             path:'/turndownterrace',
             component:Turndownterrace,
-            meta:{name:'商家拒绝换货-申请平台介入'}           
+            meta: { title: '商家拒绝换货-申请平台介入' },
         },
         {
             path:'/terracepadd',
             component:Terracepadd,
-            meta:{name:'商家拒绝换货-平台介入审核通过'}            
+            meta: { title: '商家拒绝换货-平台介入审核通过' },
         },
         {
             path:'/ternopass',
             component:Ternopass,
-            meta:{name:'商家拒绝换货-平台介入审核不通过'}           
+            meta: { title: '商家拒绝换货-平台介入审核不通过' },
         },
         {
             path:'/merrefgoods',
             component:Merrefgoods,
-            meta:{name:'商家拒绝收货'}            
+            meta: { title: '商家拒绝收货' },
         },
         {
             path:'/mernogoodsterr',
             component:Mernogoodsterr,
-            meta:{name:'商家拒绝收货-申请平台介入'}           
+            meta: { title: '商家拒绝收货-申请平台介入' },
         },
         {
             path:'/merrejterpass',
             component:Merrejterpass,
-            meta:{name:'商家拒绝收货-申请平台介入通过-等待发货'}            
+            meta: { title: '商家拒绝收货-申请平台介入通过-等待发货' },
         },
         {
             path:'/inputlogistics',
             component:Inputlogistics,
-            meta:{name:'输入物流信息'}            
+            meta: { title: '输入物流信息' },
         },
         {
             path:'/applyterraceget',
             component:Applyterraceget,
-            meta:{name:'申请平台介入'}            
+            meta: { title: '申请平台介入' },
+        },
+        {
+            path: '/Platform',
+            component: Platform,
+            meta: { title: '申请平台介入' },
+        },
+        {
+            path:'/content',
+            component: content,
+            meta: { title: '提交物流信息' },
+        },
+        {
+            path:'/Arefund',
+            component:Arefund,
+            meta: { title: '退款申请' },
         }
 	]
 })
