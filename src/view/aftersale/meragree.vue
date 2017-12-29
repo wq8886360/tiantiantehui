@@ -37,6 +37,9 @@
 		<div class="line"></div>
 		<!-- 联系商家子组价 -->
 		<Relation></Relation>
+		<!-- 换货关闭 -->
+		<div class="close" @click="close">关闭</div>
+		<span class="wuliu" @click="wuliu">输入物流</span>
 	</div>
 </template>
 
@@ -56,6 +59,14 @@ export default {
 		Relation,
 		Exchange,
 		Leave
+	},
+	methods:{
+		close(){
+			this.$router.push({path:'uncommitted'})
+		},
+		wuliu(){
+			this.$router.push({path:'inputlogistics'})
+		}
 	}
 }	
 
@@ -106,6 +117,15 @@ export default {
 				margin-top: 0.27rem;
 			}
 		}
+	}
+	/*换货关闭*/
+	.close {
+		width: 0.67rem;
+		height: 0.67rem;
+		background-color: red;
+	}
+	.wuliu {
+		background-color: green;
 	}
 }
 </style>

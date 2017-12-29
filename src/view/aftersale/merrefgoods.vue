@@ -51,6 +51,11 @@
 		<div class="line"></div>
 		<!-- 联系商家子组价 -->
 		<Relation></Relation>
+		<!-- 平台介入 -->
+		<span class="pingtai" @click="terrace">申请平台介入</span>
+		<!-- 换货关闭 -->
+		<span class="guanbi" @click="close">换货关闭</span>
+
 	</div>
 </template>
 
@@ -70,6 +75,14 @@ export default {
 		Relation,
 		Exchange,
 		Leave
+	},
+	methods:{
+		terrace(){
+			this.$router.push({path:'mernogoodsterr'})
+		},
+		close(){
+			this.$router.push({path:'closeovertime'})
+		}
 	}
 }	
 
@@ -143,6 +156,14 @@ export default {
 		.icon-right {
 			margin-top: 0.05rem;
 		}
+	}
+
+	/*平台*/
+	.pingtai {
+		background-color: pink;
+	}
+	.guanbi {
+		background-color: red;
 	}
 }
 </style>

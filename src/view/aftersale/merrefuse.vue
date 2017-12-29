@@ -10,6 +10,10 @@
 		<Offcial></Offcial>
 		<!-- 联系商家子组件 -->
 		<Relation class="fiexbott"></Relation>
+		<!-- 申请平台介入 -->
+		<span class="jieru" @click="intervene">申请平台介入</span>
+		<!-- 换货关闭操作超时 -->
+		<span class="chaoshi" @click="overtime">换货关闭-超时</span>
 	</div>
 </template>
 
@@ -30,7 +34,14 @@ export default{
 		Exchange,
 		Leave
 	},
-
+	methods:{
+		intervene(){
+			this.$router.push({path:'applyterraceget'})
+		},
+		overtime(){
+			this.$router.push({path:'closeovertime'})
+		}
+	}
 
 
 
@@ -48,6 +59,12 @@ export default{
 		width: 100%;
 		height: 0.27rem;
 		background-color: #F7F7F7;
+	}
+	.jieru {
+		background-color: green;
+	}
+	.chaoshi {
+		background-color: red;
 	}
 }
 </style>

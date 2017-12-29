@@ -10,6 +10,10 @@
 		<Offcial></Offcial>
 		<!-- 联系商家子组件 -->
 		<Relation class="fiexbott"></Relation>
+		<!-- 同意 -->
+		<span class="agree" @click="agree">商家同意换货</span>
+		<!-- 不同意 -->
+		<span class="noagr" @click="noagr">商家拒绝换货</span>
 	</div>
 </template>
 
@@ -30,7 +34,14 @@ export default{
 		Exchange,
 		Leave
 	},
-
+	methods:{
+		agree(){
+			this.$router.push({path:'meragree'})
+		},
+		noagr(){
+			this.$router.push({path:'merrefuse'})
+		}
+	}
 
 
 
@@ -48,6 +59,12 @@ export default{
 		width: 100%;
 		height: 0.27rem;
 		background-color: #F7F7F7;
+	}
+	.agree {
+		background-color: green;
+	}
+	.noagr {
+		background-color: red;
 	}
 }
 </style>

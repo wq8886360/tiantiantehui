@@ -32,6 +32,10 @@
 		<div class="line"></div>
 		<!-- 联系商家子组价 -->
 		<Relation></Relation>
+		<!-- 平台通过 -->
+		<span class="tongg" @click="agree">平台审核通过</span>
+		<!-- 平台不通过 -->
+		<span class="butong" @click="noagree">平台审核不通过</span>
 	</div>
 </template>
 
@@ -51,6 +55,14 @@ export default {
 		Relation,
 		Exchange,
 		Leave
+	},
+	methods:{
+		agree(){
+			this.$router.push({path:'merrejterpass'})
+		},
+		noagree(){
+			this.$router.push({path:'ternopass'})
+		}
 	}
 }	
 
@@ -124,6 +136,13 @@ export default {
 		.icon-right {
 			margin-top: 0.05rem;
 		}
+	}
+	/*平台申请通过*/
+	.tongg {
+		background-color: green;
+	}
+	.butong {
+		background-color: red;
 	}
 }
 </style>
