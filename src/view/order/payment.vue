@@ -5,7 +5,7 @@
 				<li v-for='(item,index) in payment_data'>
 					<div class="payment_top">
 						<img src="../../assets/img/storeIconAct.png" alt="">
-						<span class="title">{{item.store_name}} > </span>
+						<span class="title">{{item.store_name}} <i class="icon-right right_c"></i></span>
 						<span class="success">{{item.status_text}}</span>
 					</div>
 					<div class="payment_con"  @click='orders_id(item.id)'>

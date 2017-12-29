@@ -47,7 +47,7 @@
 				<div class="flagship_top">
 					<div class="flagship_store">
 						<img src="../../assets/img/storeIconAct.png" alt="">
-						<span>{{order_data.store_name}} <i style="vertical-align: middle;color:black" class="icon-right"></i></span>
+						<span>{{order_data.store_name}} <i class="icon-right right_c"></i></span>
 					</div>
 				</div>
 				<ul class="flagship_ul">
@@ -150,7 +150,7 @@
 						<span v-if='order_data.status==2' class="lin_red" @click='Comeout()'>确认收货</span>
 						<span v-if='order_data.status==3' class="lin_red" @click="appraise()">评价</span>
 						<span v-if='order_data.status==0' class="lin_red">付款</span>
-						<span v-if='order_data.is_append==1' class="lin_red">追加评论</span>
+						<span v-if='order_data.is_append==1' class="lin_red" @click="supplemental()">追加评论</span>
 					</div>
 				</div>
 			</div>
@@ -281,7 +281,11 @@ export default{
    	 				this.orderlist_api()
    	 			}
    	 		})
-   	 	}
+   	 	},
+   	 	/*追加评论*/
+   	 	supplemental(index){
+   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.order_data}})
+   	 	},
 	},
 	created(){
 		this.order_id=this.$route.query.orders_id;
