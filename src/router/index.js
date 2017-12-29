@@ -116,7 +116,8 @@ export default new Router({
                 {
                     path: 'classification',
                     component: Classification,
-                    name: "商品分类"
+                    meta:{name: "商品分类"}
+                    
                 }
             ]
 		},
@@ -165,203 +166,205 @@ export default new Router({
         },
         {
             path: '/gathertogether',
-            name: '购物车凑单',
+            meta:{name: '购物车凑单'},            
             component: Gathertogether
         },
         {
             path: '/confirmorder',
-            name: '确认订单',
+            meta:{name: '确认订单'},          
             component: Confirmorder
         },
         {
             path: '/addadress',
             component: Addadress,
-            name: "添加收货地址",
+            meta:{name: "添加收货地址"}
+            
         },
         {
             path: '/selectadress',
             component: Selectadress,
-            name: "选择收货地址",
+            meta:{name: "选择收货地址"}
         },
         {
             path: '/management',
             component: Management,
-            name: "管理收货地址",
+            meta:{name: "管理收货地址"}           
         },
         {
             path: '/myorder',
             component: Myorder,
-            name: "我的订单",
+            meta:{name: "我的订单"}            
         },
         {
             path: '/MyRating',
-            name: '我的评价',
+            meta:{name: '我的评价'},           
             component: MyRating
         },
         {
             path: '/Rate',
-            name: '发布评价',
+            meta:{name: '发布评价'},            
             component: Rate
         },
         {
             path: '/additionalReview',
-            name: '追评',
+            meta:{name: '追评'} ,          
             component: AdditionalReview
         },
         {
             path: '/evaDetail',
-            name: '评价详情',
+            meta:{ name: '评价详情'},          
             component: EvaDetail
         },
         {
             path: '/evaSuccess',
-            name: '评价成功',
+            meta:{name: '评价成功'},           
             component: EvaSuccess
         },
         {
             path: '/changeGoodEva',
-            name: '改为好评',
+            meta:{name: '改为好评'},            
             component: ChangeGoodEva
         },
         {
             path: '/Eva',
-            name: '商品页评价',
+            meta:{name: '商品页评价'},           
             component: Eva
         },
         {
             path: '/addBatchEva',
-            name: '批量追加',
+            meta:{name: '批量追加'},           
             component: AddBatchEva
         },
         {
             path: '/orderdetails',
             component: orderDetails,
-            name: "订单详情"
+            meta:{name: "订单详情"}            
         },
         {
             path: '/Payoff',
             component: Payoff,
-            name: "支付成功"
+            meta:{name: "支付成功"}            
         },
         {
             path: '/successfuldeal',
             component: successfuldeal,
-            name: "交易成功"
+            meta:{name: "交易成功"}            
         },
         {
             path: '/logistics',
             component: logistics,
-            name: "物流信息"
+            meta:{name: "物流信息"}           
         },
         {
             path: '/Offerdetails',
             component: Offerdetails,
-            name: "详情优惠券"
+            meta:{name: "详情优惠券"}           
         },
         {
             path: '/packdetails',
             component: packdetails,
-            name: "套餐详情"
+            meta:{name: "套餐详情"}           
         },
         {
             path: '/servicetype',
             component: Servicetype,
-            name: '选择服务类型'
+            meta:{name: '选择服务类型'}            
         },
         {
             path:'/barterapply',
             component:Barterapply,
-            name:'换货申请'
+            meta:{ name:'换货申请'}          
         },
         {
             path:'/applyexchange',
             component:Applyex,
-            name:'申请换货'
+            meta:{name:'申请换货'}            
         },
         {
             path:'/meragree',
             component:Meragree,
-            name:'商家同意换货'
+            meta:{name:'商家同意换货'}            
         },
         {
             path:'/uncommitted',
             component:Uncommitted,
-            name:'关闭 用户未提交'
+            meta:{name:'关闭 用户未提交'}            
         },
         {
             path: '/Refund',
             component: Refund,
-            name: '退款申请'
+            meta:{name: '退款申请'}            
         },
         {
             path:'/merrefuse',
             component:Merrefuse,
-            name:'商家拒绝换货'
+            meta:{name:'商家拒绝换货'}           
         },
         {
             path:'/affgoodsnone',
             component:Affgoodsnone,
-            name:'商家确认收货未发货'
+            meta:{name:'商家确认收货未发货'}            
         },
         {
             path:'/mershipments',
             component:Mershipments,
-            name:'商家发货'
+            meta:{name:'商家发货'}            
         },
         {
             path:'/bartersuccess',
             component:Bartersuccess,
-            name:'换货成功'
+            meta:{name:'换货成功'}            
         },
         {
             path:'/usersendexp',
             component:Usersendexp,
-            name:'用户已寄快递'
+            meta:{ name:'用户已寄快递'}          
         },
         {
             path:'/closeovertime',
             component:Closeovertime,
-            name:'换货关闭-用户操作超时'
+            meta:{name:'换货关闭-用户操作超时'}
+            
         },
         {
             path:'/turndownterrace',
             component:Turndownterrace,
-            name:'商家拒绝换货-申请平台介入'
+            meta:{name:'商家拒绝换货-申请平台介入'}           
         },
         {
             path:'/terracepadd',
             component:Terracepadd,
-            name:'商家拒绝换货-平台介入审核通过'
+            meta:{name:'商家拒绝换货-平台介入审核通过'}            
         },
         {
             path:'/ternopass',
             component:Ternopass,
-            name:'商家拒绝换货-平台介入审核不通过'
+            meta:{name:'商家拒绝换货-平台介入审核不通过'}           
         },
         {
             path:'/merrefgoods',
             component:Merrefgoods,
-            name:'商家拒绝收货'
+            meta:{name:'商家拒绝收货'}            
         },
         {
             path:'/mernogoodsterr',
             component:Mernogoodsterr,
-            name:'商家拒绝收货-申请平台介入'
+            meta:{name:'商家拒绝收货-申请平台介入'}           
         },
         {
             path:'/merrejterpass',
             component:Merrejterpass,
-            name:'商家拒绝收货-申请平台介入通过-等待发货'
+            meta:{name:'商家拒绝收货-申请平台介入通过-等待发货'}            
         },
         {
             path:'/inputlogistics',
             component:Inputlogistics,
-            name:'输入物流信息'
+            meta:{name:'输入物流信息'}            
         },
         {
             path:'/applyterraceget',
             component:Applyterraceget,
-            name:'申请平台介入'
+            meta:{name:'申请平台介入'}            
         }
 	]
 })
