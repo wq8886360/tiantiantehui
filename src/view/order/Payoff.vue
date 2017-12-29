@@ -8,7 +8,7 @@
 			</div>
 			<div class="Pay_cpm">
 				<span class="store_order" @click='order()'>查看订单</span>
-				<span class="store_index">店铺首页</span>
+				<span class="store_index">返回首页</span>
 			</div>
 		</div>
 		<div class="Pay_c">
