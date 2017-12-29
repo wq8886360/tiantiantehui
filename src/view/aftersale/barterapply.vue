@@ -72,12 +72,11 @@ export default{
 	
 </script>
 
-<style>
+<style lang="less">
 .barterapply {
 	position: relative;
 	background-color: #F7F7F7;
 	margin-bottom: 1.33rem;
-}
 /*商品头部*/
 .bar-mer-head {
 	box-sizing: border-box;
@@ -231,6 +230,8 @@ i {
     position: absolute;
     right: 0;   
     padding: 0;
+}
+
 }
 </style>
 
