@@ -89,7 +89,10 @@ import Mernogoodsterr from '@/view/aftersale/mernogoodsterr'  //商家拒绝收�
 import Merrejterpass from '@/view/aftersale/merrejterpass'  //商家拒绝收货-申请平台介入通过-等待发货
 import Inputlogistics from '@/view/aftersale/inputlogistics'  //输入物流信息
 import Applyterraceget from '@/view/aftersale/applyterraceget'  //申请平台介入
-
+//退货流程          
+import Platform from '@/view/aftersale/Platform'//申请平台介入
+import content from '@/view/aftersale/content'//提交物理信息
+import Arefund from '@/view/aftersale/Arefund' //退款申请
 
 //测试
 import Person from '@/view/test/person'
