@@ -172,7 +172,8 @@ export default{
 	watch:{
 		'shop_goods': {
 			handler: function() {
-				this.pay_amount = 0;
+                this.pay_amount = 0;
+                console.log('出发了')
 				this.shop_goods.map((item,index,arr) => {
 					if(item.denomination && item.prom_reduce){
 						this.pay_amount += (parseFloat(item.sub_total) - item.denomination - item.prom_reduce + Number(item['shippingFee']));
@@ -227,10 +228,11 @@ export default{
         },
         api_orderbuycombo(){
             let goodinfo = localStorage.info;
-            console.log(goodinfo)
+            //console.log(goodinfo)
             orderbuycombo({address_id:this.address_id, combo: goodinfo}).then((response) => {
-                console.log(response)
-				let res = response.data;
+                //console.log(response)
+                let res = response.data;
+                console.log(res.data)
 				if(res.code == 1000){
 					this.orderData = res.data;
 					this.address = res.data.address;
@@ -245,7 +247,7 @@ export default{
         },
 		//遍历组合shop_goods
 		shop_goods_map(data){
-			var _this = this;
+            var _this = this;
 			data.enabled.map(function(item,index,obj){
 				let goodobj = {
 					store_id: item.store_id, //店铺ID
@@ -256,12 +258,15 @@ export default{
 					voucher_hint: '', //优惠劵描述
 					goods_items: [], //商品列表
 					shippingFee: item.shippingFee
-				}
-				if(item['promotion_info'].length != 0 && item['promotion_info']){
-					goodobj.acttitle = item['promotion_info'][0]['prom_title']; //活动描述
-					goodobj.prom_reduce = item['promotion_info'][0]['prom_reduce']; //活动减免
-				}
-				if(item['voucher'].length != 0 && item['voucher']){
+                }
+                if(item.hasOwnProperty("promotion_info")){
+                    if(item['promotion_info'].length != 0){
+                        goodobj.acttitle = item['promotion_info'][0]['prom_title']; //活动描述
+                        goodobj.prom_reduce = item['promotion_info'][0]['prom_reduce']; //活动减免
+                    }
+                }
+                //alert(item['voucher'].length != 0)
+				if(item['voucher'].length != 0){
 					goodobj.voucher_id = item['voucher'][0]['voucher_id'];
 					goodobj.voucher_hint = item['voucher'][0]['title'];
 					goodobj.denomination = item['voucher'][0]['denomination'];
@@ -269,26 +274,27 @@ export default{
 						_this.$set(_this.value,'0',item['voucher'][0]['voucher_id']);
 					})
 				}
-				_this.shop_goods.push(goodobj)
-			})
+                _this.shop_goods.push(goodobj)
+            })
 			this.shop_goods.map(function(sitem,sindex,sobj) {
 				data.enabled[sindex]['goods'].map(function(gitem,gindex,gobj){
 					let obj = {
 						goods_id: gitem.goods_id,
 						sku_id: gitem.sku_id,
 						qty: gitem.qty,
-					}
-					if(data.enabled[sindex]['promotion_info'].length > 0){
-						obj.prom_id = data.enabled[sindex]['promotion_info'][0]['prom_id'];
-						console.log(data.enabled[sindex]['promotion_info'][0]['prom_id'],44)
-					}else{
-						obj.prom_id = "";
-					}
+                    }
+                    if(data.enabled[sindex].hasOwnProperty("promotion_info")){
+                        if(data.enabled[sindex]['promotion_info'].length > 0){
+                            obj.prom_id = data.enabled[sindex]['promotion_info'][0]['prom_id'];
+                            console.log(data.enabled[sindex]['promotion_info'][0]['prom_id'],44)
+                        }
+                    }else{
+                        obj.prom_id = "";
+                    }
 					sitem.goods_items.push(obj)
 				})
 			})
 
-			console.log(this.shop_goods,11111)
 		},
 		//选择优惠劵
 		choosecoupon(index){
@@ -365,6 +371,7 @@ export default{
 				console.log(response)
 				if(response.data.code == 1000){
                     let jump_url = encodeURIComponent(window.location.host + '/#/Payoff');
+                    console.log(jump_url)
 					window.location.href = response.data.data.pay_url + '&' + jump_url;
 				}
 			})
