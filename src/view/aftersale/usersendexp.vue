@@ -31,6 +31,10 @@
 		<div class="line"></div>
 		<!-- 联系商家子组件 -->
 		<Relation class="fiexbott"></Relation>
+		<!-- 商家确认未发货 -->
+		<span class="wei" @click="nogoods">确认未发货</span>
+		<!-- 商家拒绝收货 -->
+		<span class="jujue" @click="returndown">拒绝收货</span>
 	</div>
 </template>
 
@@ -51,7 +55,14 @@ export default{
 		Exchange,
 		Leave
 	},
-
+	methods:{
+		nogoods(){
+			this.$router.push({path:'affgoodsnone'})
+		},
+		returndown(){
+			this.$router.push({path:'merrefgoods'})
+		}
+	}
 
 
 
@@ -121,6 +132,13 @@ export default{
 		.icon-right {
 			margin-top: 0.05rem;
 		}
+	}
+	/*未收货拒绝*/
+	.wei {
+		background-color: red;
+	}
+	.jujue {
+		background-color: pink;
 	}
 }
 </style>

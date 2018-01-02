@@ -24,7 +24,7 @@
 			<div class="up-pic"></div>
 		</div>
 		<!-- 提交申请 -->
-		<div class="refer-apply">提交申请</div>
+		<div class="refer-apply" @click="present">提交申请</div>
 		<!-- 换货原因弹窗 -->
 		<div v-transfer-dom>
 			<popup v-model="barcau" position="bottom" height="66%">
@@ -63,7 +63,11 @@ export default{
 	  change (val, label) {
 	    // console.log('change', val, label)
 	  },
-	},
+	  present(){
+	  	this.$router.push({path: '/applyexchange'})
+	  }
+
+	}
 
 
 

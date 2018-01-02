@@ -14,7 +14,9 @@
 	import Leave from './public/leave'
 export default {
 	data(){
-
+		return{
+			
+		}
 	},
 	components:{
 		Offcial,
