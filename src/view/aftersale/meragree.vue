@@ -11,10 +11,10 @@
 			<div class="sare-title">退货地址</div>
 			<div class="sare-parlic">
 				<div class="man-phone">
-					<span class="consignee">收件人：adidas官方旗舰店</span>
-					<span class="sare-ph">联系电话：13569855874</span>
+					<span class="consignee">收件人：<input type="text" placeholder="请输入"></span>
+					<span class="sare-ph">联系电话：<input type="text" placeholder="请输入" style="width: 2.86rem"></span>
 				</div>
-				<p class="address">浙江省 杭州市 滨江区 江陵路1916号星耀城二期29楼705 浙江顺联网络科技有限公司</p>
+				<p class="address"><textarea name="sh" class="bem" placeholder="请输入地址" ></textarea></p>
 			</div>
 		</div>
 		<!-- 转行条 -->
@@ -24,10 +24,10 @@
 			<div class="sare-title">收货地址</div>
 			<div class="sare-parlic">
 				<div class="man-phone">
-					<span class="consignee">收件人：来自阿拉斯加的南极圈的..</span>
-					<span class="sare-ph">联系电话：13569855874</span>
+					<span class="consignee">收件人：<input type="text" placeholder="请输入"></span>
+					<span class="sare-ph">联系电话：<input type="text" placeholder="请输入" style="width: 2.86rem"></span>
 				</div>
-				<p class="address">浙江省 杭州市 滨江区 江陵路1916号星耀城二期29楼705</p>
+				<p class="address"><textarea name="th" class="bem" placeholder="请输入地址" ></textarea></p>
 			</div>
 		</div>
 		<!-- 转行条 -->
@@ -116,6 +116,11 @@ export default {
 			.address {
 				margin-top: 0.27rem;
 			}
+		}
+		.bem {
+			width: 9.32rem;
+			border: none;
+			resize: none;
 		}
 	}
 	/*换货关闭*/
