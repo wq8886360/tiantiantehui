@@ -43,7 +43,7 @@
 		<!-- 上传凭证 -->
 		<div class="up-gist">
 			<div class="gist">上传凭证</div>
-			<uploadimg></uploadimg>
+			<uploadimg @photo="photo"></uploadimg>
 		</div>
 		<!-- 提交申请 -->
 		<div class="refer-apply">提交申请</div>
@@ -128,6 +128,9 @@ export default{
                 console.log(this.commonList)
             })
         },
+        photo(imgList){
+            console.log(imgList)
+        }
     },
     created(){
         this.api_refundgetrefundinfo();
