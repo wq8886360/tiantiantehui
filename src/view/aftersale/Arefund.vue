@@ -43,7 +43,7 @@
 		<!-- 上传凭证 -->
 		<div class="up-gist">
 			<div class="gist">上传凭证</div>
-			<div class="up-pic"></div>
+			<uploadimg></uploadimg>
 		</div>
 		<!-- 提交申请 -->
 		<div class="refer-apply">提交申请</div>
@@ -61,6 +61,7 @@
 <script>
 import { XNumber, Popup, TransferDom, Checklist, XTextarea} from 'vux'
 import { refundgetrefundinfo } from "../../http/api"
+import Uploadimg from "./public/img.vue"
 export default{
 	directives: {
 		TransferDom
@@ -69,7 +70,8 @@ export default{
     	XNumber, 
     	Popup, 
         Checklist,
-        XTextarea
+        XTextarea,
+        Uploadimg
     },
     computed: {
         //计算退款金额
