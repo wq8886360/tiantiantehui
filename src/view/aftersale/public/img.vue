@@ -1,7 +1,9 @@
 <template>
 	<div v-if='headerImage'>
 		<div class="show">  
-     		<div class='imgBox'  v-for='(item,index) in headerImage'><img class='imgMain' :src="item" alt=""><img class='trash' src="../../../assets/img/trash.png"  alt=""  @click='deleted(index)'></div>
+     		<div v-if='headerImage.length !=0'>
+                <div class='imgBox'  v-for='(item,index) in headerImage'><img class='imgMain' :src="item" alt=""><img class='trash' src="../../../assets/img/trash.png"  alt=""  @click='deleted(index)'></div>     
+            </div>
      		<div class='addImg' v-if='inputShow'>
      		    <img src="../../../assets/img/add.png" alt="">
      		    <input type="file" id="upload" accept="image/*" @change="upload($event)" >
@@ -62,7 +64,7 @@ export default{
                                   var src=self.doMain+res.data.data.relativePath[0]
                                   self.headerImage.push(src)
                                   self.imageArr.push(res.data.data.relativePath[0])
-                                  self.$emit('fuji',self.headerImage,self.imageArr);
+                                  self.$emit('photo',self.headerImage,self.imageArr);
 
                                   if(self.imageArr.length>=5){
 
@@ -86,7 +88,6 @@ export default{
                                     var src=self.doMain+res.data.data.relativePath[0]
                                     self.headerImage.push(src)
                                     self.imageArr.push(res.data.data.relativePath[0])
-                                    self.$emit('fuji',self.headerImage,self.imageArr)
                                     if(self.imageArr.length>=5){
                                         self.inputShow=false
                                     }else{
