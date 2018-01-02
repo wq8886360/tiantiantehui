@@ -1,11 +1,11 @@
 <template>
-    <div class="servicetype">
+    <div class="servicetype" v-if="good_data">
         <div class="store">
             <div class="flagship">
 				<div class="flagship_top">
 					<div class="flagship_store">
 						<img src="../../assets/img/storeIconAct.png" alt="">
-						<span>1111111 </span>
+						<span>{{good_data['store_name']}}</span>
 					</div>
 				</div>
 				<ul class="flagship_ul">
@@ -13,21 +13,21 @@
 						<div class="Skin_care">
 							<div class="Skin_n" style="overflow:hidden">
 								<div class="skin_left">
-									<img src="../../assets/img/proflie_logo.png" alt="">
+									<img :src="good_data['thumb']" alt="">
 									<div class="Skin_c">
 										<div class="text">
 											<span class="spell">拼</span>
-											<span class="title">32131221</span>
+											<span class="title">{{good_data['title']}}</span>
 										</div>
 										<div class="sku">
-											50
+											{{good_data['sku_desc']}}
 										</div>
 									</div>
 								</div>
 								<div class="skin_right">
-									<div class="price">￥70</div>
+									<div class="price">￥{{good_data['price']}}</div>
 									
-									<div class="quantity">x7</div>	
+									<div class="quantity">x{{good_data['qty']}}</div>	
 								</div>
 							</div>
 						</div>
@@ -36,27 +36,11 @@
 			</div>
         </div>
         <div class="options">
-        	<div class="options_refund">
-        		<img class="photo_c" src="../../assets/img/img_aftersalesservice_tuikuan@2x.png" alt="">
+        	<div class="options_refund" v-for="(item, index) in good_data['refund_choice']" :key="index" @click="routehop(item.type)">
+        		<img class="photo_c" :src="item['icon']" alt="">
         		<div class="options_comn">
-        			<div class="jin">仅退款</div>
-        			<div class="home">商家协商同意前提下</div>
-        		</div>
-        		<i class="icon-right right_r"></i>
-        	</div>
-        	<div class="options_refund">
-        		<img class="photo_c" src="../../assets/img/img_aftersalesservice_tui@2x.png" alt="">
-        		<div class="options_comn">
-        			<div class="jin">退货退款</div>
-        			<div class="home">已收到货,需要退还已收到的货物</div>
-        		</div>
-        		<i class="icon-right right_r"></i>
-        	</div>
-        	<div class="options_refund">
-        		<img class="photo_c" src="../../assets/img/img_aftersalesservice_exchange@2x.png" alt="">
-        		<div class="options_comn">
-        			<div class="jin">换货</div>
-        			<div class="home">已收到货，需要更换已收到的货</div>
+        			<div class="jin">{{item['hint']}}</div>
+        			<div class="home">{{item['tip']}}</div>
         		</div>
         		<i class="icon-right right_r"></i>
         	</div>
@@ -64,17 +48,35 @@
     </div>
 </template>
 <script>
+import { refundgetrefundinfo } from "../../http/api"
 export default {
 	data(){
 		return{
-
+            good_data: null, //申请商品数据
 		}
 	},
 	methods:{
+        //获取申请前商品数据
+        api_refundgetrefundinfo(){
+            let og_id = this.$route.query.og_id;
+            refundgetrefundinfo({og_id: og_id}).then((response) => {
+                console.log(response)
+                this.good_data = response.data.data;
+            })
+        },
+        //售后跳转类型
+        routehop(type){
+            if(type == 1){ //仅退款
+                this.$router.push({path: '/arefund', query:{og_id: this.$route.query.og_id}})
+            }else if(type == 3){ //退货退款
 
+            }else if(type == 4){ //换货
+
+            }
+        }
 	},
 	created(){
-
+        this.api_refundgetrefundinfo();
 	}
 }
 </script>

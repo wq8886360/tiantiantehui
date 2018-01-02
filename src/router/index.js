@@ -378,7 +378,7 @@ export default new Router({
             meta: { title: '提交物流信息' },
         },
         {
-            path:'/Arefund',
+            path:'/arefund',
             component:Arefund,
             meta: { title: '退款申请' },
         }

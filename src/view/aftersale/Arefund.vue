@@ -1,29 +1,29 @@
 <template>
-	<div class="Arefund">
+	<div class="Arefund" v-if="good_data">
 		<!-- 商品头部 -->
-		<div class="bar-mer-head">退货商品</div>
+		<div class="bar-mer-head">退款商品</div>
 		<!-- 退款内容 -->
 		<div class="bar-mer-con">
-			<img class="bar-img" src="" alt="">
+			<img class="bar-img" :src="good_data['thumb']" alt="">
 			<div class="bar-con-intro">
-				<p class="introduce">adidas 阿迪达斯 足球 男子 COPA 18.2 FG 足球鞋 BB6357</p>
-				<div class="intro-color"><span>亮白</span>/<span>1号黑色</span>/<span>质感金</span></div>
+				<p class="introduce">{{good_data['title']}}</p>
+				<div class="intro-color">{{good_data['sku_desc']}}</div>
 				<div class="intro-num">
-					<x-number class="intro-number"  :min="1"></x-number>  <!-- 里面拿走了v-model="goodNum" -->
+					<x-number class="intro-number" v-model="qty"  :min="1" :max="Number(good_data['qty'])"></x-number>  <!-- 里面拿走了v-model="goodNum" -->
 				</div>
 			</div>
-			<div class="bar-price">￥799.00</div>
+			<div class="bar-price">￥{{good_data['price']}}</div>
 		</div>
 		<!-- 退款金额 -->
 		<div class="coin">
 			<div class="coin_all">
 				<div class="coin_top">
 					<span class="money_t">退款金额：</span>
-					<span class="money">￥168.00</span>
+					<span class="money">￥{{refundaAmount}}</span>
 				</div>
 				<div class="line"></div>
 				<div class="coin_b">
-					<span>你最多能退￥177.6，含邮费￥5</span>
+					<span>你最多能退￥{{maxrefundaAmount}}<span v-if="good_data['is_last'] == '1'">，含邮费￥{{good_data['shipping_fee']}}</span></span>
 				</div>
 			</div>
 		</div>
@@ -37,7 +37,9 @@
 			</div>
 		</div>
 		<!-- 退款说明 -->
-		<div class="bar-mer-exp"><p class="bme">退款说明: </p></div>
+		<div class="bar-mer-exp">
+            <x-textarea title="退款说明：" v-model="instruction"></x-textarea>
+        </div>
 		<!-- 上传凭证 -->
 		<div class="up-gist">
 			<div class="gist">上传凭证</div>
@@ -49,7 +51,7 @@
 		<div v-transfer-dom>
 			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
 				<img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
-			 	<checklist @on-change="changer" label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
+			 	<checklist @on-change="changer" label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1" :min="1"></checklist>
 			 	<div class="sure" @click='attrsState=false'>关闭</div>
 			</popup>
 		</div>
@@ -57,7 +59,8 @@
 </template>
 
 <script>
-import { XNumber, Popup,TransferDom,Checklist} from 'vux'
+import { XNumber, Popup, TransferDom, Checklist, XTextarea} from 'vux'
+import { refundgetrefundinfo } from "../../http/api"
 export default{
 	directives: {
 		TransferDom
@@ -65,26 +68,68 @@ export default{
 	components: {		
     	XNumber, 
     	Popup, 
-    	Checklist
-	},	
+        Checklist,
+        XTextarea
+    },
+    computed: {
+        //计算退款金额
+        refundaAmount(){
+            let amount = this.good_data.return_price*this.qty;
+            let shipping_fee = Number(this.good_data.shipping_fee);
+            if(this.good_data.is_last == 1){
+                return amount + shipping_fee;
+            }else{
+                return amount;
+            }
+        },
+        //最大可退款金额
+        maxrefundaAmount(){
+            let amount = this.good_data.return_price*this.good_data.qty;
+            let shipping_fee = Number(this.good_data.shipping_fee);
+            if(this.good_data.is_last == 1){
+                return amount + shipping_fee;
+            }else{
+                return amount;
+            }
+        }
+    },
 	data(){
 		return {
-			commonList: [ '拍错/多拍不想要', '协商一致退货','大小/尺寸与商品描述不符','颜色/图案/款式与商品描述不符','其他'],
+			commonList: [], //退款原因选择列表
 			attrsState:false, //货物的弹窗的状态
 			title:'退款原因', //货物的弹窗的标题
 			radioValue:[], 
-			reason:'请选择', //货物的弹窗的val
+            reason:'', //货物的弹窗的val
+
+            good_data: null, //退款商品信息
+            qty: 1, //退货商品数量
+            instruction: '', //退款说明
 		}
 	},
 	methods: {
 	 	changer(val, label) {
-			this.reason=val[0];
-   	 	},
-	},
+			this.reason=label[0];
+        },
+        //获取申请前商品数据
+        api_refundgetrefundinfo(){
+            let og_id = this.$route.query.og_id;
+            refundgetrefundinfo({og_id: og_id}).then((response) => {
+                console.log(response)
+                this.good_data = response.data.data;
+                //遍历处理checklist数据
+                //init
+                this.commonList = [];
+                response.data.data.reason.map((val,index) => {
+                    this.commonList.push({key: val.reason_id, value: val.reason_info});
+                })
 
-
-
-
+                console.log(this.commonList)
+            })
+        },
+    },
+    created(){
+        this.api_refundgetrefundinfo();
+    }
 }	
 	
 </script>

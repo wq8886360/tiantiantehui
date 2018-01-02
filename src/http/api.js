@@ -76,3 +76,7 @@ export const cancelorder = params => post('/personalcenter/cancelorder',params);
 export const remindseller= params => post('/personalcenter/remindseller',params);//提醒发货
 export const postpone = params => post('/personalcenter/postpone',params);//延迟发货
 export const confirmreceipt = params => post('/personalcenter/confirmreceipt',params);//确认收货
+
+
+//售后
+export const refundgetrefundinfo = params => post('/member/refund/getrefundinfo', params); //申请前
