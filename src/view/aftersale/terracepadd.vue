@@ -23,6 +23,8 @@
 		<div class="line"></div>
 		<!-- 联系商家子组件 -->
 		<Relation class="fiexbott"></Relation>
+		<!-- 输入物流信息 -->
+		<span class="wuliu" @click="message">输入物流信息</span>
 	</div>
 </template>
 
@@ -43,7 +45,11 @@ export default{
 		Exchange,
 		Leave
 	},
-
+	methods:{
+		message(){
+			this.$router.push({path:'inputlogistics'})
+		}
+	}
 
 
 
@@ -91,6 +97,10 @@ export default{
 				margin-top: 0.27rem;
 			}
 		}
+	}
+
+	.wuliu {
+		background-color: pink;
 	}
 }
 </style>

@@ -30,6 +30,8 @@
 		<div class="line"></div>
 		<!-- 联系商家子组件 -->
 		<Relation class="fiexbott"></Relation>
+		<!-- 换货成功 -->
+		<span class="chengg" @click="goodssuccess">换货成功</span>
 	</div>
 </template>
 
@@ -50,7 +52,11 @@ export default{
 		Exchange,
 		Leave
 	},
-
+	methods:{
+		goodssuccess(){
+			this.$router.push({path:'bartersuccess'})
+		}
+	}
 
 
 
@@ -120,6 +126,10 @@ export default{
 		.icon-right {
 			margin-top: 0.05rem;
 		}
+	}
+	/*换货成功*/
+	.chengg{
+		background-color: green;
 	}
 }
 </style>

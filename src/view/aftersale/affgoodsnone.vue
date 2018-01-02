@@ -23,6 +23,8 @@
 		<div class="line"></div>
 		<!-- 联系商家子组件 -->
 		<Relation class="fiexbott"></Relation>
+		<!-- 商家发货 -->
+		<span class="fahuo" @click="delivergoods">商家发货</span>
 	</div>
 </template>
 
@@ -43,7 +45,11 @@ export default{
 		Exchange,
 		Leave
 	},
-
+	methods:{
+		delivergoods(){
+			this.$router.push({path:'mershipments'})
+		}
+	}
 
 
 
@@ -90,7 +96,11 @@ export default{
 			.address {
 				margin-top: 0.27rem;
 			}
-		}
+		}		
 	}
+	/*商家发货*/
+		.fahuo {
+			background-color: green;
+		}
 }
 </style>
