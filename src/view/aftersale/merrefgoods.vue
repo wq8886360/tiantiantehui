@@ -78,7 +78,7 @@ export default {
 	},
 	methods:{
 		terrace(){
-			this.$router.push({path:'mernogoodsterr'})
+			this.$router.push({path:'applyterraceget'})
 		},
 		close(){
 			this.$router.push({path:'closeovertime'})
