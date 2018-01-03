@@ -67,11 +67,11 @@ export default {
         //售后跳转类型
         routehop(type){
             if(type == 1){ //仅退款
-                this.$router.push({path: '/arefund', query:{og_id: this.$route.query.og_id}})
+                this.$router.push({path: '/arefund', query:{og_id: this.$route.query.og_id, type: type}})
             }else if(type == 3){ //退货退款
 
             }else if(type == 4){ //换货
-
+                this.$router.push({path: '/barterapply',query:{og_id: this.$route.query.og_id, type: type}})
             }
         }
 	},

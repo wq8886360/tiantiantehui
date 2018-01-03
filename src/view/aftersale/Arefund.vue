@@ -46,7 +46,7 @@
 			<uploadimg @photo="photo"></uploadimg>
 		</div>
 		<!-- 提交申请 -->
-		<div class="refer-apply">提交申请</div>
+		<div class="refer-apply" @click="submit">提交申请</div>
 		<!-- 退款原因弹窗 -->
 		<div v-transfer-dom>
 			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
@@ -60,7 +60,7 @@
 
 <script>
 import { XNumber, Popup, TransferDom, Checklist, XTextarea} from 'vux'
-import { refundgetrefundinfo } from "../../http/api"
+import { refundgetrefundinfo, refundapplyRefund } from "../../http/api"
 import Uploadimg from "./public/img.vue"
 export default{
 	directives: {
@@ -106,6 +106,7 @@ export default{
             good_data: null, //退款商品信息
             qty: 1, //退货商品数量
             instruction: '', //退款说明
+            evidence_img: [],
 		}
 	},
 	methods: {
@@ -124,12 +125,30 @@ export default{
                 response.data.data.reason.map((val,index) => {
                     this.commonList.push({key: val.reason_id, value: val.reason_info});
                 })
-
-                console.log(this.commonList)
             })
         },
+        //提交申请
+        submit(){
+            let params = {
+                og_id: this.$route.query.og_id,
+                qty: this.qty,
+                amount: this.refundaAmount + '',
+                type: this.$route.query.type,
+                reason_id: this.radioValue[0],
+                remark: this.instruction,
+                evidence_img: this.evidence_img.join(',')
+            }
+            console.log(params)
+            if(this.radioValue.length != 0){
+                refundapplyRefund(params).then((response) => {
+                    console.log(response)
+                })
+            }else{
+                this.$vux.toast.text(`请选择退款原因`, 'middle')
+            }
+        },
         photo(imgList){
-            console.log(imgList)
+            this.evidence_img = imgList;
         }
     },
     created(){

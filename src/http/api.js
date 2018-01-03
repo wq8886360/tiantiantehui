@@ -80,3 +80,4 @@ export const confirmreceipt = params => post('/personalcenter/confirmreceipt',pa
 
 //售后
 export const refundgetrefundinfo = params => post('/member/refund/getrefundinfo', params); //申请前
+export const refundapplyRefund = params => post('/member/refund/applyRefund', params); //申请退款
