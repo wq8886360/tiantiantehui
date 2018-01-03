@@ -10,7 +10,9 @@ import './assets/css/public/reset.css'
 import '@/assets/css/component/index.less' //样式模块入口文件
 import '@/assets/font/font.css' //icon
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import VueClipboard from 'vue-clipboard2' 
 
+Vue.use(VueClipboard)
 Vue.use(VueAwesomeSwiper)
 import  { AlertPlugin, ToastPlugin, ConfirmPlugin } from 'vux'
 Vue.use(AlertPlugin)
