@@ -17,9 +17,12 @@
 		<!-- 换货原因 -->
 		<div class="bar-mer-cau" @click="barcau = true">换货原因 <span class="cause">大小/尺寸与描述不符 <i class="icon-right right"></i></span></div>
 		<!-- 换货说明 -->
-		<div class="bar-mer-exp"><p class="huhsm">换货说明: </p><textarea name="a" class="bem"></textarea> </div>
+		<div class="bar-mer-exp"><x-textarea title="换货说明：" v-model="instruction"></x-textarea> </div>
 		<!-- 上传凭证 -->
-		<Imaged></Imaged>
+		<div class="up-gist">
+			<div class="gist">上传凭证</div>
+			<Imaged @photo="photo"></Imaged>
+		</div>
 		<!-- 提交申请 -->
 		<div class="refer-apply" @click="present">提交申请</div>
 		<!-- 换货原因弹窗 -->
@@ -41,7 +44,8 @@
 
 <script>
 import Imaged from './public/img.vue'
-import { XNumber, Popup,TransferDom,Checklist} from 'vux'
+import { refundgetrefundinfo } from "../../http/api"
+import { XNumber, Popup,TransferDom,Checklist,XTextarea} from 'vux'
 export default{
 	directives: {
 		TransferDom
@@ -50,22 +54,42 @@ export default{
     	XNumber, 
     	Popup, 
     	Checklist,
-    	Imaged,   	
+    	Imaged,  
+    	XTextarea 	
 	},	
 	data(){
 		return {
 			barcau:false,
-			commonList: [ '协商一致换货', '大小不合适', '颜色/图案/款式与商品描述不符','材质面料与商品和描述不符','其他' ],
+			commonList: [],//换货原因选择列表
 		}
 	},
 	created(index){
-	    this.goodsInfo=this.$route.query.items
+	    // this.goodsInfo=this.$route.query.items
 	    // console.log(this.goodsInfo)
+	    this.api_refundgetrefundinfo();
 	},
 	methods: {
 	  change (val, label) {
 	    
 	  },
+	  api_refundgetrefundinfo(){
+	      let og_id = this.$route.query.og_id;
+	      refundgetrefundinfo({og_id: og_id}).then((response) => {
+	          console.log(response)
+	          this.good_data = response.data.data;
+	          //遍历处理checklist数据
+	          //init
+	          this.commonList = [];
+	          response.data.data.reason.map((val,index) => {
+	              this.commonList.push({key: val.reason_id, value: val.reason_info});
+	          })
+
+	          // console.log(this.commonList)
+	      })
+	  },
+	  photo(imgList){
+	      console.log(imgList)
+	   },
 	  present(){
 	  	this.$router.push({path: '/applyexchange'})
 	  }
@@ -174,11 +198,18 @@ export default{
 		}
 	}
 	/*上传凭证*/
-	.show {
-	box-sizing: border-box;
-	padding: 0 0.27rem;
-	background-color: #fff;
-	margin-top: 0.27rem;
+	.up-gist {
+		margin-top: 0.27rem;
+		min-height: 6.28rem;
+		box-sizing: border-box;
+		padding: 0.53rem 0.27rem 1.6rem;
+		background-color: #fff;
+	}
+	.up-gist .up-pic {
+		width: 100%;
+		height: 4.88rem;
+		background-color: pink;
+		margin-top: 0.36rem;
 	}
 	/*提交申请*/
 	.refer-apply {
