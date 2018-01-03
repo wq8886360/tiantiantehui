@@ -17,8 +17,8 @@
 			<div class="Order_number">
 				<div class="Ordernumber_c">
 					<span>订单号：</span>
-					<input  readonly="readonly" id="text" type="text" :value="order_data.order_sn">
-					<div class="copy" @click="myCopy()">复制</div>
+					<input  readonly="readonly" id="text" type="text" v-model="order_data.order_sn">
+					<div v-clipboard:copy="order_data.order_sn" v-clipboard:success="onCopy" v-clipboard:error="onError" class="copy" >复制</div>
 				</div>
 			</div>
 			<div class="goods">
@@ -175,6 +175,7 @@
 <script>
 import {orderdetail,postpone,remindseller,confirmreceipt} from '../../http/api'
 import { Popup, Checklist,TransferDom,Confirm} from 'vux'
+
 export default{
 	directives: {
 		TransferDom
@@ -213,10 +214,11 @@ export default{
 			this.$router.push({path:'/rate',query:{evaluate_data:this.order_data}})
 		},
 		/*复制*/
-		myCopy(){
- 			var ele = document.getElementById("text");
-        	ele.select();
-        	document.execCommand("Copy");
+		onCopy:function(e){
+			alert(e.text)
+		},
+		onError:function(e){
+			alert(e)
 		},
 		onConfirm(){
 			console.log(1)
