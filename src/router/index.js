@@ -72,11 +72,9 @@ import Salelist from '@/view/aftersale/salelist' //售后列表
 import Servicetype from '@/view/aftersale/servicetype' //选择服务类型
 //换货流程
 import Barterapply from '@/view/aftersale/barterapply' //换货申请
-import Inputlogistics from '@/view/aftersale/inputlogistics'  //输入物流信息
-import Applyterraceget from '@/view/aftersale/applyterraceget'  //申请平台介入
 //退货流程          
 import Platform from '@/view/aftersale/Platform'//申请平台介入
-import content from '@/view/aftersale/content'//提交物理信息
+import content from '@/view/aftersale/content'//提交物流信息
 import Arefund from '@/view/aftersale/Arefund' //退款申请
 import Refund from '@/view/aftersale/Refund' //退款申请
 
@@ -267,16 +265,6 @@ export default new Router({
             path: '/Refund',
             component: Refund,
             meta: { title: '退款申请' },
-        },
-        {
-            path:'/inputlogistics',
-            component:Inputlogistics,
-            meta: { title: '输入物流信息' },
-        },
-        {
-            path:'/applyterraceget',
-            component:Applyterraceget,
-            meta: { title: '申请平台介入' },
         },
         {
             path: '/Platform',
