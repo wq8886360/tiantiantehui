@@ -10,7 +10,7 @@ import './assets/css/public/reset.css'
 import '@/assets/css/component/index.less' //样式模块入口文件
 import '@/assets/font/font.css' //icon
 import VueAwesomeSwiper from 'vue-awesome-swiper'
-import VueClipboard from 'vue-clipboard2' 
+import VueClipboard from 'vue-clipboard2' //复制到剪切板
 
 Vue.use(VueClipboard)
 Vue.use(VueAwesomeSwiper)
