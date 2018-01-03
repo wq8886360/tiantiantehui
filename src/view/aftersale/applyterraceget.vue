@@ -62,7 +62,10 @@ export default {
 	        
 	        merfuse(){
 	        	this.$router.push({path:'turndownterrace'})
-	        }  
+	        },
+	        photo(imgList){
+	            this.evidence_img = imgList;
+	        } 
 	    }
 }	
 </script>
