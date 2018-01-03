@@ -68,31 +68,17 @@ import AddBatchEva from '@/view/myRating/addBatchEva'
 
 
 //退换货流程
+import Salelist from '@/view/aftersale/salelist' //售后列表
 import Servicetype from '@/view/aftersale/servicetype' //选择服务类型
 //换货流程
 import Barterapply from '@/view/aftersale/barterapply' //换货申请
-import Applyex from '@/view/aftersale/applyexchange' //申请换货
-import Meragree from '@/view/aftersale/meragree' //商家同意换货
-import Uncommitted from '@/view/aftersale/uncommitted'  //换货关闭-用户未提交
-import Refund from '@/view/aftersale/Refund' //退款申请
-import Merrefuse from '@/view/aftersale/merrefuse'   //商家拒绝换货
-import Affgoodsnone from  '@/view/aftersale/affgoodsnone'  //商家确认收货-未发货
-import Mershipments from '@/view/aftersale/mershipments' //商家发货
-import Bartersuccess from '@/view/aftersale/bartersuccess'  //换货成功
-import Usersendexp from  '@/view/aftersale/usersendexp' //用户已寄快递
-import Closeovertime from '@/view/aftersale/closeovertime'  //换货关闭-用户操作超时
-import Turndownterrace from '@/view/aftersale/turndownterrace' //商家拒绝换货-申请平台介入
-import Terracepadd from '@/view/aftersale/terracepadd' //商家拒绝换货-平台介入审核通过
-import Ternopass from '@/view/aftersale/ternopass' //商家拒绝换货-平台介入审核不通过
-import Merrefgoods from '@/view/aftersale/merrefgoods'  //商家拒绝收货
-import Mernogoodsterr from '@/view/aftersale/mernogoodsterr'  //商家拒绝收货-申请平台介入
-import Merrejterpass from '@/view/aftersale/merrejterpass'  //商家拒绝收货-申请平台介入通过-等待发货
 import Inputlogistics from '@/view/aftersale/inputlogistics'  //输入物流信息
 import Applyterraceget from '@/view/aftersale/applyterraceget'  //申请平台介入
 //退货流程          
 import Platform from '@/view/aftersale/Platform'//申请平台介入
 import content from '@/view/aftersale/content'//提交物理信息
 import Arefund from '@/view/aftersale/Arefund' //退款申请
+import Refund from '@/view/aftersale/Refund' //退款申请
 
 
 //测试
@@ -278,84 +264,9 @@ export default new Router({
             meta: { title: '换货申请' },
         },
         {
-            path:'/applyexchange',
-            component:Applyex,
-            meta: { title: '申请换货' },
-        },
-        {
-            path:'/meragree',
-            component:Meragree,
-            meta: { title: '商家同意换货' },
-        },
-        {
-            path:'/uncommitted',
-            component:Uncommitted,
-            meta: { title: '关闭 用户未提交' },
-        },
-        {
             path: '/Refund',
             component: Refund,
             meta: { title: '退款申请' },
-        },
-        {
-            path:'/merrefuse',
-            component:Merrefuse,
-            meta: { title: '商家拒绝换货' },
-        },
-        {
-            path:'/affgoodsnone',
-            component:Affgoodsnone,
-            meta: { title: '商家确认收货未发货' },
-        },
-        {
-            path:'/mershipments',
-            component:Mershipments,
-            meta: { title: '商家发货' },
-        },
-        {
-            path:'/bartersuccess',
-            component:Bartersuccess,
-            meta: { title: '换货成功' },
-        },
-        {
-            path:'/usersendexp',
-            component:Usersendexp,
-            meta: { title: '用户已寄快递' },
-        },
-        {
-            path:'/closeovertime',
-            component:Closeovertime,
-            meta: { title: '换货关闭-用户操作超时' },
-        },
-        {
-            path:'/turndownterrace',
-            component:Turndownterrace,
-            meta: { title: '商家拒绝换货-申请平台介入' },
-        },
-        {
-            path:'/terracepadd',
-            component:Terracepadd,
-            meta: { title: '商家拒绝换货-平台介入审核通过' },
-        },
-        {
-            path:'/ternopass',
-            component:Ternopass,
-            meta: { title: '商家拒绝换货-平台介入审核不通过' },
-        },
-        {
-            path:'/merrefgoods',
-            component:Merrefgoods,
-            meta: { title: '商家拒绝收货' },
-        },
-        {
-            path:'/mernogoodsterr',
-            component:Mernogoodsterr,
-            meta: { title: '商家拒绝收货-申请平台介入' },
-        },
-        {
-            path:'/merrejterpass',
-            component:Merrejterpass,
-            meta: { title: '商家拒绝收货-申请平台介入通过-等待发货' },
         },
         {
             path:'/inputlogistics',
@@ -381,6 +292,11 @@ export default new Router({
             path:'/arefund',
             component:Arefund,
             meta: { title: '退款申请' },
+        },
+        {
+            path: '/salelist',
+            component: Salelist,
+            meta: { title: '退款/售后'}
         }
 	]
 })
