@@ -92,10 +92,15 @@ export default{
 		float: left;
 		padding-left: 0.33rem;
 		box-sizing: border-box;
+
 	}
 	.offic-intro {
 		width: 4.89rem;
-
+		overflow: hidden;
+	    display: -webkit-box;
+	    -webkit-line-clamp: 2;
+	    -webkit-box-orient: vertical;
+	    word-break: break-all;
 	}
 	.offic-model {
 		font-size: 0.32rem;
