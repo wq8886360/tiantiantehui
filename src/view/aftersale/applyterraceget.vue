@@ -13,7 +13,10 @@
 		</div>
 		<div class="line"></div>
 		<!-- 上传凭证 -->
-		<Imaged></Imaged>
+		<div class="up-gist">
+			<div class="gist">上传凭证</div>
+			<Imaged @photo="photo"></Imaged>
+		</div>
 		<!-- 提交按钮 -->
 		<div class="present" @click="merfuse">
 		 	提交申请
@@ -59,7 +62,10 @@ export default {
 	        
 	        merfuse(){
 	        	this.$router.push({path:'turndownterrace'})
-	        }  
+	        },
+	        photo(imgList){
+	            this.evidence_img = imgList;
+	        } 
 	    }
 }	
 </script>
@@ -99,11 +105,19 @@ export default {
 				color: #858585;
 			}
 		}
-		/*上传凭证*/
-		.show{
+		/*上传凭证*/			
+		.up-gist {
+			margin-top: 0.27rem;
+			min-height: 6.28rem;
 			box-sizing: border-box;
-			padding:0 0.27rem;
-			font-size: 0.37rem;
+			padding: 0.53rem 0.27rem 1.6rem;
+			background-color: #fff;
+		}
+		.up-gist .up-pic {
+			width: 100%;
+			height: 4.88rem;
+			background-color: pink;
+			margin-top: 0.36rem;
 		}
 		/*提交按钮*/
 		.present {

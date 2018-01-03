@@ -20,7 +20,10 @@
 		<div class="explain">说明:</div>
 		<div class="line"></div>
 		<!-- 上传凭证 -->
-		<Imaged></Imaged>
+		<div class="up-gist">
+			<div class="gist">上传凭证</div>
+			<Imaged @photo="photo"></Imaged>
+		</div>
 		<!-- 提交按钮 -->
 		<div class="present" @click="present">
 		 	提交
@@ -125,8 +128,18 @@
 			min-height: 2.0rem;
 		}
 		/*上传凭证*/
-		.show {
-			padding: 0 0.27rem;
+		.up-gist {
+			margin-top: 0.27rem;
+			min-height: 6.28rem;
+			box-sizing: border-box;
+			padding: 0.53rem 0.27rem 1.6rem;
+			background-color: #fff;
+		}
+		.up-gist .up-pic {
+			width: 100%;
+			height: 4.88rem;
+			background-color: pink;
+			margin-top: 0.36rem;
 		}
 		/*提交按钮*/
 		.present {
