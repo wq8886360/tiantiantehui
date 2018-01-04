@@ -9,6 +9,7 @@
 
         <x-button mini type="primary" @click.native="goStroe(59)">店铺59</x-button>
         <x-button mini type="primary" @click.native="goStroe(53)">店铺53</x-button>
+        <x-button mini type="primary" @click.native="goStroe(69)">店铺69</x-button>
 	</div>
 </template>
 <script>
