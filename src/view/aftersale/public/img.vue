@@ -232,7 +232,6 @@ export default{
         deleted(index){
             var header=this.headerImage.splice(index,1)
             var image=this.imageArr.splice(index,1)
-            alert(1)
             this.$emit('photo',this.headerImage,this.imageArr);
             if(this.imageArr.length>=5){
                 this.inputShow=false
