@@ -243,7 +243,7 @@ export default{
 	},
     created(){
         if(this.imgdata.length!=0){
-            this.headerImage=this.imgdata;
+            this.headerImage=this.imgdata
         }else{
             return
         }
