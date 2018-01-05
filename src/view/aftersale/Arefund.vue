@@ -152,16 +152,17 @@ export default{
             console.log(params)
             if(this.radioValue.length != 0){
                 if(this.$route.query.edit){
-
+                    
+                }else{
+                    refundapplyRefund(params).then((response) => {
+                        console.log(response)
+                        if(response.data.code == 1000){
+                            this.$router.push({path: '/refund',query: {refund_id: response.data.data.refund_id}})
+                        }else{
+                            this.$vux.toast.text(response.data.message, 'middle')
+                        }
+                    })
                 }
-                refundapplyRefund(params).then((response) => {
-                    console.log(response)
-                    if(response.data.code == 1000){
-                        this.$router.push({path: '/refund',query: {refund_id: response.data.data.refund_id}})
-                    }else{
-                        this.$vux.toast.text(response.data.message, 'middle')
-                    }
-                })
             }else{
                 this.$vux.toast.text(`请选择退款原因`, 'middle')
             }
