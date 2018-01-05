@@ -43,7 +43,7 @@
 		<!-- 上传凭证 -->
 		<div class="up-gist">
 			<div class="gist">上传凭证</div>
-			<uploadimg @photo="photo"></uploadimg>
+			<uploadimg @photo="photo" :imgdata="member_evidence_seller"></uploadimg>
 		</div>
 		<!-- 提交申请 -->
 		<div class="refer-apply" @click="submit">提交申请</div>
@@ -107,6 +107,7 @@ export default{
             qty: 1, //退货商品数量
             instruction: '', //退款说明
             evidence_img: [],
+            member_evidence_seller: [], //修改申请的图片
 		}
 	},
 	methods: {
@@ -129,11 +130,11 @@ export default{
 
                 //修改申请数据
                 let modify = JSON.parse(this.$route.query.edit);
-                console.log(modify)
                 if(modify){
                     this.qty = Number(modify.goods_num);
                     this.$set(this.radioValue,0,modify.reason_id);
                     this.instruction = modify.refund_remark_seller;
+                    this.member_evidence_seller = modify.member_evidence_seller;
                 }
             })
         },
@@ -150,6 +151,9 @@ export default{
             }
             console.log(params)
             if(this.radioValue.length != 0){
+                if(this.$route.query.edit){
+
+                }
                 refundapplyRefund(params).then((response) => {
                     console.log(response)
                     if(response.data.code == 1000){
