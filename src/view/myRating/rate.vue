@@ -544,7 +544,7 @@ export default {
 	    }
     },
     created(){
-    	this.evaData=this.$route.query.evaluate_data
+    	this.evaData=JSON.parse(this.$route.query.evaluate_data)
     	for(var i=0;i<this.evaData.order_goods.length;i++){
 			this.evaData.order_goods[i].evaConent='';
 			this.evaData.order_goods[i].evaScore='0';

@@ -1,5 +1,5 @@
 <template>
-	<div class="content">
+	<div class="content_ds">
 		<div class="line_gray"></div>
 		<div class="content_top" @click='attrsState=true'>
 			<div class="content_all">
@@ -19,9 +19,10 @@
 			<img class="con_right" src="../../assets/img/icon_aftersalesservice_saoyisao@2x.png" alt="">
 		</div>
 		<div class="content_f">
-			<div class="instructions">
-				<textarea class="text_ds" placeholder="说明"></textarea>
-			</div>
+		<!--说明 -->
+			<div class="bar-mer-exp">
+        	    <x-textarea title="说明：" v-model="instruction"></x-textarea>
+        	</div>
 		</div>
 		<div class="upload">
 			<div class="credentials">
@@ -41,7 +42,7 @@
 </template>
 <script>
 import Exif from 'exif-js' 
-import {Popup, Checklist,TransferDom} from 'vux'
+import {Popup, Checklist,TransferDom,XTextarea} from 'vux'
 import Imagesd from './public/img.vue'
 export default{
     directives: {
@@ -51,7 +52,8 @@ export default{
         'Imagesd':Imagesd,
         TransferDom,
         Popup,
-        Checklist
+        Checklist,
+        XTextarea
     },
 	data(){
 		return{
@@ -64,6 +66,7 @@ export default{
             imageArr:[],//图片上传
             doMain:'', 
             inputShow:true,//input的显示与否  
+            instruction: '', //说明
 		}
 	},
 	methods:{
@@ -78,7 +81,7 @@ export default{
 }
 </script>
 <style lang='less'>
-.content{
+.content_ds{
 	width: 100vw;
 	background: #f7f7f7;
 	.line_gray{

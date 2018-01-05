@@ -39,7 +39,7 @@
 						<div class="view_t">
 							<span class="logistics_n">联系商家</span>
 							<span class="logistics_n" @click='cancelorder_show(item.id)'>取消订单</span>
-							<span class="appraise_c">付款</span>
+							<span class="appraise_c" @click='payoff()'>付款</span>
 						</div>
 					</div>
 				</li>
@@ -164,6 +164,9 @@ export default{
 		order_sure(){
 			this.cancelorder_api();
 		},
+		payoff(){
+   	 		this.$router.push({path:'/payoff'})
+   	 	}
 	},
 	created(){
 		// this.key_word=this.data

@@ -90,8 +90,9 @@ export default{
 				}
 			})
 		},
+		/*评价*/
 		appraise(index){
-			this.$router.push({path:"/rate",query:{evaluate_data:this.evaluate_data[index]}})
+			this.$router.push({path:"/rate",query:{evaluate_data:JSON.stringify(this.evaluate_data[index])}})
 		},
 		orders_id(item_id){
 			this.$router.push({path:"/orderdetails",query:{orders_id:item_id}})
@@ -134,7 +135,7 @@ export default{
     	},
     	/*追加评论*/
    	 	supplemental(index){
-   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.evaluate_data[index]}})
+   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:JSON.stringify(this.evaluate_data[index])}})
    	 	}
 	},
 	created(){
