@@ -170,7 +170,8 @@ export default{
    	 	},
    	 	/*退换货详情api*/
    	 	api_refundapplyDetail(){
-   	 		refundapplyDetail({refund_id:'110'}).then((response)=>{
+   	 		let Refund_id=this.$route.query.refund_id;
+   	 		refundapplyDetail({refund_id:Refund_id}).then((response)=>{
    	 			let res=response.data;
    	 			if(res.code==1000){
    	 				this.refund_data=res.data.refund_detail;
