@@ -125,6 +125,16 @@ export default{
                 response.data.data.reason.map((val,index) => {
                     this.commonList.push({key: val.reason_id, value: val.reason_info});
                 })
+
+
+                //修改申请数据
+                let modify = JSON.parse(this.$route.query.edit);
+                console.log(modify)
+                if(modify){
+                    this.qty = Number(modify.goods_num);
+                    this.$set(this.radioValue,0,modify.reason_id);
+                    this.instruction = modify.refund_remark_seller;
+                }
             })
         },
         //提交申请
