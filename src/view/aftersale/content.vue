@@ -42,12 +42,8 @@
 </template>
 <script>
 import Exif from 'exif-js' 
-<<<<<<< HEAD
-import {Popup, Checklist,TransferDom} from 'vux'
 import {refundapplyTerrace} from '../../http/api.js'
-=======
 import {Popup, Checklist,TransferDom,XTextarea} from 'vux'
->>>>>>> b1b1caac22ec4c27231b03204bb709f9df697298
 import Imagesd from './public/img.vue'
 export default{
     directives: {
