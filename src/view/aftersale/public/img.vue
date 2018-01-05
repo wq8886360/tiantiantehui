@@ -15,7 +15,7 @@
 <script>
 import Exif from 'exif-js' 
 export default{
-    props:['imgurl'],
+    props:['imgdata'],
 	data(){
 		return{
 			headerImage:[],//显示的图片
@@ -242,7 +242,11 @@ export default{
         } 
 	},
     created(){
-        this.headerImage=this.imgurl;
+        if(this.imgdata.length!=0){
+            this.headerImage=this.imgdata
+        }else{
+            return
+        }
         
     }
 }
