@@ -40,7 +40,7 @@ export default {
     mounted () {  
     },  
     created(){
-        this.goodsInfo=this.$route.query.evaluate_data.order_goods
+        this.goodsInfo=JSON.parse(this.$route.query.evaluate_data).order_goods
         for(var i=0;i<this.goodsInfo.length;i++){
             this.goodsInfo[i].content=''
             this.goodsInfo[i].evaImgArr=[];
