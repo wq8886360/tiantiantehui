@@ -45,7 +45,7 @@
 							<span v-if='item.status==1' class="logistics_n"	@click='remindseller_api(item.id)'>提醒发货</span>
 							<span v-if='item.status==2' class="logistics_n"	@click="postpone_api(item.id)">延长收货</span>
 							<span v-if='item.status==3' class="appraise_c" 	@click='appraise(index)'>评价</span>
-							<span v-if='item.status==0' class="appraise_c">付款</span>
+							<span v-if='item.status==0' class="appraise_c" @click='payoff()'>付款</span>
 							<span v-if='item.status==2' class="appraise_c" 	@click='Comeout(item.id)'>确认收货</span>
 							<span v-if='item.is_append==1' class="appraise_c" @click='supplemental(index)'>追加评论</span>
 						</div>
@@ -151,7 +151,7 @@ export default{
 		/*进入评价页面*/
 		appraise(index){
 			console.log(this.allorder_data[index])
-			this.$router.push({path:"/rate",query:{evaluate_data:this.allorder_data[index]}})
+			this.$router.push({path:"/rate",query:{evaluate_data:JSON.stringify(this.allorder_data[index])}})
 		},
 		/*进入订单详情页面*/
 		orders_id(item_id){
@@ -214,7 +214,7 @@ export default{
    	 	},
    	 	/*追加评论*/
    	 	supplemental(index){
-   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.allorder_data[index]}})
+   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:JSON.stringify(this.allorder_data[index])}})
    	 	},
    	 	/*点击获取当前的订单Id*/
    	 	Comeout(item_index){
@@ -234,6 +234,9 @@ export default{
    	 				this.orderlist_api()
    	 			}
    	 		})
+   	 	},
+   	 	payoff(){
+   	 		this.$router.push({path:'/payoff'})
    	 	}
 	},
 	created(){

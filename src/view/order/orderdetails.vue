@@ -149,7 +149,7 @@
 						<span v-if='order_data.status==1' class="lin_red" @click='remindseller_api()'>提醒发货</span>
 						<span v-if='order_data.status==2' class="lin_red" @click='Comeout()'>确认收货</span>
 						<span v-if='order_data.status==3' class="lin_red" @click="appraise()">评价</span>
-						<span v-if='order_data.status==0' class="lin_red">付款</span>
+						<span v-if='order_data.status==0' class="lin_red" @clcik="payoff()">付款</span>
 						<span v-if='order_data.is_append==1' class="lin_red" @click="supplemental()">追加评论</span>
 					</div>
 				</div>
@@ -211,7 +211,7 @@ export default{
 		},
 		/*进入评价页面*/
 		appraise(){
-			this.$router.push({path:'/rate',query:{evaluate_data:this.order_data}})
+			this.$router.push({path:'/rate',query:{evaluate_data:JSON.stringify(this.order_data)}})
 		},
 		/*复制*/
 		onCopy:function(e){
@@ -286,7 +286,7 @@ export default{
    	 	},
    	 	/*追加评论*/
    	 	supplemental(index){
-   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:this.order_data}})
+   	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:JSON.stringify(this.order_data)}})
    	 	},
    	 	/*售后跳转*/
    	 	sales(item_id,jump){
@@ -296,6 +296,9 @@ export default{
    	 		}else{
    	 			return
    	 		}
+   	 	},
+   	 	payoff(){
+   	 		this.$router.push({path:'/payoff'})
    	 	}
 	},
 	created(){
