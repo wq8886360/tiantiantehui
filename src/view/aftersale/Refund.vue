@@ -118,7 +118,7 @@
 				<div class="bar-number">退款编号: <span class="bar-cau">{{refund_data.refund_sn}}</span></div>
 			</div>
 			<!-- 换货详情 -->
-			<div v-else class="barter-details" v-if='false'>
+			<div v-else class="barter-details">
 				<div class="bar-cause">换货原因: <span class="bar-cau">{{refund_data.buyer_message}}</span></div>
 				<div class="bar-quantitl">换货数量: <span class="bar-quan">{{refund_data.goods_num}}</span></div>
 				<div class="bar-time">申请时间: <span class="bar-cau">{{refund_data.add_time}}</span></div>
@@ -210,10 +210,10 @@ export default{
    	 			}
    	 		}
    	 		if(item_code=='call_plat_enable'){
-
+   	 			this.$router.push({path:'/Platform',query:{edit:JSON.stringify(this.edit)}})
    	 		}
    	 		if(item_code=='edit_call_plat_enable'){
-
+   	 			this.$router.push({path:'/content',query:{edit:JSON.stringify(this.edit)}})
    	 		}
    	 		if(item_code=='add_ship_enable'){
 
