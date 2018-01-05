@@ -82,3 +82,5 @@ export const confirmreceipt = params => post('/personalcenter/confirmreceipt',pa
 export const refundgetrefundinfo = params => post('/member/refund/getrefundinfo', params); //申请前
 export const refundapplyRefund = params => post('/member/refund/applyRefund', params); //申请退款
 export const refundapplyList = params => get('/member/refund/applyList', params); //售后列表
+export const refundapplyDetail = params =>get('/member/refund/applyDetail',params);//售后申请详情
+export const refundExpressList = params =>get('/member/refund/refundExpressList',params);//物流公司
