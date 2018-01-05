@@ -42,6 +42,7 @@
 <script>
 import Exif from 'exif-js' 
 import {Popup, Checklist,TransferDom} from 'vux'
+import {refundapplyTerrace} from '../../http/api.js'
 import Imagesd from './public/img.vue'
 export default{
     directives: {
@@ -69,11 +70,17 @@ export default{
 	methods:{
 		changer(val, label) {
             this.reason=val[0];
+        },
+        api_refundapplyTerrace(){
+        	let refund_id = this.$route.query.refund_id;
+        	refundapplyTerrace({refund_id:refund_id}).then((response)=>{
+        		console.log(response);
+        	})
         }
 
 	},
 	created(){
-
+		this.api_refundapplyTerrace()
 	}
 }
 </script>
