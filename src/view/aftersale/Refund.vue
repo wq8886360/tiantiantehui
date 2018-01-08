@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<!-- 退货地址 -->
-		<div class="re_address" v-if='refund_data.return_address.length!=0'>
+		<div class="re_address" v-if='JSON.stringify(refund_data.return_address)!="{}"'>
 			<div class="re_top">
 				<div class="title">退货地址</div>
 			</div>
@@ -43,7 +43,8 @@
 			</div>
 		</div>
 		<!-- 换货物流详情 -->
-		<div class="re_address" v-if='refund_data.member_address.length!=0'>
+		
+		<div class="re_address" v-if='JSON.stringify(refund_data.member_address)!="{}"'>
 			<div class="re_top">
 				<div class="title">收货地址</div>
 			</div>
@@ -57,24 +58,24 @@
 				</div>
 			</div>
 		</div>
-		<!-- 用户退货物流 -->
-		<div v-if='refund_data.return_address.length!=0'  style="margin-bottom:0.27rem;" class="delivery" @click='attrsState=true'>
-			<div class="delivery_top" style="border-bottom:none">
-				<div class="delivery_left">用户退货物流</div>
-				<div class="delivery_right">
-					<span v-if='reason==null'>请选择</span>
-					<span v-else>{{reason}}</span>
+		<!-- 商家发货物流公司 -->
+		<div @click='Business(refund_data.order_id)' class="delivery" v-if='refund_data.express!="()"'>
+			<div class="delivery_top">
+				<div class="delivery_left">商家发货物流</div>
+				<div class="delivery_right">  
+					<span v-if='refund_data.express=="()"'>请选择</span>
+					<span v-else>{{refund_data.express}}</span>
 					<i class="icon-right"></i>
 				</div>
 			</div>	
 		</div>
-		<!-- 商家发货物流公司 -->
-		<div v-if='refund_data.member_address.length!=0' class="delivery" @click='attrsState=true'>
-			<div class="delivery_top">
-				<div class="delivery_left">商家发货物流</div>
+		<!-- 用户退货物流 -->
+		<div @click='userm(refund_data.order_id)'  v-if='refund_data.express!="()"' class="delivery" style="margin-bottom:0.27rem;">
+			<div class="delivery_top" style="border-bottom:none">
+				<div class="delivery_left">用户退货物流</div>
 				<div class="delivery_right">
-					<span v-if='reason==null'>请选择</span>
-					<span v-else>{{reason}}</span>
+					<span v-if='refund_data.express!="()"'>请选择</span>
+					<span v-else>{{refund_data.s_express}}</span>
 					<i class="icon-right"></i>
 				</div>
 			</div>	
@@ -129,18 +130,11 @@
 		<div class="relationmer">
 			<div class="merchant">联系商家</div>
 		</div>
-		<div v-transfer-dom>
-			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
-				<img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
-			 	<checklist @on-change="changer" label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
-			 	<div class="sureq" @click='attrsState=false'>关闭</div>
-			</popup>
-		</div>
 	</div>
 </template>
 <script>
 import { Popup,TransferDom,Checklist} from 'vux'
-import {refundapplyDetail,refundExpressList} from '../../http/api.js'
+import {refundapplyDetail} from '../../http/api.js'
 export default{
 	directives: {
 		TransferDom
@@ -152,11 +146,6 @@ export default{
 	data(){
 		return{
 			commonList: [],
-			attrsState:false, //快递的弹窗的状态
-			title:'快递公司', //快递的弹窗的标题
-			radioValue:[], 
-			reason:'请选择', //快递的弹窗的val
-			refund_id:null,
 			refund_data:null,
 			combination:null,
 			edit:null,
@@ -164,10 +153,6 @@ export default{
 		}
 	},
 	methods:{
-		/*点击商家发货出现的弹窗*/
-		changer(val, label) {
-			this.reason=val[0];
-   	 	},
    	 	/*退换货详情api*/
    	 	api_refundapplyDetail(){
    	 		let Refund_id=this.$route.query.refund_id;
@@ -185,36 +170,26 @@ export default{
    	 			}
    	 		})
    	 	},
-   	 	/*物流公司api*/
-   	 	api_refundExpressList(){
-   	 		refundExpressList({}).then((response)=>{
-   	 			let res=response.data;
-   	 			if(res.code==1000){
-   	 				this.commonList=res.data.express_list;
-   	 				this.commonList=this.commonList.map(function(item,index,arr){
-   	 					return item.name
-   	 				})
-   	 			}
-   	 		})
-
-   	 	},
    	 	/*跳转页面*/
    	 	jump(item_code){
    	 		if(item_code=='view_history_enable'){
-   	 			
+   	 			let refundd_id=this.$route.query.refund_id;
+   	 			this.$router.push({path:'/agreement',query:{refund_id:refundd_id}})
    	 		}
    	 		if(item_code=='edit_apply_enable'){
    	 			if(this.edit_apply_type==1){
    	 				this.$router.push({path:'/servicetype',query:{og_id:this.og_id}})
    	 			}else{
-   	 				this.$router.push({path:'/arefund',query:{edit:JSON.stringify(this.edit),type:this.refund_type,og_id:this.og_id}})
+   	 				let refu_id=this.$route.query.refund_id;
+   	 				this.$router.push({path:'/arefund',query:{edit:JSON.stringify(this.edit),type:this.refund_type,og_id:this.og_id,refund_id:refu_id}})
    	 			}
    	 		}
    	 		if(item_code=='call_plat_enable'){
    	 			this.$router.push({path:'/Platform',query:{edit:JSON.stringify(this.edit)}})
    	 		}
    	 		if(item_code=='edit_call_plat_enable'){
-   	 			this.$router.push({path:'/content',query:{edit:JSON.stringify(this.edit)}})
+   	 			let refu_id=this.$route.query.refund_id;
+   	 			this.$router.push({path:'/content',query:{refund_id:refu_id}})
    	 		}
    	 		if(item_code=='add_ship_enable'){
 
@@ -222,12 +197,23 @@ export default{
    	 		if(item_code=='edit_ship_enable'){
 
    	 		}
-   	 	}
+   	 	},
+   	 	/*跳转到物流公司页面**/
+   	 	/*商家物流*/
+   	 	Business(order_id){
+   	 		this.$router.push({path:"/logistics",query:{orders_id:order_id}})
+   	 	},
+   	 	/*用户物流*/
+   	 	userm(order_id){
+   	 		this.$router.push({path:"/logistics",query:{orders_id:order_id}})
+   	 	},
+   	 
 
 	},
 	created(){
+	    
 		this.api_refundapplyDetail();
-		this.api_refundExpressList();
+
 	}
 }	
 </script>
