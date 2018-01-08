@@ -132,6 +132,7 @@ export default{
                 let modifyState = this.$route.query.edit;
                 if(modifyState){
                     let modify = JSON.parse(modifyState)
+                    console.log(modify.member_evidence_seller)
                     this.qty = Number(modify.goods_num);
                     this.$set(this.radioValue,0,modify.reason_id);
                     this.instruction = modify.refund_remark_seller;

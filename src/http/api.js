@@ -85,3 +85,6 @@ export const refundapplyList = params => get('/member/refund/applyList', params)
 export const refundapplyDetail = params =>get('/member/refund/applyDetail',params);//售后申请详情
 export const refundExpressList = params =>get('/member/refund/refundExpressList',params);//物流公司
 export const refundapplyTerrace = params => post('/member/refund/callplat',params);//申请平台介入
+export const refundapplyLogList = params =>get('/member/refund/applyLogList',params);//协商历史
+export const refundgetShipInfo = params =>  get('/member/refund/getShipInfo',params);//获取提交的物流信息
+export const refundsaveShipInfo = params => post('/member/refund/saveShipInfo',params);//提交物流信息

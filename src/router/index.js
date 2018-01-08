@@ -77,6 +77,8 @@ import Platform from '@/view/aftersale/Platform'//申请平台介入
 import content from '@/view/aftersale/content'//提交物流信息
 import Arefund from '@/view/aftersale/Arefund' //退款申请
 import Refund from '@/view/aftersale/Refund' //退款申请
+import Agreement from '@/view/aftersale/agreement' //协商历史
+import Logcompany from '@/view/aftersale/Logcompany' //物流公司
 
 
 //测试
@@ -285,6 +287,16 @@ export default new Router({
             path: '/salelist',
             component: Salelist,
             meta: { title: '退款/售后'}
+        },
+        {
+            path: '/agreement',
+            component: Agreement,
+            meta: {title:'协商历史'}
+        },
+        {
+            path: '/logcompany',
+            component: Logcompany,
+            meta: {title:'选择物流公司'}
         }
 	]
 })

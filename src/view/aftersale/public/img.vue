@@ -21,7 +21,7 @@ export default{
 			headerImage:[],//显示的图片
             imageArr:[],//图片上传
             doMain:'', 
-            inputShow:true,//input的显示与否 
+            inputShow:true,//input的显示与否  
 		}
 	},
 	methods:{
@@ -248,8 +248,7 @@ export default{
         }
     },
     created(){
-        
-        
+        this.headerImage = this.imgdata;
     }
 }
 </script>
