@@ -34,7 +34,7 @@
 			<uploadimg @photo="photo"></uploadimg>
 		</div>
 		<!-- 提交申请 -->
-		<div class="refer-apply">提交申请</div>
+		<div class="refer-apply" @click="submit">提交申请</div>
 		<!-- 退款原因弹窗 -->
 		<div v-transfer-dom>
 			<popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">	
@@ -94,12 +94,13 @@ export default{
             good_data: null, //退款商品信息
             qty: 1, //退货商品数量
             instruction: '', //退款说明
+            evidence_img: [],
+            
 		}
 	},
 	methods: {
 	 	changer(val, label) {
 			this.reason=label[0];
-			// console.log(label)
         },
         //获取申请前商品数据
         api_refundgetrefundinfo(){
@@ -112,14 +113,35 @@ export default{
                 this.commonList = [];
                 response.data.data.reason.map((val,index) => {
                     this.commonList.push({key: val.reason_id, value: val.reason_info});
+                    // this.commonList.push({val.reason_id : val.reason_info});
                 })
 
-                console.log(this.commonList)
+                // console.log(this.commonList)
             })
         },
         photo(imgList){
-            console.log(imgList)
-        }
+            // console.log(imgList)
+        },
+        //提交申请
+        submit(){
+            let params = {
+                og_id: this.$route.query.og_id,
+                qty: this.qty,
+                amount: this.refundaAmount + '',
+                type: this.$route.query.type,
+                reason_id: this.radioValue[0],
+                remark: this.instruction,
+                evidence_img: this.evidence_img.join(',')
+            }
+            // console.log(params)
+            if(this.radioValue.length != 0){
+                refundapplyRefund(params).then((response) => {
+                    // console.log(response)
+                })
+            }else{
+                this.$vux.toast.text(`请选择退款原因`, 'middle')
+            }
+        },
     },
     created(){
         this.api_refundgetrefundinfo();

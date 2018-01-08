@@ -43,7 +43,7 @@
 		<!-- 上传凭证 -->
 		<div class="up-gist">
 			<div class="gist">上传凭证</div>
-			<uploadimg @photo="photo"></uploadimg>
+			<uploadimg @photo="photo" :imgdata="member_evidence_seller"></uploadimg>
 		</div>
 		<!-- 提交申请 -->
 		<div class="refer-apply" @click="submit">提交申请</div>
@@ -107,6 +107,7 @@ export default{
             qty: 1, //退货商品数量
             instruction: '', //退款说明
             evidence_img: [],
+            member_evidence_seller: [], //修改申请的图片
 		}
 	},
 	methods: {
@@ -125,6 +126,17 @@ export default{
                 response.data.data.reason.map((val,index) => {
                     this.commonList.push({key: val.reason_id, value: val.reason_info});
                 })
+
+
+                //修改申请数据
+                let modifyState = this.$route.query.edit;
+                if(modifyState){
+                    let modify = JSON.parse(modifyState)
+                    this.qty = Number(modify.goods_num);
+                    this.$set(this.radioValue,0,modify.reason_id);
+                    this.instruction = modify.refund_remark_seller;
+                    this.member_evidence_seller = modify.member_evidence_seller;
+                }
             })
         },
         //提交申请
@@ -132,17 +144,37 @@ export default{
             let params = {
                 og_id: this.$route.query.og_id,
                 qty: this.qty,
+                refund_id: this.$route.query.refund_id,
                 amount: this.refundaAmount + '',
                 type: this.$route.query.type,
                 reason_id: this.radioValue[0],
                 remark: this.instruction,
-                evidence_img: this.evidence_img.join(',')
+                evidence_img: this.evidence_img.join(','),
+                is_edit: 0
             }
             console.log(params)
             if(this.radioValue.length != 0){
-                refundapplyRefund(params).then((response) => {
-                    console.log(response)
-                })
+                if(this.$route.query.edit){
+                    params.is_edit = 1; //编辑
+                    refundapplyRefund(params).then((response) => {
+                        console.log(response)
+                        if(response.data.code == 1000){
+                            this.$router.push({path: '/refund',query: {refund_id: response.data.data.refund_id}})
+                        }else{
+                            this.$vux.toast.text(response.data.message, 'middle')
+                        }
+                    })
+                }else{
+                    params.is_edit = 0; //申请
+                    refundapplyRefund(params).then((response) => {
+                        console.log(response)
+                        if(response.data.code == 1000){
+                            this.$router.push({path: '/refund',query: {refund_id: response.data.data.refund_id}})
+                        }else{
+                            this.$vux.toast.text(response.data.message, 'middle')
+                        }
+                    })
+                }
             }else{
                 this.$vux.toast.text(`请选择退款原因`, 'middle')
             }
