@@ -129,8 +129,9 @@ export default{
 
 
                 //修改申请数据
-                let modify = JSON.parse(this.$route.query.edit);
-                if(modify){
+                let modifyState = this.$route.query.edit;
+                if(modifyState){
+                    let modify = JSON.parse(modifyState)
                     this.qty = Number(modify.goods_num);
                     this.$set(this.radioValue,0,modify.reason_id);
                     this.instruction = modify.refund_remark_seller;
@@ -155,6 +156,14 @@ export default{
             if(this.radioValue.length != 0){
                 if(this.$route.query.edit){
                     params.is_edit = 1; //编辑
+                    refundapplyRefund(params).then((response) => {
+                        console.log(response)
+                        if(response.data.code == 1000){
+                            this.$router.push({path: '/refund',query: {refund_id: response.data.data.refund_id}})
+                        }else{
+                            this.$vux.toast.text(response.data.message, 'middle')
+                        }
+                    })
                 }else{
                     params.is_edit = 0; //申请
                     refundapplyRefund(params).then((response) => {
