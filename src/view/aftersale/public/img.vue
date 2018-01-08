@@ -21,7 +21,7 @@ export default{
 			headerImage:[],//显示的图片
             imageArr:[],//图片上传
             doMain:'', 
-            inputShow:true,//input的显示与否  
+            inputShow:true,//input的显示与否 
 		}
 	},
 	methods:{
@@ -228,7 +228,6 @@ export default{
             tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;  
             return ndata;  
         }, 
- 
         deleted(index){
             var header=this.headerImage.splice(index,1)
             var image=this.imageArr.splice(index,1)
@@ -240,12 +239,16 @@ export default{
               }
         } 
 	},
-    created(){
-        if(this.imgdata.length!=0){
-            this.headerImage=this.imgdata
-        }else{
-            return
+    watch:{
+        "imgdata": {
+            handler:function(n, o) {
+                this.headerImage = n;
+            },
+            deep: true
         }
+    },
+    created(){
+        
         
     }
 }
