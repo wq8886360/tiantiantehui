@@ -143,17 +143,20 @@ export default{
             let params = {
                 og_id: this.$route.query.og_id,
                 qty: this.qty,
+                refund_id: this.$route.query.refund_id,
                 amount: this.refundaAmount + '',
                 type: this.$route.query.type,
                 reason_id: this.radioValue[0],
                 remark: this.instruction,
-                evidence_img: this.evidence_img.join(',')
+                evidence_img: this.evidence_img.join(','),
+                is_edit: 0
             }
             console.log(params)
             if(this.radioValue.length != 0){
                 if(this.$route.query.edit){
-                    
+                    params.is_edit = 1; //编辑
                 }else{
+                    params.is_edit = 0; //申请
                     refundapplyRefund(params).then((response) => {
                         console.log(response)
                         if(response.data.code == 1000){
