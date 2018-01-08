@@ -1,12 +1,12 @@
 <template>
 	<div class="content_ds">
 		<div class="line_gray"></div>
-		<div class="content_top" @click='attrsState=true'>
+		<div class="content_top" @click='jump()'>
 			<div class="content_all">
 				<span class="cope">物流公司</span>
 				<div class="content_right">
-					<span v-if='reason==null'>请选择</span>
-                    <span v-else>{{reason}}</span>
+					<span v-if='log_name==null'>请选择</span>
+                    <span v-else>{{log_name}}</span>
 					<i class="icon-right"></i>
 				</div>
 			</div>
@@ -14,7 +14,7 @@
 		<div class="content_b">
 			<div class="con_left">
 				<span>物流单号</span>
-				<input type="text" placeholder="请输入物流单号">
+				<input type="text" placeholder="请输入物流单号" v-model='log_num'>
 			</div>
 			<img class="con_right" src="../../assets/img/icon_aftersalesservice_saoyisao@2x.png" alt="">
 		</div>
@@ -27,56 +27,77 @@
 		<div class="upload">
 			<div class="credentials">
 				<div class="title">上传凭证</div>
-				<Imagesd></Imagesd>
+				<Imagesd :imgdata='imgurl' @photo='photo'></Imagesd>
 			</div>
 		</div>
-        <div v-transfer-dom>
-            <popup class='tjiao' v-model="attrsState" position="bottom" max-height="80%">   
-                <img src="../../assets/img/close_gray.png" alt="" class="Shut" @click='attrsState=false'>
-                <checklist @on-change="changer" label-position="left" :title="title" :options="commonList" v-model="radioValue" :max="1"></checklist>
-                <div class="sure" @click='attrsState=false'>关闭</div>
-            </popup>
-        </div>
-		<div class="submit">提交</div>
+		<div class="submit" @click='api_refundsaveShipInfo()'>提交</div>
 	</div>
 </template>
 <script>
-import Exif from 'exif-js' 
-import {Popup, Checklist,TransferDom,XTextarea} from 'vux'
+import {XTextarea} from 'vux'
 import Imagesd from './public/img.vue'
+import {refundgetShipInfo,refundsaveShipInfo} from '../../http/api.js'
 export default{
-    directives: {
-        TransferDom
-    },
     components: {
         'Imagesd':Imagesd,
-        TransferDom,
-        Popup,
-        Checklist,
         XTextarea
     },
 	data(){
 		return{
-            commonList: [ '顺丰快递', '韵达快递','申通快递','中通快递','天天快递'],
-            attrsState:false, //快递的弹窗的状态
-            title:'快递公司', //快递的弹窗的标题
-            radioValue:[], 
-            reason:'请选择', //快递的弹窗的val
 			headerImage:[],//显示的图片
             imageArr:[],//图片上传
             doMain:'', 
-            inputShow:true,//input的显示与否  
             instruction: '', //说明
+            log_name:null,
+            log_num:null,
+            imgurl:[],
+            evidence_img: [],
 		}
 	},
 	methods:{
-		changer(val, label) {
-            this.reason=val[0];
-        }
+		/*跳转到物流公司页面*/
+		jump(){
+			this.$router.push({path:'/logcompany'});
+		},
+		/*获取提交物流信息api*/
+		api_refundgetShipInfo(){
+			refundgetShipInfo({refund_id:'110'}).then((response)=>{
+				let res=response.data;
+				if(res.code==1000){
+					this.log_num=res.data.express_sn;
+					this.instruction=res.data.memo;
+					this.imgurl=res.data.pics;
+					if(this.$route.query.show_null==1){
+						this.log_name=this.$route.query.item_name;
+					}else{
+						this.log_name=res.data.express_com;
+					}
+				}
+			})
+		},
+		api_refundsaveShipInfo(){
+			let parms={
+					refund_id: '110',
+					express_com: this.log_name,
+					express_sn: this.log_num,
+					memo: this.instruction,
+					pics: this.evidence_img.join(',')
+				}
+				console.log(parms)
+			refundsaveShipInfo(parms).then((response)=>{
+				let res =response.data;
+				if(res.code==1000){
+					console.log(res)
+				}
+			})
+		},
+		photo(imgList){
+            this.evidence_img = imgList;
 
+        }
 	},
 	created(){
-
+		this.api_refundgetShipInfo();
 	}
 }
 </script>

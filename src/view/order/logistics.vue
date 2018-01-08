@@ -63,8 +63,7 @@ import { Timeline, TimelineItem} from 'vux'
 export default{
 	components: {
   		Timeline,
-  		TimelineItem,
-  		
+  		TimelineItem, 		
   	},
 	data(){
 		return{
