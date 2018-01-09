@@ -1,11 +1,11 @@
 <template>
-	<div class="Platform">
+	<div class="Platform" v-if="afterdata">
 		<!-- 头部 -->
 		<div class="exchangeTop">
 			<div class="exchange_i">
 				<div class="exchange_t">
-					<div class="title">退货退款申请成功，等待商家处理</div>
-					<div class="timer">还剩23小时23分</div>
+					<div class="title">{{afterdata.status_desc}}</div>
+					<div class="timer">{{afterdata.time_desc}}</div>
 				</div>
 			</div>
 		</div>
@@ -18,15 +18,12 @@
 			</div>
 		</div>
 		<div class="description">
-			<div class="description_c">
-				<span class="title">问题描述：</span>
-				<span class="text_d">您好，查看您的商品是在运送的途中，商品还没有退回到我们公司</span>
-			</div>
+			<x-textarea title="退款说明：" v-model="instruction"></x-textarea>
 		</div>
 		<div class="upload">
 			<div class="credentials">
 				<div class="title">上传凭证</div>
-				<Imagesd @photo="jies"></Imagesd>  
+				<uploadimg @photo="photo" :imgdata="imgurl"></uploadimg>  
 			</div>
 		</div>
 		
@@ -37,48 +34,90 @@
 			 	<div class="sure" @click='attrsState=false'>关闭</div>
 			</popup>
 		</div>
-		<div class="submit">提交申请</div>
+		<div class="submit" @click="submit">提交申请</div>
 	</div>
 </template>
 <script>
 import Exif from 'exif-js'  
-import {Popup, Checklist,TransferDom} from 'vux'
-
-import Imagesd from './public/img.vue'
+import {Popup, Checklist,TransferDom, XTextarea} from 'vux'
+import { refundapplyDetail, refundapplyTerrace } from '../../http/api'
+import Uploadimg from "./public/img.vue"
 export default{
 	directives: {
 		TransferDom
 	},
 	components: {
-	
-        'Imagesd':Imagesd,
+        Uploadimg,
 		Popup,
-    	Checklist,
+        Checklist,
+        XTextarea
 	},
-	
 	data(){
 		return{
-			commonList: [ '未寄回', '已寄回'],
+			commonList: [],
 			attrsState:false, //货物的弹窗的状态
 			title:'货物状态', //货物的弹窗的标题
 			radioValue:[], 
 			reason:'请选择', //货物的弹窗的val
-			headerImage:[],//显示的图片
-            imageArr:[],//图片上传
             domain:null,
+
+            afterdata: null, //申请前数据
+            imgurl:[], 
+            instruction: '',
+            headerImage:[],//显示的图片
 		}
 	},
 	methods:{
 		/*选择货物的选项的val*/
 		changer(val, label) {
-			this.reason=val[0];
+			this.reason=label[0];
    	 	},
-   	 	jies(headerImage,imageArr){
-   	 	
-   			console.log(headerImage,111111111111)
-   	 	},
+   	 	photo(headerImage){
+   			this.headerImage = headerImage;
+        },
+        api_refundapplyDetail(){
+            refundapplyDetail({refund_id: this.$route.query.refund_id}).then((response) => {
+                console.log(response)
+                this.afterdata = response.data.data.refund_detail;
+                response.data.data.refund_detail.edit.user_status.map((val) => {
+                    this.commonList.push({key: val.reason_id,value: val.reason_info})
+                })
+                let edit = this.$route.query.edit;
+                if(edit){
+                    let edit_data = JSON.parse(edit);
+                    console.log(edit_data)
+                    this.$set(this.radioValue,0,Number(edit_data.current_user_status.id));
+                    this.instruction = edit_data.refund_remark_admin;
+                    this.imgurl = edit_data.member_evidence_admin;
+                }
+            })
+        },
+        //提交申请
+        submit(){
+            let edit = this.$route.query.edit;
+            let params = {
+                refund_id: this.$route.query.refund_id,
+                user_status: this.radioValue[0],
+                remark: this.instruction,
+                evidence_img: this.headerImage.join(','),
+                is_edit: 0
+            }
+            if(edit){
+                params.is_edit = 1;
+            }else{
+                params.is_edit = 0;
+            }
+            refundapplyTerrace(params).then((response) => {
+                if(response.data.code == 1000){
+                    this.$router.push({path: '/refund',query: {refund_id: this.$route.query.refund_id}})
+                }else{
+                    this.$vux.toast.text(response.data.message, 'middle')
+                }
+            })
+        }
 	},
 	created(){
+        this.api_refundapplyDetail()
 	}
 }	
 </script>
@@ -243,7 +282,15 @@ export default{
 		line-height: 1.33rem;
 		position: fixed;
 		bottom: 0px;
-	}
+    }
+    .description{
+        margin-top: 0.27rem;
+		min-height: 1.99rem;
+		box-sizing: border-box;
+		padding: 0.27rem;
+		font-size: 0.37rem;
+		background-color: #fff;
+    }
 }
 .tjiao .sure{
 	width: 100vw;
@@ -254,6 +301,9 @@ export default{
 	text-align: center;
 	line-height: 1.33rem;
 	margin-top: 2.72rem;
+}
+.description .weui-cell{
+    padding: 0!important;
 }
 .tjiao .weui-cell{
 	font-size: 0.37rem !important;

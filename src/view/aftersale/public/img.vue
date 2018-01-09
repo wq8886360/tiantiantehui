@@ -1,5 +1,5 @@
 <template>
-	<div v-if='headerImage'>
+	<div>
 		<div class="show">  
      		<div v-if='headerImage.length !=0'>
                 <div class='imgBox'  v-for='(item,index) in headerImage'><img class='imgMain' :src="item" alt=""><img class='trash' src="../../../assets/img/trash.png"  alt=""  @click='deleted(index)'></div>     

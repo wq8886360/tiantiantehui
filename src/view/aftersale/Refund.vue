@@ -166,7 +166,6 @@ export default{
    	 				this.edit_apply_type=this.edit.edit_apply_type;
    	 				this.refund_type=this.refund_data.refund_type;
    	 				this.og_id=this.edit.og_id;
-   	 				console.log(this.refund_data)
    	 			}
    	 		})
    	 	},
@@ -185,18 +184,19 @@ export default{
    	 			}
    	 		}
    	 		if(item_code=='call_plat_enable'){
-   	 			this.$router.push({path:'/Platform',query:{edit:JSON.stringify(this.edit)}})
+   	 			this.$router.push({path:'/Platform',query:{refund_id:this.$route.query.refund_id}})
    	 		}
    	 		if(item_code=='edit_call_plat_enable'){
-   	 			let refu_id=this.$route.query.refund_id;
-   	 			this.$router.push({path:'/content',query:{refund_id:refu_id}})
+   	 			this.$router.push({path:'/Platform',query:{refund_id:this.$route.query.refund_id,edit:JSON.stringify(this.edit)}})
    	 		}
-   	 		if(item_code=='add_ship_enable'){
-
-   	 		}
-   	 		if(item_code=='edit_ship_enable'){
-
-   	 		}
+            if(item_code=='add_ship_enable'){
+                let refu_id=this.$route.query.refund_id;
+                this.$router.push({path:'/content',query:{refund_id:refu_id,first:1}})
+            }
+            if(item_code=='edit_ship_enable'){
+                let refu_id=this.$route.query.refund_id;
+                this.$router.push({path:'/content',query:{refund_id:refu_id,first:2}})
+            }
    	 	},
    	 	/*跳转到物流公司页面**/
    	 	/*商家物流*/
@@ -219,7 +219,5 @@ export default{
 </script>
 <style lang='less'>
 @import '../../assets/css/component/Refund.less';
-</style>
-<style>
-	@import '../../assets/css/public/btn.css';
+@import '../../assets/css/public/btn.css';
 </style>
