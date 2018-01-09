@@ -3,24 +3,25 @@
 		<div class="logcompant_left">
 			<div v-for='(item,index) in logcompany_data'>
 				<div class="letter">{{item.first_letter}}</div>
-				<ul class="logcom_ul">
-					<li @click='jump(itemm)' v-for='(itemm,index) in item.item_list'>{{itemm}}</li>
+				<ul class="logcom_ul content">
+					<li :class="{active: index == liIndex}" @click='jump(itemm)' v-for='(itemm,index) in item.item_list'>{{itemm}}</li>
 				</ul>
 			</div>	
 		</div>
 		<div class="logcomant_right">
-			<div class="letter_c" v-for='(item,index) in letter_data'>{{item}}</div>
+			<div @click='paging(index)' class="letter_c" v-for='(item,index) in letter_data'>{{item}}</div>
 		</div>
 	</div>
 </template>
 <script>
-import {refundExpressList} from '../../http/api.js'
+import {refundExpressList} from '../../http/api.js';
+import BScroll from 'better-scroll';
 export default{
 	data(){
 		return{
-			logcompany_data:null,
-			letter_data:null,
-			difference:null,
+			logcompany_data:null, //物流公司的信息
+			letter_data:null, //物流公司 字母分页
+			liIndex: 0,
 		}
 	},
 	methods:{
@@ -35,8 +36,15 @@ export default{
 				}
 			})
 		},
+		/*跳转到退货退款页面*/
 		jump(item){
-			this.$router.push({path:'/content',query:{item_name:item,show_null:1}})
+			let refundd_id=this.$route.query.refund_id;
+			this.$router.push({path:'/content',query:{item_name:item,show_null:1,refund_id:refundd_id}});
+			
+		},
+		/*点击分页*/
+		paging(index){	
+			console.log(index)
 		}
 	},
 	created(){
