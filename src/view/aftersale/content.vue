@@ -30,7 +30,7 @@
 				<Imagesd :imgdata='imgurl' @photo='photo'></Imagesd>
 			</div>
 		</div>
-		<div class="submit" @click='api_refundsaveShipInfo()'>提交</div>
+		<div class="submit" @click='submit()'>提交</div>
 	</div>
 </template>
 <script>
@@ -52,16 +52,19 @@ export default{
             log_num:null,
             imgurl:[],
             evidence_img: [],
+            is_edit:'N'
 		}
 	},
 	methods:{
 		/*跳转到物流公司页面*/
 		jump(){
-			this.$router.push({path:'/logcompany'});
+			let refu_id=this.$route.query.refund_id;
+			this.$router.push({path:'/logcompany',query:{refund_id:refu_id}});
 		},
 		/*获取提交物流信息api*/
 		api_refundgetShipInfo(){
-			refundgetShipInfo({refund_id:'110'}).then((response)=>{
+			let refu_id=this.$route.query.refund_id;
+			refundgetShipInfo({refund_id:refu_id}).then((response)=>{
 				let res=response.data;
 				if(res.code==1000){
 					this.log_num=res.data.express_sn;
@@ -75,29 +78,38 @@ export default{
 				}
 			})
 		},
-		api_refundsaveShipInfo(){
-			let parms={
-					refund_id: '110',
-					express_com: this.log_name,
-					express_sn: this.log_num,
-					memo: this.instruction,
-					pics: this.evidence_img.join(',')
-				}
-				console.log(parms)
-			refundsaveShipInfo(parms).then((response)=>{
-				let res =response.data;
-				if(res.code==1000){
-					console.log(res)
-				}
-			})
-		},
 		photo(imgList){
             this.evidence_img = imgList;
 
+        },
+        submit(){
+			let parms={
+					refund_id: this.$route.query.refund_id,
+					express_com: this.log_name,
+					express_sn: this.log_num,
+					memo: this.instruction,
+					pics: this.evidence_img.join(','),
+					is_edit:this.is_edit
+				}
+			refundsaveShipInfo(parms).then((response)=>{
+				let res =response.data;
+				if(res.code==1000){
+					let refu_id=this.$route.query.refund_id;
+					this.$router.push({path:'/arefund',query:{refund_id:refu_id}})
+				}
+			})
         }
 	},
 	created(){
-		this.api_refundgetShipInfo();
+		if(this.$route.query.first==2){
+			this.is_edit='Y'
+			this.api_refundgetShipInfo();
+		}else{
+			if(this.$route.query.show_null==1){
+				this.log_name=this.$route.query.item_name;
+			}
+			return false
+		}
 	}
 }
 </script>
