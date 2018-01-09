@@ -26,7 +26,8 @@
 					<li v-for='(item,index) in search_data'>
 						<div class="search_top">
 							<img src="../../assets/img/storeIconAct.png" alt="">
-							<span class="title">{{item.store_name}} <i style="vertical-align: middle;color:black;font-size:15px;" class="icon-right"></i></span>
+							<span class="title">{{item.store_name}}</span>
+							 <i style="vertical-align: middle;color:black;font-size:15px;" class="icon-right"></i>
 							<span class="success">{{item.status_text}}</span>
 						</div>
 						<div class="search_con" @click='orders_id(item.id)'>

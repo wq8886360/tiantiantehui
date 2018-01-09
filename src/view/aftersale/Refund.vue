@@ -15,8 +15,8 @@
 				<div class="title" style="margin-bottom:0.27rem">{{item.title}}</div>
 				<div class="text_t" v-for='(ited,index) in combination'>{{ited}}</div>
 			</div>
-			<div v-else class="Serial" v-for='(item,index) in refund_data.msg_list'>
-				<div class="Serial_why">
+			<div v-else class="Serial">
+				<div class="Serial_why" v-for='(item,index) in refund_data.msg_list'>
 					<span class="Serial_title">{{item.label}}</span>
 					<span class="Serial_left">{{item.title}}</span>
 				</div>
@@ -59,23 +59,21 @@
 			</div>
 		</div>
 		<!-- 商家发货物流公司 -->
-		<div @click='Business(refund_data.order_id)' class="delivery" v-if='refund_data.express!="()"'>
+		<div @click='Business(refund_data.order_id)' class="delivery" v-if='refund_data.express!=""'>
 			<div class="delivery_top">
 				<div class="delivery_left">商家发货物流</div>
 				<div class="delivery_right">  
-					<span v-if='refund_data.express=="()"'>请选择</span>
-					<span v-else>{{refund_data.express}}</span>
+					<span v-if='refund_data.express!=""'>{{refund_data.express}}</span>
 					<i class="icon-right"></i>
 				</div>
 			</div>	
 		</div>
 		<!-- 用户退货物流 -->
-		<div @click='userm(refund_data.order_id)'  v-if='refund_data.express!="()"' class="delivery" style="margin-bottom:0.27rem;">
+		<div @click='userm(refund_data.order_id)'  v-if='refund_data.express!=""' class="delivery" style="margin-bottom:0.27rem;">
 			<div class="delivery_top" style="border-bottom:none">
 				<div class="delivery_left">用户退货物流</div>
 				<div class="delivery_right">
-					<span v-if='refund_data.express!="()"'>请选择</span>
-					<span v-else>{{refund_data.s_express}}</span>
+					<span v-if='refund_data.s_express!=""'>{{refund_data.s_express}}</span>
 					<i class="icon-right"></i>
 				</div>
 			</div>	
@@ -130,11 +128,14 @@
 		<div class="relationmer">
 			<div class="merchant">联系商家</div>
 		</div>
+		
+		<timeDown endTime="365000" :callback="callback" endText="已经结束了"></timeDown>
 	</div>
 </template>
 <script>
 import { Popup,TransferDom,Checklist} from 'vux'
 import {refundapplyDetail} from '../../http/api.js'
+import timeDown from './time.vue'
 export default{
 	directives: {
 		TransferDom
@@ -142,6 +143,7 @@ export default{
 	components: {
 		Popup, 
     	Checklist,
+    	timeDown
 	},
 	data(){
 		return{
@@ -150,6 +152,8 @@ export default{
 			combination:null,
 			edit:null,
 			edit_apply_type:null,
+			timestamp:null,
+			
 		}
 	},
 	methods:{
@@ -166,6 +170,7 @@ export default{
    	 				this.edit_apply_type=this.edit.edit_apply_type;
    	 				this.refund_type=this.refund_data.refund_type;
    	 				this.og_id=this.edit.og_id;
+   	 				this.timestamp=0;
    	 			}
    	 		})
    	 	},
@@ -207,11 +212,11 @@ export default{
    	 	userm(order_id){
    	 		this.$router.push({path:"/logistics",query:{orders_id:order_id}})
    	 	},
-   	 
-
+   	 	callback(timed){
+   	 		console.log(timed,111111111)
+   	 	}
 	},
 	created(){
-	    
 		this.api_refundapplyDetail();
 
 	}

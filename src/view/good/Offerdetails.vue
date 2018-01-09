@@ -1,6 +1,6 @@
 <template>
 	<div class="Offerdetails">
-		<div style="width:100%;overflow:auto; margin:0.333333rem 0;" class='disConut'> 
+		<div style="width:100%;overflow:auto; margin:0.333333rem 0;-webkit-overflow-scrolling : touch;" class='disConut'> 
     		<div style="width:100040px;color:white;-webkit-overflow-scrolling: touch;" v-if='offerdetails_length!=0'>       
         		<div class='disCountBox' style="float:left;-webkit-overflow-scrolling: touch;" v-for='item in offerdetails_data'>
         			<img v-if="item.is_get=='0'" class='ImgBox' src="../../assets/img/discount.png" alt="">
