@@ -1,15 +1,19 @@
 <template>
 	<div class="logcompany">
-		<div class="logcompant_left">
-			<div v-for='(item,index) in logcompany_data'>
-				<div class="letter">{{item.first_letter}}</div>
-				<ul class="logcom_ul content">
-					<li :class="{active: index == liIndex}" @click='jump(itemm)' v-for='(itemm,index) in item.item_list'>{{itemm}}</li>
-				</ul>
-			</div>	
-		</div>
+            <div class="logcompant_left" 
+                ref="wrapper" 
+            >
+                <div class="ul content">
+                    <div class="li" v-for='(item,index) in logcompany_data' :key="index">
+                        <div class="letter">{{item.first_letter}}</div>
+                        <ul class="logcom_ul content">
+                            <li :class="{active: index == liIndex}" @click='jump(itemm)' v-for='(itemm,index) in item.item_list' :key="index">{{itemm}}</li>
+                        </ul>
+                    </div>
+                </div>    	
+            </div>    
 		<div class="logcomant_right">
-			<div @click='paging(index)' class="letter_c" v-for='(item,index) in letter_data'>{{item}}</div>
+			<div @click='paging(index)' class="letter_c" v-for='(item,index) in letter_data' :key="index">{{item}}</div>
 		</div>
 	</div>
 </template>
@@ -32,7 +36,20 @@ export default{
 				if(res.code==1000){
 					this.logcompany_data=res.data.express_list;
 					this.letter_data=res.data.first_letter_list;
-					console.log(res)
+                    console.log(res)
+                    this.$nextTick(() => {
+                        //初始化bscroll
+                        this.scroll = new BScroll(this.$refs.wrapper, {
+                            scrollX: false,
+                            scrolly: true,
+                            click: true,
+                            probeType: 3
+                        })
+                        //监听scroll滚动
+                        this.scroll.on('scroll', (pos) => {
+                            console.log(pos)
+                        })
+					})
 				}
 			})
 		},
@@ -44,8 +61,9 @@ export default{
 		},
 		/*点击分页*/
 		paging(index){	
-			console.log(index)
-		}
+			let Target = document.querySelectorAll('.letter');
+			this.scroll.scrollToElement(Target[index],500,0,0,'easing');
+        },
 	},
 	created(){
 		this.api_refundExpressList()
@@ -53,14 +71,21 @@ export default{
 }	
 </script>
 <style lang='less'>
+.displayflex{display: -webkit-flex;display: flex;}
+.align_items_center{-webkit-align-items: center;align-items: center;}
+.justify_content_center{-webkit-justify-content: center;justify-content: center;}
+.justify_content{-webkit-justify-content: space-between;justify-content: space-between;}
+
 .logcompany{
-	width: 100vw;
+    width: 100vw;
+    height: 100vh;
 	border-top:1px solid #EEEEEE;
 	overflow:hidden;
-	margin-bottom: 1.05rem;
 	.logcompant_left{
 		width: 9.2rem;
-		float: left;
+        float: left;
+        height: 100vh;
+        overflow: hidden;
 		.letter{
 			border-bottom:1px solid #EEEEEE;
 			height: 1.05rem;
@@ -86,13 +111,20 @@ export default{
 	}
 	.logcomant_right{
 		width: 0.8rem;
-		float: right;
+        height: 100vh;
+        position: fixed;
+        right: 0;
+        top: 0;
+        .displayflex;
+        .justify_content_center;
+        -webkit-flex-direction: column;
+        flex-direction: column;
 		.letter_c{
 			font-family: PingFang-SC-Regular;
 			color:#AAAAAA;
 			font-size: 0.32rem;
 			text-align: center;
-			margin-top: 0.33rem;
+			padding: 0.067rem 0;
 		}
 	}
 }	
