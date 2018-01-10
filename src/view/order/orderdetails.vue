@@ -47,7 +47,8 @@
 				<div class="flagship_top">
 					<div class="flagship_store">
 						<img src="../../assets/img/storeIconAct.png" alt="">
-						<span>{{order_data.store_name}} <i class="icon-right right_c"></i></span>
+						<span>{{order_data.store_name}}</span>
+						<i class="icon-right right_c"></i>
 					</div>
 				</div>
 				<ul class="flagship_ul">
