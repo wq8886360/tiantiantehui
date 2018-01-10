@@ -5,7 +5,8 @@
 			<div class="exchange_i">
 				<div class="exchange_t">
 					<div class="title">{{afterdata.status_desc}}</div>
-					<div class="timer">{{afterdata.time_desc}}</div>
+					<timeDown v-if='countshu!=0' class='timer' @timerd='timerd' :timestamp='timestamd'></timeDown>
+					<div v-else class="timer">{{afterdata.time_desc}}</div>
 				</div>
 			</div>
 		</div>
@@ -42,7 +43,9 @@ import Exif from 'exif-js'
 import {Popup, Checklist,TransferDom, XTextarea} from 'vux'
 import { refundapplyDetail, refundapplyTerrace } from '../../http/api'
 import Uploadimg from "./public/img.vue"
+import timeDown from './public/countdown.vue'
 export default{
+	props:['timestamp'],
 	directives: {
 		TransferDom
 	},
@@ -50,7 +53,8 @@ export default{
         Uploadimg,
 		Popup,
         Checklist,
-        XTextarea
+        XTextarea,
+        timeDown
 	},
 	data(){
 		return{
@@ -65,6 +69,7 @@ export default{
             imgurl:[], 
             instruction: '',
             headerImage:[],//显示的图片
+            countshu:null,
 		}
 	},
 	methods:{
@@ -77,8 +82,10 @@ export default{
         },
         api_refundapplyDetail(){
             refundapplyDetail({refund_id: this.$route.query.refund_id}).then((response) => {
-                console.log(response)
+                console.log(response,1111)
                 this.afterdata = response.data.data.refund_detail;
+                this.timestamd=response.data.data.refund_detail.rest_second;
+                console.log(this.timestamp)
                 response.data.data.refund_detail.edit.user_status.map((val) => {
                     this.commonList.push({key: val.reason_id,value: val.reason_info})
                 })
@@ -114,7 +121,13 @@ export default{
                     this.$vux.toast.text(response.data.message, 'middle')
                 }
             })
-        }
+        },
+        timerd(countshu){
+   	 		this.countshu=countshu;
+   	 		if(countshu==0){
+   	 			this.api_refundapplyDetail()
+   	 		}
+   	 	}
 	},
 	created(){
         this.api_refundapplyDetail()

@@ -5,7 +5,8 @@
 			<div class="exchange_i">
 				<div class="exchange_t">
 					<div class="title">{{refund_data.status_desc}}</div>
-					<div class="timer">{{refund_data.time_desc}}</div>
+					<timeDown v-if='countshu!=0' class='timer' @timerd='timerd' :timestamp='timestamd'></timeDown>
+					<div v-else class="timer">{{refund_data.time_desc}}</div>
 				</div>
 			</div>
 		</div>
@@ -128,13 +129,12 @@
 		<div class="relationmer">
 			<div class="merchant">联系商家</div>
 		</div>
-		<!-- <timeDown @timerd='timerd' :timestamp='timestamd'></timeDown> -->
 	</div>
 </template>
 <script>
 import { Popup,TransferDom,Checklist} from 'vux'
 import {refundapplyDetail} from '../../http/api.js'
-// import timeDown from './time.vue'
+import timeDown from './public/countdown.vue'
 export default{
 	props:['timestamp'],
 	directives: {
@@ -143,7 +143,7 @@ export default{
 	components: {
 		Popup, 
     	Checklist,
-    	// timeDown
+    	timeDown
 	},
 	data(){
 		return{
@@ -151,7 +151,8 @@ export default{
 			refund_data:null,
 			combination:null,
 			edit:null,
-			edit_apply_type:null,		
+			edit_apply_type:null,
+			countshu:null,		
 		}
 	},
 	methods:{
@@ -169,7 +170,7 @@ export default{
    	 				this.edit_apply_type=this.edit.edit_apply_type;
    	 				this.refund_type=this.refund_data.refund_type;
    	 				this.og_id=this.edit.og_id;
-   	 				this.timestamd=5;
+   	 				this.timestamd=this.refund_data.rest_second;
    	 			}
    	 		})
    	 	},
@@ -214,6 +215,12 @@ export default{
    	 	callback(timed){
    	 		console.log(timed,111111111)
    	 	},
+   	 	timerd(countshu){
+   	 		this.countshu=countshu;
+   	 		if(countshu==0){
+   	 			this.api_refundapplyDetail();
+   	 		}
+   	 	}
    	 
 	},
 	created(){
