@@ -129,13 +129,13 @@
 			<div class="merchant">联系商家</div>
 		</div>
 		
-		<timeDown endTime="365000" :callback="callback" endText="已经结束了"></timeDown>
+		<!-- <timeDown endTime="365000" :callback="callback" endText="已经结束了"></timeDown> -->
 	</div>
 </template>
 <script>
 import { Popup,TransferDom,Checklist} from 'vux'
 import {refundapplyDetail} from '../../http/api.js'
-import timeDown from './time.vue'
+// import timeDown from './time.vue'
 export default{
 	directives: {
 		TransferDom
@@ -143,7 +143,7 @@ export default{
 	components: {
 		Popup, 
     	Checklist,
-    	timeDown
+    	//timeDown
 	},
 	data(){
 		return{
