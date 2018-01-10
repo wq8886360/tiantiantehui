@@ -181,7 +181,7 @@ export default new Router({
         {
             path: '/myorder',
             component: Myorder,
-            meta: { title: '我的订单' },
+            meta: { title: '我的订单', keepAlive: true },
         },
         {
             path: '/MyRating',

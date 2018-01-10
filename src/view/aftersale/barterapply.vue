@@ -14,10 +14,9 @@
 			</div>
 			<div class="bar-price">￥{{good_data['price']}}</div>
 		</div>
-
 		<!-- 退款原因 -->
 		<div class="bar-mer-cau" @click="attrsState = true">
-			<span>换货原因</span>
+			<span>退款原因</span>
 			<div class="bar_right">
 				<span v-if='reason==null' class="cause">请选择</span>
 				<span class="cause" v-else>{{reason}}</span>
@@ -31,7 +30,7 @@
 		<!-- 上传凭证 -->
 		<div class="up-gist">
 			<div class="gist">上传凭证</div>
-			<uploadimg @photo="photo"></uploadimg>
+			<uploadimg @photo="photo" :imgdata="member_evidence_seller"></uploadimg>
 		</div>
 		<!-- 提交申请 -->
 		<div class="refer-apply" @click="submit">提交申请</div>
@@ -48,7 +47,7 @@
 
 <script>
 import { XNumber, Popup, TransferDom, Checklist, XTextarea} from 'vux'
-import { refundgetrefundinfo } from "../../http/api"
+import { refundgetrefundinfo, refundapplyRefund } from "../../http/api"
 import Uploadimg from "./public/img.vue"
 export default{
 	directives: {
@@ -87,7 +86,7 @@ export default{
 		return {
 			commonList: [], //退款原因选择列表
 			attrsState:false, //货物的弹窗的状态
-			title:'换货原因', //货物的弹窗的标题
+			title:'退款原因', //货物的弹窗的标题
 			radioValue:[], 
             reason:'', //货物的弹窗的val
 
@@ -95,7 +94,7 @@ export default{
             qty: 1, //退货商品数量
             instruction: '', //退款说明
             evidence_img: [],
-            
+            member_evidence_seller: [], //修改申请的图片
 		}
 	},
 	methods: {
@@ -113,35 +112,61 @@ export default{
                 this.commonList = [];
                 response.data.data.reason.map((val,index) => {
                     this.commonList.push({key: val.reason_id, value: val.reason_info});
-                    // this.commonList.push({val.reason_id : val.reason_info});
                 })
 
-                // console.log(this.commonList)
+
+                //修改申请数据
+                let modifyState = this.$route.query.edit;
+                if(modifyState){
+                    let modify = JSON.parse(modifyState)
+                    this.qty = Number(modify.goods_num);
+                    this.$set(this.radioValue,0,modify.reason_id);
+                    this.instruction = modify.refund_remark_seller;
+                    this.member_evidence_seller = modify.member_evidence_seller;
+                }
             })
-        },
-        photo(imgList){
-            // console.log(imgList)
         },
         //提交申请
         submit(){
             let params = {
                 og_id: this.$route.query.og_id,
                 qty: this.qty,
+                refund_id: this.$route.query.refund_id,
                 amount: this.refundaAmount + '',
                 type: this.$route.query.type,
                 reason_id: this.radioValue[0],
                 remark: this.instruction,
-                evidence_img: this.evidence_img.join(',')
+                evidence_img: this.evidence_img.join(','),
+                is_edit: 0
             }
-            // console.log(params)
             if(this.radioValue.length != 0){
-                refundapplyRefund(params).then((response) => {
-                    // console.log(response)
-                })
+                if(this.$route.query.edit){
+                    params.is_edit = 1; //编辑
+                    refundapplyRefund(params).then((response) => {
+                        if(response.data.code == 1000){
+                            this.$router.push({path: '/refund',query: {refund_id: response.data.data.refund_id}})
+                        }else{
+                            this.$vux.toast.text(response.data.message, 'middle')
+                        }
+                    })
+                }else{
+                    params.is_edit = 0; //申请
+                    refundapplyRefund(params).then((response) => {
+                        console.log(response)
+                        if(response.data.code == 1000){
+                            this.$router.push({path: '/refund',query: {refund_id: response.data.data.refund_id}})
+                        }else{
+                            this.$vux.toast.text(response.data.message, 'middle')
+                        }
+                    })
+                }
             }else{
                 this.$vux.toast.text(`请选择退款原因`, 'middle')
             }
         },
+        photo(imgList){
+            this.evidence_img = imgList;
+        }
     },
     created(){
         this.api_refundgetrefundinfo();
@@ -214,7 +239,6 @@ export default{
 	}
 	.bar_right{
 		float: right;
-		line-height: 1;
 		.cause{
 			vertical-align: middle;
 			color:#858585;

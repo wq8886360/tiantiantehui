@@ -249,6 +249,7 @@ export default{
     },
     created(){
         this.headerImage = this.imgdata;
+        this.$emit('photo',this.headerImage,this.imageArr);
     }
 }
 </script>

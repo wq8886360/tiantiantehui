@@ -152,7 +152,6 @@ export default{
                 evidence_img: this.evidence_img.join(','),
                 is_edit: 0
             }
-            console.log(params)
             if(this.radioValue.length != 0){
                 if(this.$route.query.edit){
                     params.is_edit = 1; //编辑

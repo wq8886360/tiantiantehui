@@ -229,9 +229,6 @@ export default{
 			color:#ccc;
 			text-align: center;
 		}
-	.allBox{
-		padding-bottom:2rem;
-	}
 
 /* ---------------底部----------------------- */
 .storeHome{
