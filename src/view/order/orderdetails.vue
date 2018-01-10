@@ -71,7 +71,7 @@
 									<div class="price">￥{{item.price}}</div>
 									<div class="price_hide">￥{{item.market_price}}</div>
 									<div class="quantity">x{{item.qty}}</div>
-									<div v-if='item.refund_button_desc!="" ' class="sales" @click='sales(item.og_id,item.refund_button_type)'>{{item.refund_button_desc}}</div>
+									<div v-if='item.refund_button_desc!="" ' class="sales" @click='sales(item.og_id,item.refund_button_type,item.refund_id)'>{{item.refund_button_desc}}</div>
 								</div>
 							</div>
 							<div class="gifts" v-if='item.gift.length!=0'>
@@ -290,12 +290,12 @@ export default{
    	 		this.$router.push({path:"/AddBatchEva",query:{evaluate_data:JSON.stringify(this.order_data)}})
    	 	},
    	 	/*售后跳转*/
-   	 	sales(item_id,jump){
+   	 	sales(item_id,jump,refund_id){
    	 		console.log(item_id)
    	 		if(jump=='apply'){
    	 			this.$router.push({path:"/servicetype",query:{og_id:item_id}})
    	 		}else{
-   	 			return
+   	 			this.$router.push({path:"/refund",query:{refund_id:refund_id}})
    	 		}
    	 	},
    	 	payoff(){

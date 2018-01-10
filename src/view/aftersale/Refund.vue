@@ -100,7 +100,7 @@
 				</div>
 			   </div>
 				<!-- 赠品 -->
-				<div class="complimentary" v-if='refund_data.gift.length!=0'>
+				<div class="complimentary" v-if='JSON.stringify(refund_data.gift)!="{}"'>
 					<div class="compicon"></div>
 					<div class="compmatter">
 						<span class="comzengpin">赠品</span>
@@ -128,8 +128,7 @@
 		<div class="relationmer">
 			<div class="merchant">联系商家</div>
 		</div>
-		
-		<!-- <timeDown endTime="365000" :callback="callback" endText="已经结束了"></timeDown> -->
+		<!-- <timeDown @timerd='timerd' :timestamp='timestamd'></timeDown> -->
 	</div>
 </template>
 <script>
@@ -137,13 +136,14 @@ import { Popup,TransferDom,Checklist} from 'vux'
 import {refundapplyDetail} from '../../http/api.js'
 // import timeDown from './time.vue'
 export default{
+	props:['timestamp'],
 	directives: {
 		TransferDom
 	},
 	components: {
 		Popup, 
     	Checklist,
-    	//timeDown
+    	// timeDown
 	},
 	data(){
 		return{
@@ -151,9 +151,7 @@ export default{
 			refund_data:null,
 			combination:null,
 			edit:null,
-			edit_apply_type:null,
-			timestamp:null,
-			
+			edit_apply_type:null,		
 		}
 	},
 	methods:{
@@ -164,13 +162,14 @@ export default{
    	 			let res=response.data;
    	 			if(res.code==1000){
    	 				this.refund_data=res.data.refund_detail;
+   	 				console.log(this.refund_data)
    	 				this.combination=res.data.refund_detail.msg_list[0].description;
    	 				this.combination=this.combination.split('\n');
    	 				this.edit=this.refund_data.edit;
    	 				this.edit_apply_type=this.edit.edit_apply_type;
    	 				this.refund_type=this.refund_data.refund_type;
    	 				this.og_id=this.edit.og_id;
-   	 				this.timestamp=0;
+   	 				this.timestamd=5;
    	 			}
    	 		})
    	 	},
@@ -214,11 +213,11 @@ export default{
    	 	},
    	 	callback(timed){
    	 		console.log(timed,111111111)
-   	 	}
+   	 	},
+   	 
 	},
 	created(){
 		this.api_refundapplyDetail();
-
 	}
 }	
 </script>
