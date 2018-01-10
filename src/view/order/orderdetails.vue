@@ -57,30 +57,33 @@
 							<div class="Skin_n" style="overflow:hidden">
 								<div class="skin_left">
 									<img :src="item.thumb"  alt="">
+								</div>
+								<div class="skin_right">
 									<div class="Skin_c">
 										<div class="text">
-											<span v-if='item.offered=="拼"' class="spell">拼</span>
-											<span class="title">{{item.title}}</span>
+											<span class="title">
+											<span v-if='item.offered=="拼"' class="spell">拼</span>{{item.title}}</span>
 										</div>
 										<div class="sku">
 											{{item.sku_desc}}
 										</div>
 									</div>
+									<div class="skin_rr">
+										<div class="price">￥{{item.price}}</div>
+										<div class="price_hide">￥{{item.market_price}}</div>
+										<div class="quantity">x{{item.qty}}</div>
+									</div>
 								</div>
-								<div class="skin_right">
-									<div class="price">￥{{item.price}}</div>
-									<div class="price_hide">￥{{item.market_price}}</div>
-									<div class="quantity">x{{item.qty}}</div>
-									<div v-if='item.refund_button_desc!="" ' class="sales" @click='sales(item.og_id,item.refund_button_type,item.refund_id)'>{{item.refund_button_desc}}</div>
-								</div>
+								<div v-if='item.refund_button_desc!="" ' class="sales" @click='sales(item.og_id,item.refund_button_type,item.refund_id)	'>{{item.refund_button_desc}}</div>
 							</div>
+							
 							<div class="gifts" v-if='item.gift.length!=0'>
 								<div class="corner"></div>
 								<div class="corner_right">
-									<div class="conn_left">
+									<div class="conn_left" v-for='(itemm,index) in item.gift'>
 										<div class="writing">赠品</div>
-										<img class="photo_c" :src="item.gift.thumb" alt="">
-										<div class="title">{{item.gift.title}}</div>
+										<img class="photo_c" :src="itemm.thumb" alt="">
+										<div class="title">{{itemm.title}}</div>
 									</div>
 								</div>
 							</div>

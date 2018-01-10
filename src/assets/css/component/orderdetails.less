@@ -184,20 +184,24 @@
 						padding: 0.2rem 0.27rem 0.2rem 0.27rem;
 						overflow: hidden;
 						.skin_left{
-							width: 7.47rem;
+							width: 2.13rem;
 							float: left;
 							img{
 								width: 2.13rem;
 								height: 2.13rem;
 							}
+						}
+						.skin_right{
+							width:7rem;
+							float: right;
+							.skin_rr{
+								max-width: 2.0rem;
+								float: right;
+							}
 							.Skin_c{
 								width: 4.91rem;
-								float: right;
+								float: left;
 								.text{
-									width: 4.91rem;
-									display: -webkit-box;
-									-webkit-box-orient: vertical;
-									-webkit-line-clamp: 2;
 									overflow: hidden;
 									.spell{
 										border-radius: 3px;
@@ -209,11 +213,18 @@
 										text-align: center;
 										vertical-align: middle;
 										padding: 0.02rem;
+										margin-right: 0.2rem;
+										margin-top: -0.1rem;
 									}
 									.title{
+										width: 4.91rem;
+										display: -webkit-box;
+										-webkit-box-orient: vertical;
+										-webkit-line-clamp: 2;
+										overflow: hidden;
 										font-size: 0.35rem;
-										display: inline-block;
 										vertical-align: middle;
+
 									}
 								}
 								.sku{
@@ -221,11 +232,13 @@
 									color: #858585;
 									font-size: 0.32rem;
 									margin-top: 0.07rem;
+									width: 4.91rem;
+									display: -webkit-box;
+									-webkit-box-orient: vertical;
+									-webkit-line-clamp: 2;
+									overflow: hidden;
 								}
 							}
-						}
-						.skin_right{
-							float: right;
 							.price{
 								font-family: PingFang-SC-Regular;
 								color: #1C1B20;
@@ -245,7 +258,8 @@
 								color:#858585;
 								font-size: 0.32rem;
 							}
-							.sales{
+						}
+						.sales{
 								font-family: PingFang-SC-Regular;
 								color:#858585;
 								border:1px solid #858585;
@@ -258,7 +272,6 @@
 								text-align: center;
 								line-height: 0.72rem;
 								margin-top: 0.23rem;
-							}
 						}
 						.gifts{
 							width: 8.2rem;
@@ -281,7 +294,7 @@
 								.conn_left{
 									width: 100%;
 									.writing{
-										font-size:12px;
+										font-size:0.24rem;
 										color:#fff;
 										writing-mode:tb-rl;
 										background: #FB0036;
