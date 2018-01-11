@@ -222,10 +222,10 @@ export default{
 			this.$vux.toast.text('复制成功', 'middle')
 		},
 		onError:function(e){
-			// console.log(e)
+			console.log(e)
 		},
 		onConfirm(){
-			console.log(1)
+			// console.log(1)
 		},
 		/*查看物流*/
 		logistics(){
