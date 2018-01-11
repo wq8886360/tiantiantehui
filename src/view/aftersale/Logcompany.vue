@@ -5,7 +5,7 @@
             >
                 <div class="ul content">
                     <div class="li" v-for='(item,index) in logcompany_data' :key="index">
-                        <div class="letter">{{item.first_letter}}</div>
+                        <div class="letter" ref="first_letter">{{item.first_letter}}</div>
                         <ul class="logcom_ul content">
                             <li :class="{active: index == liIndex}" @click='jump(itemm)' v-for='(itemm,index) in item.item_list' :key="index">{{itemm}}</li>
                         </ul>
@@ -13,7 +13,7 @@
                 </div>    	
             </div>    
 		<div class="logcomant_right">
-			<div @click='paging(index)' class="letter_c" v-for='(item,index) in letter_data' :key="index">{{item}}</div>
+			<div @click='paging(index)' class="letter_c" v-for='(item,index) in letter_data' :class="{active: index == rightIndex}" :key="index">{{item}}</div>
 		</div>
 	</div>
 </template>
@@ -25,9 +25,27 @@ export default{
 		return{
 			logcompany_data:null, //物流公司的信息
 			letter_data:null, //物流公司 字母分页
-			liIndex: 0,
+            liIndex: 0,
+            rightIndex: 0,
+            scrollY: -1, //y轴距离
+            rightLiarr: [],
 		}
-	},
+    },
+    watch: {
+        'scrollY': {
+            handler: function() {
+                this.rightLiarr.map((item,index) => {
+                    let difference = item - this.scrollY;
+                    console.log(difference)
+                    if(difference < 5){
+                        this.rightIndex = index;
+                        return
+                    }
+                })
+                console.log(this.rightIndex)
+            }
+        }
+    },
 	methods:{
 		/*物流公司的api*/
 		api_refundExpressList(){
@@ -38,6 +56,11 @@ export default{
 					this.letter_data=res.data.first_letter_list;
                     console.log(res)
                     this.$nextTick(() => {
+                        let letter = this.$refs.first_letter;
+                        this.rightLiarr = [];
+                        letter.map((item) => {
+                            this.rightLiarr.push(item.offsetTop)
+                        })
                         //初始化bscroll
                         this.scroll = new BScroll(this.$refs.wrapper, {
                             scrollX: false,
@@ -47,7 +70,7 @@ export default{
                         })
                         //监听scroll滚动
                         this.scroll.on('scroll', (pos) => {
-                            console.log(pos)
+                            this.scrollY = pos.y;
                         })
 					})
 				}
@@ -125,7 +148,10 @@ export default{
 			font-size: 0.32rem;
 			text-align: center;
 			padding: 0.067rem 0;
-		}
+        }
+        .active{
+            color: #FB0036;
+        }
 	}
 }	
 </style>
