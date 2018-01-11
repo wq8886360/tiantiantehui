@@ -375,7 +375,9 @@ export default{
                         let jump_url = encodeURIComponent(window.location.host + '/#/Payoff?pay_sn=' + response.data.data.pay_sn);
 					    window.location.href = response.data.data.pay_url + '&' + jump_url;
                     }
-				}
+				}else{
+                    this.$vux.toast.text(response.data.message, 'middle')
+                }
 			})
 		}
 	},
