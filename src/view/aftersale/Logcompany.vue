@@ -35,14 +35,12 @@ export default{
         'scrollY': {
             handler: function() {
                 this.rightLiarr.map((item,index) => {
-                    let difference = item - this.scrollY;
-                    console.log(difference)
-                    if(difference < 5){
+                    let difference = item + this.scrollY;
+                    if(difference < 5 && difference > -5){
                         this.rightIndex = index;
                         return
                     }
                 })
-                console.log(this.rightIndex)
             }
         }
     },
@@ -54,7 +52,6 @@ export default{
 				if(res.code==1000){
 					this.logcompany_data=res.data.express_list;
 					this.letter_data=res.data.first_letter_list;
-                    console.log(res)
                     this.$nextTick(() => {
                         let letter = this.$refs.first_letter;
                         this.rightLiarr = [];
