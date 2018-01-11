@@ -82,10 +82,9 @@ export default{
         },
         api_refundapplyDetail(){
             refundapplyDetail({refund_id: this.$route.query.refund_id}).then((response) => {
-                console.log(response,1111)
                 this.afterdata = response.data.data.refund_detail;
-                this.timestamd=response.data.data.refund_detail.rest_second;
-                console.log(this.timestamp)
+               	this.timestamd=this.afterdata.rest_second;
+               	this.commonList=[];
                 response.data.data.refund_detail.edit.user_status.map((val) => {
                     this.commonList.push({key: val.reason_id,value: val.reason_info})
                 })

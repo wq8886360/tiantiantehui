@@ -232,6 +232,8 @@ export default{
 						-webkit-line-clamp: 2;
 						overflow: hidden;
 						height: 0.9rem;
+						padding-top: 0.27rem;
+						
 					}
 					.coin_god{
 						padding-top: 0.27rem;
