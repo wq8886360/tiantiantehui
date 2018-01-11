@@ -370,11 +370,10 @@ export default{
 			ordercheckout(params).then((response) => {
 				if(response.data.code == 1000){
                     if(response.data.data.paytype == 'credit'){
-                        alert(window.location.host)
                         window.location.href = '/#/Payoff?pay_sn=' + response.data.data.pay_sn;
                     }else{
-                        let jump_url = encodeURIComponent(window.location.host + '/#/Payoff?pay_sn=' + response.data.data.pay_sn);
-					    window.location.href = response.data.data.pay_url + '&' + jump_url;
+                        let jump_url = encodeURIComponent(window.location.protocol + '//' + window.location.host + '/#/Payoff?pay_sn=' + response.data.data.pay_sn);
+					    window.location.href = response.data.data.pay_url + '&jump_url=' + jump_url;
                     }
 				}else{
                     this.$vux.toast.text(response.data.message, 'middle')

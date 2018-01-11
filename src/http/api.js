@@ -65,6 +65,8 @@ export const orderbuycombo = params => post('/order/buycombo', params); //套餐
 
 //支付
 export const getavailablepaymethod = params => post('/order/getavailablepaymethod', params); //获取支付方式列表
+export const payinorderlist = params => post('/order/payinorderlist',params);//去支付
+export const payresult = params => get('/order/payresult',params);//订单支付结果
 
 //订单列表
 export const orderlist = params => get('/personalcenter/orderlist',params); //个人订单列表页
