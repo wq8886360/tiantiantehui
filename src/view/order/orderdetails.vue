@@ -92,19 +92,19 @@
 				</ul>
 				<div class="Total_price">
 					<div class="Total_top">
-						<div class="along">
+						<div class="along" v-if='order_data.goods_amount!=""'>
 							<span>订单总价</span>
 							<span class="along_right">￥{{order_data.goods_amount}}</span>
 						</div>
-						<div class="along">
+						<div class="along" v-if='order_data.shipping_fee!=""'>
 							<span>运费</span>
 							<span class="along_right">￥{{order_data.shipping_fee}}</span>
 						</div>
-						<div class="along">
+						<div class="along" v-if='order_data.promotion_amount!=""'>
 							<span>促销</span>
 							<span class="along_right">-￥{{order_data.promotion_amount}}</span>
 						</div>
-						<div class="along">
+						<div class="along" v-if='order_data.voucher_amount!=""'>
 							<span>优惠券</span>
 							<span class="along_right">-￥{{order_data.voucher_amount}}</span>
 						</div>
@@ -120,19 +120,19 @@
 							<span>支付方式:</span>
 							<span>{{order_data.paytype}}</span>
 						</div>
-						<div v-if='order_data.create_time!=null' style="margin-bottom:0.1rem;">
+						<div v-if='order_data.create_time!=""' style="margin-bottom:0.1rem;">
 							<span>下单时间：</span>
 							<span>{{order_data.create_time}}</span>
 						</div>
-						<div v-if='order_data.pay_time!=null' style="margin-bottom:0.1rem;">
+						<div v-if='order_data.pay_time!=""' style="margin-bottom:0.1rem;">
 							<span>付款时间：</span>
 							<span>{{order_data.pay_time}}</span>
 						</div>
-						<div  v-if='order_data.send_time!=null' style="margin-bottom:0.1rem;">
+						<div  v-if='order_data.send_time!=""' style="margin-bottom:0.1rem;">
 							<span>成交时间：</span>
 							<span>{{order_data.send_time}}</span>
 						</div>
-						<div v-if='order_data.receive_time!=null'>
+						<div v-if='order_data.receive_time!=""'>
 							<span>下单时间：</span>
 							<span>{{order_data.receive_time}}</span>
 						</div>
@@ -219,13 +219,13 @@ export default{
 		},
 		/*复制*/
 		onCopy:function(e){
-			alert(e.text)
+			this.$vux.toast.text('复制成功', 'middle')
 		},
 		onError:function(e){
-			alert(e)
+			
 		},
 		onConfirm(){
-			console.log(1)
+			
 		},
 		/*查看物流*/
 		logistics(){
