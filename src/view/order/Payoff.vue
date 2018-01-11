@@ -1,10 +1,10 @@
 <template>
-	<div class="Payoff">
+	<div class="Payoff" v-if='pay_data'>
 		<div class="Pay_top">
 			<img src="../../assets/img/img_pay_success@2x.png" alt="">
 			<div class="coin">
 				<span class="coin_left">￥</span>
-				<span class="coin_right">286.98</span>
+				<span class="coin_right">{{pay_data.total_amount}}</span>
 			</div>
 			<div class="Pay_cpm">
 				<span class="store_order" @click='order()'>查看订单</span>
@@ -18,14 +18,14 @@
 				<span class="line" style="float:right;"></span>
 			</div>
 			<ul class="Pay_ul">
-				<li v-for='item in 4'>
-					<img src="../../assets/img/bg_pay_success@2x.png" alt="">
+				<li v-for='(item,index) in pay_data.may_be_buy_list'>
+					<img :src="item.thumb" alt="">
 					<div class="titll">
-						(新品上市)雅号女士套装2016夏季新品时尚职业装
+						{{item.title}}
 					</div>
 					<div class="coin_god">
 						<span class="coin_ll">￥</span>
-						<span class="conin_rr">99</span>
+						<span class="conin_rr">{{item.price}}</span>
 					</div>
 				</li>
 			</ul>
@@ -33,20 +33,34 @@
 	</div>
 </template>
 <script>
+import {payresult} from '../../http/api.js'
 export default{
 	data(){
 		return{
-
+			pay_sn:null,
+			pay_data:null,
+			order_id:null,
 		}
 	},
 	methods:{
 		/*跳转到订单详情*/
 		order(){
-			this.$router.push({path:"/orderdetails"})
+			this.$router.push({path:"/myorder"})
+		},
+		/*支付成功的结果*/
+		api_payresult(){
+			payresult({pay_sn:this.pay_sn}).then((response)=>{
+				let res = response.data;
+				if(res.code==1000){
+					this.pay_data=res.data;
+				}
+			})
 		}
 	},
 	created(){
-
+		this.pay_sn=this.$route.query.pay_sn;
+		this.order_id=this.$route.query.order_id;
+		this.api_payresult();
 	}
 }
 </script>

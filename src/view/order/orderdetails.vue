@@ -21,7 +21,7 @@
 					<div v-clipboard:copy="order_data.order_sn" v-clipboard:success="onCopy" v-clipboard:error="onError" class="copy" >复制</div>
 				</div>
 			</div>
-			<div class="goods">
+			<div class="goods" v-if='order_data.receipt_address.realname!="" && order_data.receipt_address.mobile!="" && order_data.receipt_address.address!=""'>
 				<div class="goods_main">
 					<img src="../../assets/img/icon_order_address.png" alt="">
 					<div class="goods_right">
@@ -129,12 +129,12 @@
 							<span>{{order_data.pay_time}}</span>
 						</div>
 						<div  v-if='order_data.send_time!=""' style="margin-bottom:0.1rem;">
-							<span>成交时间：</span>
+							<span>发货时间：</span>
 							<span>{{order_data.send_time}}</span>
 						</div>
-						<div v-if='order_data.receive_time!=""'>
-							<span>下单时间：</span>
-							<span>{{order_data.receive_time}}</span>
+						<div  v-if='order_data.receive_time!=""' style="margin-bottom:0.1rem;">
+							<span>成交时间：</span>
+							<span>{{order_data.send_time}}</span>
 						</div>
 					</div>
 				</div>
@@ -153,7 +153,7 @@
 						<span v-if='order_data.status==1' class="lin_red" @click='remindseller_api()'>提醒发货</span>
 						<span v-if='order_data.status==2' class="lin_red" @click='Comeout()'>确认收货</span>
 						<span v-if='order_data.status==3' class="lin_red" @click="appraise()">评价</span>
-						<span v-if='order_data.status==0' class="lin_red" @clcik="payoff()">付款</span>
+						<span v-if='order_data.status==0' class="lin_red" @click="apply()">付款</span>
 						<span v-if='order_data.is_append==1' class="lin_red" @click="supplemental()">追加评论</span>
 					</div>
 				</div>
@@ -174,10 +174,28 @@
       			<div class="sure_s">确认收货后卖家将收到您的货款</div>
       		</confirm>
    		</div>
+   		<!-- 支付方式弹窗 -->
+		<div v-transfer-dom class="paytype">
+			<popup v-model="paytypeState" position="bottom">
+				<div class="box">
+					<div class="title">
+						选择支付方式
+						<i class="icon-close right" @click="paytypeState = false"></i>
+					</div>
+					<div class="list" @click="zhifu(item.code)" v-for="(item,index) in pay_types">
+						<div class="left">
+							<img :src="item.pic" alt="">
+							<p>{{item.name}}</p>
+						</div>
+						<i class="icon-right"></i>
+					</div>
+				</div>
+			</popup>
+		</div>
 	</div>
 </template>
 <script>
-import {orderdetail,postpone,remindseller,confirmreceipt} from '../../http/api'
+import {orderdetail,postpone,remindseller,confirmreceipt,getavailablepaymethod,payinorderlist} from '../../http/api'
 import { Popup, Checklist,TransferDom,Confirm} from 'vux'
 
 export default{
@@ -200,6 +218,8 @@ export default{
 			title:'请选择原因',
 			radioValue:[],
 			reason:null, //取消订单的val
+			pay_types:null,
+     		paytypeState:false,
 		}
 	},
 	methods:{
@@ -301,13 +321,32 @@ export default{
    	 			this.$router.push({path:"/refund",query:{refund_id:refund_id}})
    	 		}
    	 	},
-   	 	payoff(){
-   	 		this.$router.push({path:'/payoff'})
-   	 	}
+   	 	apply(){
+   	 		
+   	 		this.paytypeState=true;
+   	 	},
+   	 	/*去支付*/
+   	 	zhifu(code){
+			let params = {
+				order_id:this.order_id,
+				paytype: code
+			}
+			payinorderlist(params).then((response) => {
+				console.log(response)
+				if(response.data.code == 1000){
+                     let jump_url = encodeURIComponent('/#/Payoff?pay_sn=' + response.data.data.pay_sn);
+					window.location.href = response.data.data.pay_url + '&' + jump_url;
+				}
+			})
+		}
 	},
 	created(){
 		this.order_id=this.$route.query.orders_id;
-		console.log(this.order_id)
+		getavailablepaymethod().then((response) => {
+			console.log(response)
+            this.pay_types = response.data.data.pay_method;
+            //console.log(this.pay_types)
+		})
 		this.orderdetail_api();
 	}
 }
