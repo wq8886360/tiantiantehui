@@ -65,7 +65,7 @@
 								<span v-if='item.status==1' class="logistics_n" @click='remindseller_api(item_id)'>提醒发货</span>
 								<span v-if='item.status==2' class="logistics_n" @click="postpone_api(item.id)">延长收货</span>
 								<span v-if='item.status==3' class="appraise_c" @click='appraise(index)'>评价</span>
-								<span v-if='item.status==0' class="appraise_c" @click='payoff()'>付款</span>
+								<span v-if='item.status==0' class="appraise_c" @click='apply(item.id)'>付款</span>
 								<span v-if='item.status==2' class="appraise_c" @click='Comeout(item.id)'>确认收货</span>
 								<span v-if='item.is_append==1' class="appraise_c" @click="supplemental(index)">追加评论</span>
 							</div>
@@ -103,11 +103,29 @@
       			<div class="sure_s">确认收货后卖家将收到您的货款</div>
       		</confirm>
    		</div>
+   		<!-- 支付方式弹窗 -->
+		<div v-transfer-dom class="paytype">
+			<popup v-model="paytypeState" position="bottom">
+				<div class="box">
+					<div class="title">
+						选择支付方式
+						<i class="icon-close right" @click="paytypeState = false"></i>
+					</div>
+					<div class="list" @click="zhifu(item.code)" v-for="(item,index) in pay_types">
+						<div class="left">
+							<img :src="item.pic" alt="">
+							<p>{{item.name}}</p>
+						</div>
+						<i class="icon-right"></i>
+					</div>
+				</div>
+			</popup>
+		</div>
 	</div>
 </template>
 
 <script>
-import {orderlist,seacher,delhistory,cancelorder,postpone,remindseller,confirmreceipt}  from '../../http/api'
+import {orderlist,seacher,delhistory,cancelorder,postpone,remindseller,confirmreceipt,getavailablepaymethod,payinorderlist}  from '../../http/api'
 import { Tab, TabItem,Search,Popup, Checklist,TransferDom,Confirm,Scroller} from 'vux'
 import allorder from './allorder';
 import evaluate from './evaluate';
@@ -156,6 +174,9 @@ export default{
      		missing:false,//没有数据的状态
      		reason:null, //取消订单的val
      		order_d:null,//确认收货的订单id
+     		pay_types:null,
+     		paytypeState:false,
+     		orded_ii:null, //支付的订单Id
 		}
 	},
 	methods:{
@@ -321,13 +342,33 @@ export default{
    	 			}
    	 		})
    	 	},
-   	 	payoff(){
-   	 		this.$router.push({path:'/payoff'})
-   	 	}
+   	 	apply(item_id){
+   	 		this.paytypeState=true;
+   	 		this.orded_ii=item_id;
+   	 	},
+   	 	/*去支付*/
+   	 	zhifu(code){
+			let params = {
+				order_id:this.orded_ii,
+				paytype: code
+			}
+			payinorderlist(params).then((response) => {
+				console.log(response)
+				if(response.data.code == 1000){
+                     let jump_url = encodeURIComponent(window.location.host + '/#/Payoff?pay_sn=' + response.data.data.pay_sn);
+					window.location.href = response.data.data.pay_url + '&' + jump_url;
+				}
+			})
+		}
 	},
 	created(){
 		/*历史订单api*/
 		this.seacher_api();
+		getavailablepaymethod().then((response) => {
+			console.log(response)
+            this.pay_types = response.data.data.pay_method;
+            //console.log(this.pay_types)
+		})
 	}
 }
 </script>

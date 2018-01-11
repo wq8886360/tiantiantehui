@@ -39,7 +39,7 @@
 						<div class="view_t">
 							<span class="logistics_n">联系商家</span>
 							<span class="logistics_n" @click='cancelorder_show(item.id)'>取消订单</span>
-							<span class="appraise_c" @click='payoff()'>付款</span>
+							<span class="appraise_c" @click='apply(item.id)'>付款</span>
 						</div>
 					</div>
 				</li>
@@ -57,10 +57,28 @@
 			 	<div class="sure" @click='order_sure()'>提交</div>
 			</popup>
 		</div>
+		<!-- 支付方式弹窗 -->
+		<div v-transfer-dom class="paytype">
+			<popup v-model="paytypeState" position="bottom">
+				<div class="box">
+					<div class="title">
+						选择支付方式
+						<i class="icon-close right" @click="paytypeState = false"></i>
+					</div>
+					<div class="list" @click="zhifu(item.code)" v-for="(item,index) in pay_types">
+						<div class="left">
+							<img :src="item.pic" alt="">
+							<p>{{item.name}}</p>
+						</div>
+						<i class="icon-right"></i>
+					</div>
+				</div>
+			</popup>
+		</div>
 	</div>
 </template>
 <script>
-import {orderlist,cancelorder} from '../../http/api'
+import {orderlist,cancelorder,getavailablepaymethod,payinorderlist} from '../../http/api'
 import { Popup, Checklist,TransferDom,Scroller} from 'vux'
 export default{
 	directives: {
@@ -90,6 +108,9 @@ export default{
      		total_page:null,//总页数
      		missing:false,//没有数据的提示
      		reason:null, //取消订单的val
+     		pay_types:null,
+     		paytypeState:false,
+     		orded_ii:null, //支付的订单Id
 		}
 	},
 	methods:{
@@ -164,13 +185,33 @@ export default{
 		order_sure(){
 			this.cancelorder_api();
 		},
-		payoff(){
-   	 		this.$router.push({path:'/payoff'})
-   	 	}
+   	 	apply(item_id){
+   	 		this.paytypeState=true;
+   	 		this.orded_ii=item_id;
+   	 	},
+   	 	/*去支付*/
+   	 	zhifu(code){
+			let params = {
+				order_id:this.orded_ii,
+				paytype: code
+			}
+			payinorderlist(params).then((response) => {
+				console.log(response)
+				if(response.data.code == 1000){
+                     let jump_url = encodeURIComponent('/#/Payoff?pay_sn=' + response.data.data.pay_sn);
+					window.location.href = response.data.data.pay_url + '&' + jump_url;
+				}
+			})
+		}
 	},
 	created(){
 		// this.key_word=this.data
 		this.orderlist_api();
+		getavailablepaymethod().then((response) => {
+			console.log(response)
+            this.pay_types = response.data.data.pay_method;
+            //console.log(this.pay_types)
+		})
 
 	}
 }
