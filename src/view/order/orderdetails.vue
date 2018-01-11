@@ -321,8 +321,7 @@ export default{
    	 			this.$router.push({path:"/refund",query:{refund_id:refund_id}})
    	 		}
    	 	},
-   	 	apply(){
-   	 		
+   	 	apply(){	
    	 		this.paytypeState=true;
    	 	},
    	 	/*去支付*/
@@ -332,11 +331,16 @@ export default{
 				paytype: code
 			}
 			payinorderlist(params).then((response) => {
-				console.log(response)
 				if(response.data.code == 1000){
-                     let jump_url = encodeURIComponent('/#/Payoff?pay_sn=' + response.data.data.pay_sn);
-					window.location.href = response.data.data.pay_url + '&' + jump_url;
-				}
+                    if(response.data.data.paytype == 'credit'){
+                        window.location.href = '/#/Payoff?pay_sn=' + response.data.data.pay_sn;
+                    }else{
+                        let jump_url = encodeURIComponent(window.location.protocol + '//' + window.location.host + '/#/Payoff?pay_sn=' + response.data.data.pay_sn);
+					    window.location.href = response.data.data.pay_url + '&jump_url=' + jump_url;
+                    }
+				}else{
+                    this.$vux.toast.text(response.data.message, 'middle')
+                }
 			})
 		}
 	},

@@ -8,7 +8,7 @@
 			</div>
 			<div class="Pay_cpm">
 				<span class="store_order" @click='order()'>查看订单</span>
-				<span class="store_index">返回首页</span>
+				<span class="store_index" @click='fanhui()'>返回首页</span>
 			</div>
 		</div>
 		<div class="Pay_c">
@@ -47,6 +47,9 @@ export default{
 		order(){
 			this.$router.push({path:"/myorder"})
 		},
+		fanhui(){
+
+		},
 		/*支付成功的结果*/
 		api_payresult(){
 			payresult({pay_sn:this.pay_sn}).then((response)=>{
@@ -67,7 +70,6 @@ export default{
 <style lang='less'>
 	.Payoff{
 		width: 100vw;
-		height: 100%;
 		.Pay_top{
 			width: 100vw;
 			height:5.97rem;
@@ -110,11 +112,10 @@ export default{
 		}
 		.Pay_c{
 			width: 100vw;
-			height: 100%;
 			margin-top: 0.69rem;
 			.title{
 				width: 100%;
-				height: 100%;
+				
 				text-align: center;
 				margin-bottom: 0.47rem;
 				.line{
@@ -133,7 +134,7 @@ export default{
 			}
 			.Pay_ul{
 				width: 100vw;
-				height: 100%;
+				
 				background: #f7f7f7;
 				overflow: hidden;
 				li{
