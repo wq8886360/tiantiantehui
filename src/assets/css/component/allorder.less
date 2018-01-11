@@ -1,3 +1,7 @@
+.displayflex{display: -webkit-flex;display: flex;}
+.align_items_center{-webkit-align-items: center;align-items: center;}
+.justify_content_center{-webkit-justify-content: center;justify-content: center;}
+.justify_content{-webkit-justify-content: space-between;justify-content: space-between;}
 .allorder{
 	width: 100vw;
 	height:100%;
@@ -166,7 +170,7 @@
 						color:#858585;
 						border:1px solid #858585;
 						background: #fff;
-						margin-right: 0.2rem;
+						margin-right: 0.05rem;
 					}
 					.appraise_c{
 						color:#FB0036;
@@ -211,6 +215,38 @@
 	text-align: center;
 	line-height: 1.33rem;
 	margin-top: 2.72rem;
+}
+/*支付方式*/
+.paytype{
+	.box{
+		padding-bottom: 3.33rem;
+	}
+	.title{
+		padding: 0.4rem 0.27rem;
+		border-bottom: 1px solid #EEEEEE;
+		text-align: center;
+		font-size: 0.43rem;
+		i{
+			position: relative;
+			top: 0.05rem;
+		}
+	}
+	.list{
+		.displayflex;
+		.justify_content;
+		.align_items_center;
+		font-size: 0.37rem;
+		margin: 0 0.27rem;
+		padding: 0.27rem 0;
+		border-bottom: 1px solid #EEEEEE;
+		.left{
+			.displayflex;
+			img{
+				width: 0.67rem;
+				margin-right: 0.47rem;
+			}
+		}
+	}
 }
 .weui-cell{
 	font-size: 0.37rem !important;
