@@ -225,7 +225,7 @@ export default{
 			console.log(e)
 		},
 		onConfirm(){
-			
+			console.log(1)
 		},
 		/*查看物流*/
 		logistics(){
