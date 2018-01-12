@@ -10,7 +10,7 @@
 		<div>		
 			<div v-if='Tab_index==0'>	
 			<!-- 商品banner -->
-				<swiper dots-position='center' :aspect-ratio="1/1">
+				<swiper dots-position='center' :aspect-ratio="1/1" :auto="true">
 					<swiper-item v-for="(item, index) in pics" :key="index">
 						<img class="bannerimg" :src="item" alt="">
 					</swiper-item>
@@ -206,7 +206,7 @@
 				<div v-transfer-dom>
 					<popup v-model="attrsState" position="bottom" max-height="50%">
 						<div class="attrpopu">
-							<div class="attrpoputitle">商品参数<i class="icon-close right" @click="attrsState = false"></i></div>
+							<div class="attrpoputitle">产品参数<i class="icon-close right" @click="attrsState = false"></i></div>
 							<div class="attrcontent">
 								<div class="list" v-for="item in data['attrs']">
 									<div class="label">{{item['label']}}</div>
@@ -459,7 +459,6 @@ export default{
 	methods:{
 		//点击领取优惠券
 		gotoStore(index){
-			console.log(index)
 			this.$router.push({path: '/store',query:{store_id:this.store_id,idx:index}})
 		},
 		//点击评价
@@ -479,7 +478,6 @@ export default{
     	},
 		goodsdetail_api(){
 			goodsdetail({goods_id: this.goods_id}).then((response) => {
-				console.log(response)
 				let res = response.data;
 				if(res.code === 1000){
 					this.data = res.data;
@@ -501,8 +499,7 @@ export default{
 							if(this.data.comments[i].pics.length!='0'){
 								this.count=this.count+1
 							}
-						}	
-						console.log(this.count,'conut')				
+						}					
 					}
 
 				}
@@ -534,7 +531,6 @@ export default{
 	   	//普通领取优惠劵
 	   	getVoucher_api(voucher_id){
 	   		getVoucher({voucher_id: voucher_id}).then((response) => {
-	   			console.log(response)
 	   			let res = response.data
 	   			if(res.code === 1000){
 
@@ -568,7 +564,6 @@ export default{
 	   	},
 	   	cartadd_api(){
 	   		cartadd({goods_id: this.goods_id,sku_id: this.sku_id,qty: this.goodNum}).then((response) => {
-				console.log(response)
 				if(response.data.code === 1000){
 					this.specsState = false;
 					this.$vux.toast.text('操作成功', 'middle')
@@ -593,7 +588,6 @@ export default{
 	   	//关注
 	   	collect(){
 	   		goodsfavoriteadd({goods_id: this.goods_id}).then((response) => {
-	   			console.log(response)
 	   			if(response.data.code == 1000){
 	   				this.is_fav = response.data.data.fid;
 	   				this.$vux.toast.text(response.data.message, 'middle')
@@ -604,7 +598,6 @@ export default{
 	   	},
 	   	//取消关注
 	   	romovecollect(){
-	   		console.log(this.favorite_id,'this.favorite_id')
 	   		goodsfavoriteremove({ids:this.is_fav}).then((response) => {
 	   			if(response.data.code == 1000){
 	   				this.is_fav = 0;
