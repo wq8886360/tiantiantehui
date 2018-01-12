@@ -255,8 +255,9 @@ export default{
       		  		orderlist({page: this.page,page_size: this.page_size,status:this.statusd}).then((response) => {
 						let res=response.data;
 						if(res.code==1000){
-							this.search_data.push(res.data.orders[0])
-							console.log(this.allorder_data)
+							res.data.orders.map((val,index,arr)=>{
+								this.search_data.push(val)
+							})
 						}
 					})	
       		  	}else{
