@@ -99,7 +99,9 @@ export default{
       		  		orderlist({page: this.page,page_size: this.page_size,status:this.statusd}).then((response) => {
 						let res=response.data;
 						if(res.code==1000){
-							this.shipping_data.push(res.data.orders[0])
+							res.data.orders.map((val,index,arr)=>{
+								this.shipping_data.push(val)
+							})
 						}
 					})	
       		  	}else{
