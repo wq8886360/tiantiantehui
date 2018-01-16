@@ -10,7 +10,7 @@
 		<div>		
 			<div v-if='Tab_index==0'>	
 			<!-- 商品banner -->
-				<swiper dots-position='center' :aspect-ratio="1/1" :auto="true">
+				<swiper dots-position='center' :aspect-ratio="1/1">
 					<swiper-item v-for="(item, index) in pics" :key="index">
 						<img class="bannerimg" :src="item" alt="">
 					</swiper-item>
@@ -44,7 +44,7 @@
 					</div>
 				</div>
 				<!-- 领券 -->
-				<div class="voucher div_box bom" @click="couponsState = true" v-if="data['voucher'].length != 0">
+				<div class="voucher div_box" @click="couponsState = true" v-if="data['voucher'].length != 0">
 					<div class="label">领券</div>
 					<div class="voucherlist">
 						<span v-if="data['voucher'].length > 3" v-for="item in 3">满{{Number(data['voucher'][item]['use_condition'])}}减{{data['voucher'][item]['denomination']}}</span>
@@ -53,31 +53,31 @@
 					<i class="icon-right right"></i>
 				</div>
 				<!-- 分割 -->
-				
+				<div class="line"></div>
 				<!-- 活动 -->
-				<div class="activity div_box bom" v-if='data.full_cut.length!=0'>
+				<div class="activity div_box">
 					<div class="label">活动</div>
 					<div class="content">
 						<div class="list"  @click="activityState = true" v-if='data.full_cut.length!=0'>
 							<span class="ai">满减</span>
-							<span v-for='(item,index) in data.full_cut'>满{{item.money_type_condition}}减{{item.money_type_discount}}</span>
+							<span v-for='(item,index) in data.full_cut'>满{{item.money_type_condition}}减{{item.money_type_discount}}, </span>
 							<i class="icon-right right"></i>
 						</div>
 						<div class="list"  @click="activityState = true" v-if='data.full_discount.length!=0'>
 							<span class="ai">满折</span>
-							<span v-for='item in data.full_discount'>满{{item.qty_type_condition}}打{{item.qty_type_discount}}折</span>
+							<span v-for='item in data.full_discount'>满{{item.qty_type_condition}}打{{item.qty_type_discount}}折, </span>
 							<i class="icon-right right"></i>
 						</div>
-						<div class="list" @click="activityState = true"  v-if='data.buy_gift.length!=0'>
+						<div class="list"@click="activityState = true"  v-if='data.buy_gift.length!=0'>
 							<span class="ai">买赠</span>
-							<span v-for='(item,index) in data.buy_gift' >{{item.prom_title}}</span>
+							<span v-for='(item,index) in data.buy_gift' >{{item.prom_title}}, </span>
 							<i class="icon-right right"></i>
 						</div>
 					</div>
 				</div>
-				
+				<div class="line"></div>
 				<!-- 套餐 -->
-				<div class="meal div_box bom" @click="comboState = true" v-if="data.combo.length != 0">
+				<div class="meal div_box" @click="comboState = true">
 					<div class="label">套餐</div>
 					<span>查看套餐</span>
 					<i class="icon-right right"></i>
@@ -98,10 +98,9 @@
 				<div class="line"></div>
 				<!-- 服务 -->
 				<div class="div_box service">
-					<span v-if="data.return_7 == '1'"><img src="../../assets/img/support.png" alt="">7天无理由退后</span>
-					<span v-if="data.quality_guarantee == '1'"><img src="../../assets/img/support.png" alt="">正品保障</span>
-					<span v-if="data.send_time == '24'"><img src="../../assets/img/support.png" alt="">24小时发货</span>
-                    <span v-if="data.send_time == '12'"><img src="../../assets/img/support.png" alt="">12小时发货</span>
+					<span><img src="../../assets/img/support.png" alt="">7天无理由退后</span>
+					<span><img src="../../assets/img/support.png" alt="">正品保障</span>
+					<span><img src="../../assets/img/support.png" alt="">24小时发货</span>
 				</div>
 				<!-- 评价 -->
 				<div class='appraiseBox'>
@@ -207,7 +206,7 @@
 				<div v-transfer-dom>
 					<popup v-model="attrsState" position="bottom" max-height="50%">
 						<div class="attrpopu">
-							<div class="attrpoputitle">产品参数<i class="icon-close right" @click="attrsState = false"></i></div>
+							<div class="attrpoputitle">商品参数<i class="icon-close right" @click="attrsState = false"></i></div>
 							<div class="attrcontent">
 								<div class="list" v-for="item in data['attrs']">
 									<div class="label">{{item['label']}}</div>
@@ -460,6 +459,7 @@ export default{
 	methods:{
 		//点击领取优惠券
 		gotoStore(index){
+			console.log(index)
 			this.$router.push({path: '/store',query:{store_id:this.store_id,idx:index}})
 		},
 		//点击评价
@@ -479,6 +479,7 @@ export default{
     	},
 		goodsdetail_api(){
 			goodsdetail({goods_id: this.goods_id}).then((response) => {
+				console.log(response)
 				let res = response.data;
 				if(res.code === 1000){
 					this.data = res.data;
@@ -500,7 +501,8 @@ export default{
 							if(this.data.comments[i].pics.length!='0'){
 								this.count=this.count+1
 							}
-						}					
+						}	
+						console.log(this.count,'conut')				
 					}
 
 				}
@@ -532,6 +534,7 @@ export default{
 	   	//普通领取优惠劵
 	   	getVoucher_api(voucher_id){
 	   		getVoucher({voucher_id: voucher_id}).then((response) => {
+	   			console.log(response)
 	   			let res = response.data
 	   			if(res.code === 1000){
 
@@ -565,6 +568,7 @@ export default{
 	   	},
 	   	cartadd_api(){
 	   		cartadd({goods_id: this.goods_id,sku_id: this.sku_id,qty: this.goodNum}).then((response) => {
+				console.log(response)
 				if(response.data.code === 1000){
 					this.specsState = false;
 					this.$vux.toast.text('操作成功', 'middle')
@@ -589,6 +593,7 @@ export default{
 	   	//关注
 	   	collect(){
 	   		goodsfavoriteadd({goods_id: this.goods_id}).then((response) => {
+	   			console.log(response)
 	   			if(response.data.code == 1000){
 	   				this.is_fav = response.data.data.fid;
 	   				this.$vux.toast.text(response.data.message, 'middle')
@@ -599,6 +604,7 @@ export default{
 	   	},
 	   	//取消关注
 	   	romovecollect(){
+	   		console.log(this.favorite_id,'this.favorite_id')
 	   		goodsfavoriteremove({ids:this.is_fav}).then((response) => {
 	   			if(response.data.code == 1000){
 	   				this.is_fav = 0;

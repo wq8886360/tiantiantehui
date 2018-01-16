@@ -1,4 +1,4 @@
-.ranking{
+.ranking_c{
 	width: 100%;
 	.scroll_nav{
 		background: #fff;
@@ -134,6 +134,61 @@
 						}
 					}
 				}
+			}
+		}
+	}
+	.mask{
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0,0,0,0.6);
+		position: fixed;
+		z-index: 1000;
+		top:0px;
+		left: 0px;
+		.mask_con{
+			width: 100vw;
+			min-height:80vh;
+			background: #fff; 
+			.mask_top{
+				width: 100vw;
+				height: 1.07rem;
+				.title{
+					font-family: PingFang-SC-Regular;
+					color:#858585;
+					font-size: 0.37rem;
+					line-height: 1.07rem;
+					text-indent: 0.27rem;
+					display: block;
+				}
+				.down{
+					width: 0.92rem;
+					height: 1.2rem;
+					background:#ffffff;
+					position: fixed;
+					right: 0px;
+					top: 0px;
+					img{
+						width: 0.39rem;
+						height: 0.21rem;
+						display: block;
+						margin:0.5rem auto 0;
+					}
+				}
+			}
+		}
+		.mask_ul{
+			padding:0.36rem 0.69rem 0rem 0.69rem;
+			overflow: hidden;
+			li{
+				float: left;
+				margin-bottom:0.69rem;
+				margin-right:1.65rem;
+				font-family: PingFang-SC-Regular;
+				color:#1C1B20;
+				font-size: 0.37rem;
+			}
+			li:nth-child(2n){
+				margin-right: 0rem;
 			}
 		}
 	}

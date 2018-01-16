@@ -90,6 +90,3 @@ export const refundapplyTerrace = params => post('/member/refund/callplat',param
 export const refundapplyLogList = params =>get('/member/refund/applyLogList',params);//协商历史
 export const refundgetShipInfo = params =>  get('/member/refund/getShipInfo',params);//获取提交的物流信息
 export const refundsaveShipInfo = params => post('/member/refund/saveShipInfo',params);//提交物流信息
-
-export const toplist = params =>get('/goods/top',params);//排行榜
-export const alllist = params =>get('/operatecategory/all',params);//前台运营类目

@@ -5,7 +5,6 @@ import Router from 'vue-router'
 import Index from '@/view/index'
 
 import Classification from '@/view/classification/classification'
-import Ranking from '@/view/classification/ranking' //排行榜
 
 //登录注册
 import User from '@/view/login/entry'
@@ -81,6 +80,8 @@ import Refund from '@/view/aftersale/Refund' //退款申请
 import Agreement from '@/view/aftersale/agreement' //协商历史
 import Logcompany from '@/view/aftersale/Logcompany' //物流公司
 
+//分类
+import Ranking from '@/view/classification/ranking' //排行榜
 
 //测试
 import Person from '@/view/test/person'
