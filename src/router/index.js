@@ -302,7 +302,7 @@ export default new Router({
         {
             path: '/ranking',
             component: Ranking,
-            meta:{title:'排行榜'}
+            meta:{title:'排行榜'},
         }
 	]
 })
