@@ -16,7 +16,7 @@
 								<img :src="itenm.thumb" alt="">
 								<div class="appellation">
 									<div class="text">
-										<span class="spell_bottom"><span v-if='itenm.offered== "拼"' class="spell"><img src="../../assets/img/pin.png" alt=""></span>{{itenm.title}}</span>
+										<span class="spell_bottom"><span v-if='itenm.offered== "拼"' class="spell"><img src="../../assets/img/ping.png" alt=""></span>{{itenm.title}}</span>
 									</div>
 									<div class="model_number">{{itenm.sku_desc}}</div>
 								</div>

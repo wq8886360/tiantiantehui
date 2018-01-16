@@ -80,6 +80,8 @@ import Refund from '@/view/aftersale/Refund' //退款申请
 import Agreement from '@/view/aftersale/agreement' //协商历史
 import Logcompany from '@/view/aftersale/Logcompany' //物流公司
 
+//分类
+import Ranking from '@/view/classification/ranking' //排行榜
 
 //测试
 import Person from '@/view/test/person'
@@ -297,6 +299,11 @@ export default new Router({
             path: '/logcompany',
             component: Logcompany,
             meta: {title:'选择物流公司'}
+        },
+        {
+            path: '/ranking',
+            component: Ranking,
+            meta:{title:'排行榜'}
         }
 	]
 })

@@ -62,7 +62,7 @@
 									<div class="Skin_c">
 										<div class="text">
 											<span class="title">
-											<span v-if='item.offered=="拼"' class="spell"><img src="../../assets/img/pin.png" alt=""></span>{{item.title}}</span>
+											<span v-if='item.offered=="拼"' class="spell"><img src="../../assets/img/ping.png" alt=""></span>{{item.title}}</span>
 										</div>
 										<div class="sku">
 											{{item.sku_desc}}

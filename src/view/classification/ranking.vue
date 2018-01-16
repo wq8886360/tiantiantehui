@@ -130,6 +130,8 @@ export default{
 				if(res.code==1000){
 					this.show=false;
 					this.liIndex=index;
+					let Target = document.querySelectorAll('.scroll_nav .content li');
+					this.scroll.scrollToElement(Target[index],500,true,true,'easing');
 					this.list_data=res.data.goods;
 				}
 			})
