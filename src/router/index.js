@@ -5,6 +5,7 @@ import Router from 'vue-router'
 import Index from '@/view/index'
 
 import Classification from '@/view/classification/classification'
+import Ranking from '@/view/classification/ranking' //排行榜
 
 //登录注册
 import User from '@/view/login/entry'
@@ -297,6 +298,11 @@ export default new Router({
             path: '/logcompany',
             component: Logcompany,
             meta: {title:'选择物流公司'}
+        },
+        {
+            path: '/ranking',
+            component: Ranking,
+            meta:{title:'排行榜'}
         }
 	]
 })
