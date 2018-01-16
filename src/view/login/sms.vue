@@ -49,13 +49,7 @@ export default{
         'code': {
             handler: function() {
                 if(this.code.length == 4){
-                    let codestr = this.code.join("");
-                    if(codestr == this.resCode){
-                        this.dis = false;
-                    }else{
-                        this.dis = true;
-                        this.$vux.toast.text('验证码输入错误', 'middle')
-                    }
+                    this.dis = false;
                 }else{
                     this.dis = true;
                 }
@@ -71,29 +65,26 @@ export default{
             let params ={
                 type: 'mobile',
                 mobile: this.tel,
-                code: this.resCode
+                code: this.code.join('')
             }
             loginindex(params).then((response) => {
                 if(response.data.code == 1000){
                     this.$router.push({path: Cookie.get('to')})
+                }else{
+                    this.$vux.toast.text(response.data.message);
                 }
             })
         },
         countdown(){
             sendSmsCode({mobile: this.tel,vcode: this.vcode}).then((response) => {
-                console.log(response)
-                if(response.data.code == 1000 ){
-                    this.resCode = response.data.data;
-
-                    this.time = 60;
-                    var _this = this;
-                    var timer = setInterval(function(){
-                        _this.time--;
-                        if(_this.time<0){
-                            clearInterval(timer)
-                        }
-                    },1000)
-                }
+                this.time = 60;
+                var _this = this;
+                var timer = setInterval(function(){
+                    _this.time--;
+                    if(_this.time<0){
+                        clearInterval(timer)
+                    }
+                },1000)
             })
         }
 	}

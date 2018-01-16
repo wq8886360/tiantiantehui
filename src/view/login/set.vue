@@ -44,7 +44,6 @@ export default{
             pwd: '',
             pwdagain: '',
             againState: false,
-            resCode: '',
             nickname: null,
 		}
     },
@@ -116,19 +115,14 @@ export default{
         },
         countdown(){
             sendSmsCode({mobile: this.tel,vcode: this.vcode}).then((response) => {
-                console.log(response)
-                if(response.data.code == 1000 ){
-                    this.resCode = response.data.data;
-
-                    this.time = 60;
-                    var _this = this;
-                    var timer = setInterval(function(){
-                        _this.time--;
-                        if(_this.time<0){
-                            clearInterval(timer)
-                        }
-                    },1000)
-                }
+                this.time = 60;
+                var _this = this;
+                var timer = setInterval(function(){
+                    _this.time--;
+                    if(_this.time<0){
+                        clearInterval(timer)
+                    }
+                },1000)
             })
         }
 	}

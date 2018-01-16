@@ -65,8 +65,6 @@ axios.interceptors.response.use(
           Vue.$vux.toast.text(res.data.message,'middle');
           Cookie.remove("token");
           router.push({path: '/user/login'});
-        }else{
-          Vue.$vux.toast.text(res.data.message,'middle');
         }
     }
     return response
