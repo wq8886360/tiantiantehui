@@ -199,6 +199,7 @@ export default{
 					})	
       		  	}else{
       		  		this.missing=true;
+      		  		document.querySelector('.xs-plugin-pullup-undefined').style.display='none';
       		  	}
       		  },10)
       		},1000)
