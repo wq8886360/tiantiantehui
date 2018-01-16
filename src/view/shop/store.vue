@@ -19,7 +19,7 @@
 							<span v-if='attention' class='select'>已关注</span>
 							<span v-else >关注</span>
 						</div>
-						<p>1999人</p>
+						<p>{{storeInfo.head.mark_count}}人</p>
 
 					</div>
 				</div>
@@ -27,7 +27,7 @@
 		</div>
 		<tab id='tab' :class="{'tabFixed':tabFix}">
       		<tab-item :selected='index==0' @on-item-click="onItemClick"><p class='imgBox'><img v-if='index==0' src="../../assets/img/storeIcon.png" alt=""><img v-else src="../../assets/img/storeIconAct.png" alt=""></p><p class='text'>店铺首页</p></tab-item>
-      		<tab-item @on-item-click="onItemClick"><p>{{storeInfo.head.mark_count}}</p><p class='text'>店铺宝贝</p></tab-item>
+      		<tab-item @on-item-click="onItemClick"><p>{{storeInfo.head.goods_count}}</p><p class='text'>店铺宝贝</p></tab-item>
       		<tab-item :selected='index==2'  @on-item-click="onItemClick"><p>{{storeInfo.head.promotion_count}}</p><p class='text'>促销</p></tab-item>
       		<tab-item :selected='index==3' @on-item-click="onItemClick"><p>{{storeInfo.head.new_count}}</p><p class='text'>新品</p></tab-item>
     	</tab>
