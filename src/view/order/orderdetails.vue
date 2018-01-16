@@ -62,7 +62,7 @@
 									<div class="Skin_c">
 										<div class="text">
 											<span class="title">
-											<span v-if='item.offered=="拼"' class="spell">拼</span>{{item.title}}</span>
+											<span v-if='item.offered=="拼"' class="spell"><img src="../../assets/img/pin.png" alt=""></span>{{item.title}}</span>
 										</div>
 										<div class="sku">
 											{{item.sku_desc}}
@@ -100,9 +100,9 @@
 							<span>运费</span>
 							<span class="along_right">￥{{order_data.shipping_fee}}</span>
 						</div>
-						<div class="along" v-if='order_data.promotion_amount!=""'>
+						<div class="along" v-if='order_data.promotion!=""'>
 							<span>促销</span>
-							<span class="along_right">-￥{{order_data.promotion_amount}}</span>
+							<span class="along_right">-￥{{order_data.promotion}}</span>
 						</div>
 						<div class="along" v-if='order_data.voucher_amount!=""'>
 							<span>优惠券</span>

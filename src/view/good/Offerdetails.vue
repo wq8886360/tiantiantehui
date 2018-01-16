@@ -29,9 +29,7 @@ export default{
 				if(res.code==1000){
 					
 					this.offerdetails_data=res.data.voucher;
-					console.log(this.offerdetails_data)
 					this.offerdetails_length=this.offerdetails_data.length;
-					console.log(res)
 				}
 			})
 		}
