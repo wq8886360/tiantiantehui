@@ -92,4 +92,4 @@ export const refundgetShipInfo = params =>  get('/member/refund/getShipInfo',par
 export const refundsaveShipInfo = params => post('/member/refund/saveShipInfo',params);//提交物流信息
 
 export const toplist = params =>get('/goods/top',params);//排行榜
-export const alllist = params =>get('/operatecategory/all',params);//前台运营类目列表
+export const alllist = params =>get('/operatecategory/all',params);//前台运营类目
