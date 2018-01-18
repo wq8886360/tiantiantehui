@@ -23,7 +23,7 @@
                                 <i></i>
                             </div>
                             <!--  -->
-                            <div class="rank" v-if="secondary.on_ranking == 1" @click="rank(item.name,secondary.name)">排行榜 <i class="icon-right"></i></div>
+                            <div class="rank" v-if="secondary.on_ranking == 1" @click="rank(item.name,secondary.name,secondary.id)">排行榜 <i class="icon-right"></i></div>
                             <div class="mianlist">
                                 <div class="type_list" v-for="(threeclass,threeclass_index) in secondary.children" :key="threeclass_index">
                                     <img :src="threeclass.thumb"  alt="">
@@ -117,8 +117,8 @@ export default {
                 this.scrollY = -pos.y;
             })
         },
-        rank(level1,level2){
-            this.$router.push({path: '/ranking',query:{ level1: level1,level2: level2}})
+        rank(level1,level2,secondaryid){
+            this.$router.push({path: '/ranking',query:{ level1: level1,level2: level2,id: secondaryid}})
         }
     },
     created(){
