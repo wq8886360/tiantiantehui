@@ -1,124 +1,119 @@
-.categories{
-	width: 100vw;
-	.content{
-		width: 2.67rem;
-		li{
-			width: 100%;
-			height: 1.57rem;
-			text-align: center;
-			line-height: 1.57rem;
-			background: #F7F7F7;
-			box-sizing: border-box;
-			font-size: 0.37rem;
-			color:#333333;
-		}
-		li.active{
-			background: #fff;
-			border-left: 2px solid #FB0036;
-			color:#FB0036;
-		}
-	}
-	.scroll_nav{
-		position: fixed;
-		bottom: 0;
-		width: 2.56rem;
-		left: 0;
-	}
-	.categories_right{
-		width: 7.04rem;
-		position: fixed;
-		right: 0px;
-		height: 86vh;
-		overflow-y: scroll;
-		-webkit-overflow-scrolling : touch;
-		top:44px;
-		.categories_con{
-			width: 100%;
-			.title{
-				width: auto;
-				margin:0.27rem auto 0;
-				text-align: center;
-				.line{
-					display: inline-block;
-					width: 0.64rem;
-					height: 1px;
-					background: #DDDDDD;
-					vertical-align: middle;
-				}
-				.title_c{
-					font-family: PingFang-SC-Bold;
-					color:#010101;
-					font-size: 0.36rem;
-					vertical-align: middle;
-				}
-				.ranking{
-					float: right;
-					margin-top: 0.05rem;
-					position: absolute;
-					right:0.24rem;
-					color:#858585;
-				}
-			}
-			.categories_ul{
-				padding-left: 0.4rem;
-				padding-right: 0.4rem;
-				padding-top: 0.53rem;
-				overflow: hidden;
-				li{
-					width: 1.79rem;
-					height: 2.29rem;
-					float: left;
-					margin-right: 0.4rem;
-					margin-bottom: 0.37rem;
-					.thumb{
-						height: 1.53rem;
-						width: auto;
-						img{
-						height:100%;
-						width: 100%;
-						display: block;
-					}
-					}
-					.text{
-						font-family: PingFang-SC-Regular;
-						color:#222222;
-						font-size: 0.31rem;
-						text-align: center;
-						margin-top: 0.13rem;
-					}
-				}
-				li:nth-child(3n){
-					margin-right: 0rem;
-				}
-			}
-		}
-	}
-	.vux-search-box{
-		position: relative !important;
-		z-index: 10000;
-	}
-}
-.weui-search-bar{
-	background-color: #FFFFFF !important;
-}
-.weui-search-bar__box{
-	background-color: #EDEDED !important;
-}
-.weui-search-bar:before{
-	border-top:1px solid transparent !important;
-}
-.weui-search-bar:after{
-	border-bottom:1px solid transparent !important;
-}
-.weui-search-bar__box .weui-search-bar__input{
-	color:#858585 !important;	
-	font-size: 0.37rem !important;
-}
-.weui-search-bar__cancel-btn{
-	color:#1C1B20  !important;
-	font-size: 0.37rem !important;
-	font-family: PingFang-SC-Regular !important;
-}
-.weui-search-bar__label span{
-	margin-top: 0.1rem  !important;
+.displayflex{display: -webkit-flex;display: flex;}
+.align_items_center{-webkit-align-items: center;align-items: center;}
+.justify_content_center{-webkit-justify-content: center;justify-content: center;}
+.justify_content{-webkit-justify-content: space-between;justify-content: space-between;}
+.classification{
+    .main{
+        position: absolute;
+        top: 1.333rem;
+        bottom: 1.18rem;
+        left: 0;
+        width: 100%;
+        border-top: 1px solid #ECECEC;
+        box-sizing: border-box;
+        .left{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: #F7F7F7;
+            width: 2.667rem;
+            overflow: hidden;
+            ul{
+                li{
+                    width: 2.667rem;
+                    height: 1.573rem;
+                    line-height: 1.573rem;
+                    text-align: center;
+                    color: #333333;
+                    font-size: 0.373rem;
+                    background: #F7F7F7;
+                    border-bottom: 2px solid #fff;
+                    position: relative;
+                    .border_left{
+                        width: 0.08rem;
+                        height: 100%;
+                        background: transparent;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                    }
+                }
+                li.active{
+                    color: #FB0036;
+                    background: #fff;
+                    .border_left{
+                        background: #FB0036;
+                    }
+                }
+            }
+        }
+        .right{
+            position: absolute;
+            left: 2.667rem;
+            right: 0;
+            height: 100%;
+            background: #fff;
+            overflow: hidden;
+            .li{
+                padding-top: 0.4rem;
+                .item__box{
+                    position: relative;
+                    .title{
+                        .displayflex;
+                        .align_items_center;
+                        .justify_content_center;
+                        padding-bottom: 0.4rem;
+                        i{
+                            width: 0.667rem;
+                            height: 0.027rem;
+                            background: #dddddd;
+                        }
+                        p{
+                            font-size: 0.373rem;
+                            color: #010101;
+                            margin: 0 0.133rem;
+                        }
+                    }
+                    .rank{
+                        .displayflex;
+                        .align_items_center;
+                        color: #858585;
+                        font-size: 0.347rem;
+                        position: absolute;
+                        right: 0.267rem;
+                        top: 0;
+                        i{
+                            font-weight: 700;
+                        }
+                    }
+                    .mianlist{
+                        overflow: hidden;
+                        .type_list{
+                            width: 33.3%;
+                            float: left;
+                            height: 2.4rem;
+                            text-align: center;
+                            overflow: hidden;
+                            margin-bottom: 0.4rem;
+                            img{
+                                height: 1.6rem;
+                                width: auto;
+                            }
+                            p{
+                                font-size: 0.32rem;
+                                color: #222222;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .vux-search_show{ //隐藏搜索结果
+        display: none!important;
+    }
+    .weui-search-bar__cancel-btn{ //搜索框取消按钮颜色
+        color: #FB0036!important;
+    }
 }
