@@ -85,6 +85,8 @@ import Ranking from '@/view/classification/ranking' //排行榜
 import Brand from '@/view/classification/brand' //品牌  
 import Screening from '@/view/classification/screening' //筛选
 
+//活动
+import Dayspecial from '@/view/activity/dayspecial/dayspecial'//天天特惠
 //测试
 import Person from '@/view/test/person'
 
@@ -316,6 +318,11 @@ export default new Router({
             path: '/screening',
             component: Screening,
             meta:{title: '筛选'}
+        },
+        {
+            path:'/dayspecial',
+            component:Dayspecial,
+            meta:{title:'天天特惠'}
         }
 	]
 })
