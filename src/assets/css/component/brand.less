@@ -1,0 +1,60 @@
+.displayflex{display: -webkit-flex;display: flex;}
+.align_items_center{-webkit-align-items: center;align-items: center;}
+.justify_content_center{-webkit-justify-content: center;justify-content: center;}
+.justify_content{-webkit-justify-content: space-between;justify-content: space-between;}
+
+.brand{
+    width: 100vw;
+    height: 100vh;
+	border-top:1px solid #EEEEEE;
+	overflow:hidden;
+	.brand_left{
+		width: 9.2rem;
+        float: left;
+        height: 100vh;
+        overflow: hidden;
+		.letter{
+			border-bottom:1px solid #EEEEEE;
+			height: 1.05rem;
+			line-height: 1.05rem;
+			font-family: PingFang-SC-Bold;
+			font-size: 0.4rem;
+			color:#FB0036;
+			text-indent: 0.27rem;
+		}
+		.logcom_ul{
+			width: 9.2rem;
+			li{
+				width: 100%;
+				height: 1.05rem;
+				line-height: 1.05rem;
+				border-bottom:1px solid #EEEEEE;
+				text-indent: 0.27rem;
+				font-family: PingFang-SC-Regular;
+				color:#1C1B20;
+				font-size: 0.37rem;
+			}
+		}
+	}
+	.brand_right{
+		width: 0.8rem;
+        height: 100vh;
+        position: fixed;
+        right: 0;
+        top: 0;
+        .displayflex;
+        .justify_content_center;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+		.letter_c{
+			font-family: PingFang-SC-Regular;
+			color:#AAAAAA;
+			font-size: 0.32rem;
+			text-align: center;
+			padding: 0.067rem 0;
+        }
+        .active{
+            color: #FB0036;
+        }
+	}
+}	
