@@ -134,7 +134,7 @@
 						</div>
 						<div  v-if='order_data.receive_time!=""' style="margin-bottom:0.1rem;">
 							<span>成交时间：</span>
-							<span>{{order_data.send_time}}</span>
+							<span>{{order_data.receive_time}}</span>
 						</div>
 					</div>
 				</div>
