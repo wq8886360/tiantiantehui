@@ -82,6 +82,8 @@ import Logcompany from '@/view/aftersale/Logcompany' //物流公司
 
 //分类
 import Ranking from '@/view/classification/ranking' //排行榜
+import Brand from '@/view/classification/brand' //品牌  
+import Screening from '@/view/classification/screening' //筛选
 
 //测试
 import Person from '@/view/test/person'
@@ -304,6 +306,16 @@ export default new Router({
             path: '/ranking',
             component: Ranking,
             meta:{title: "xxxx"},
+        },
+        {
+            path: '/brand',
+            component: Brand,
+            meta:{title:'品牌'}
+        },
+        {
+            path: '/screening',
+            component: Screening,
+            meta:{title: '筛选'}
         }
 	]
 })

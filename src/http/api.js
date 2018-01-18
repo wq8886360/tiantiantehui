@@ -94,3 +94,5 @@ export const refundsaveShipInfo = params => post('/member/refund/saveShipInfo',p
 
 //分类
 export const operatecategory = params => post('/operatecategory/all', params); //前台运营类目列表
+export const toplist = params =>get('/goods/top',params);//排行榜
+export const getListFilter = params =>post('/goods/getListFilter',params);//筛选条件
