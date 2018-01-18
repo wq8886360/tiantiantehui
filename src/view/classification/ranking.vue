@@ -39,7 +39,7 @@
 	    <div class="mask" v-if='show'>
 	    	<div class="mask_con">
 	    		<div class="mask_top">
-	    			<span class="title">个护美妆-面部护理套装</span>
+	    			<span class="title">{{Level}}-{{LevelT}}</span>
 	    			<div class="down" @click='show=false'>
 	    				<img src="../../assets/img/icon_saixuan_sq@2x.png" alt="">
 	    			</div>
@@ -53,7 +53,7 @@
 </template>
 <script>
 import BScroll from 'better-scroll';
-import {operatecategory} from '../../http/api.js'
+import {toplist} from '../../http/api.js'
 export default{
 	data(){
 		return{
@@ -72,17 +72,18 @@ export default{
 	},
 	methods:{
 		/*排行榜api*/
-		api_operatecategory(){
+		api_toplist(){
 			let parms={
-				op_cid:37,
+				op_cid:this.$route.query.op_cid,
 				page:this.page,
 				page_size:this.page_size,
 			}
-			operatecategory(parms).then((response)=>{
+			toplist(parms).then((response)=>{
 				let res = response.data;
 				if(res.code==1000){
 					this.cates=res.data.category;
 					this.list_data=res.data.goods;
+					console.log(res)
 					//动态设置宽度
 					this.$nextTick(() => {
 						let ulWidth = 0;
@@ -110,7 +111,7 @@ export default{
 				page:this.page,
 				page_size:this.page_size,
 			}
-			operatecategory(parms).then((response)=>{
+			toplist(parms).then((response)=>{
 				let res =response.data;
 				if(res.code==1000){
 					this.list_data=res.data.goods;
@@ -125,7 +126,7 @@ export default{
 				page:this.page,
 				page_size:this.page_size,
 			}
-			operatecategory(parms).then((response)=>{
+			toplist(parms).then((response)=>{
 				let res =response.data;
 				if(res.code==1000){
 					this.show=false;
@@ -146,9 +147,9 @@ export default{
 		},
 	},
 	created(){
-		this.api_operatecategory();
+		this.api_toplist();
 		this.Level=this.$route.query.level1;
-		this.LevelT=this.$roue.query.level2;
+		this.LevelT=this.$route.query.level2;
 	}
 }	
 </script>
