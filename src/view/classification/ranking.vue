@@ -53,7 +53,7 @@
 </template>
 <script>
 import BScroll from 'better-scroll';
-import {toplist} from '../../http/api.js'
+import {operatecategory} from '../../http/api.js'
 export default{
 	data(){
 		return{
@@ -72,13 +72,13 @@ export default{
 	},
 	methods:{
 		/*排行榜api*/
-		api_toplist(){
+		api_operatecategory(){
 			let parms={
 				op_cid:37,
 				page:this.page,
 				page_size:this.page_size,
 			}
-			toplist(parms).then((response)=>{
+			operatecategory(parms).then((response)=>{
 				let res = response.data;
 				if(res.code==1000){
 					this.cates=res.data.category;
@@ -110,7 +110,7 @@ export default{
 				page:this.page,
 				page_size:this.page_size,
 			}
-			toplist(parms).then((response)=>{
+			operatecategory(parms).then((response)=>{
 				let res =response.data;
 				if(res.code==1000){
 					this.list_data=res.data.goods;
@@ -125,7 +125,7 @@ export default{
 				page:this.page,
 				page_size:this.page_size,
 			}
-			toplist(parms).then((response)=>{
+			operatecategory(parms).then((response)=>{
 				let res =response.data;
 				if(res.code==1000){
 					this.show=false;
@@ -146,9 +146,9 @@ export default{
 		},
 	},
 	created(){
-		this.api_toplist();
-		// this.Level=this.$route.query.Level;
-		// this.LevelT=this.$roue.query.LevelT;
+		this.api_operatecategory();
+		this.Level=this.$route.query.level1;
+		this.LevelT=this.$roue.query.level2;
 	}
 }	
 </script>
