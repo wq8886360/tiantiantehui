@@ -5,7 +5,9 @@
 			<img src="../../../assets/img/img_active_tiantiantehui_title@2x.png"  class="tehui">
 		</div>
 		<!-- 即将开始倒计时 -->
+		
 		<div class="daybebaout">
+			<scroller class='chuxian' lock-y :scrollbar-x=false>
 			<ul>
 				<li class="red">
 					<p class="daytime">18:00</p>
@@ -28,7 +30,9 @@
 					<div class="trigon"></div>
 				</li>
 			</ul>
+		</scroller>
 		</div>
+		
 		<!-- 限时限量抢购 -->
 		<div class="purchase">
 			<span class="left">限时限量抢购</span>
@@ -41,38 +45,89 @@
 			<!-- 商品展示 -->
 			<div class="commshow">
 				<!-- <img src="" class="commshowimg"> -->
+				<div class="sellout"><img src="../../../assets/img/img_active_guang.png"></div>
 			</div>
 			<!-- 商品详情 -->
 			<div class="commdetails">
 				<p class="commname">麻衣布坊2016时尚数学问题毛边高腰涂鸦毛边牛仔短裤LCL017时尚短款阿萨德撒的所大</p>
-				
-				<div class="price">
-					<div class="prcie-left">
+				<!-- 即将开始 -->
+<!-- 				<div class="price">
+					<div class="price-left">
 						<div class="money">
-							<strong style="font-size:0.4rem;">￥98</strong>
-							<del style="font-size:0.29rem;">￥199</del>
+							<strong class="bluec" style="font-size:0.4rem;">￥98</strong>
+							<del style="font-size:0.29rem;">￥199</del>							
 						</div>
+						<p class="remind bulec">已有5996人设置提醒</p>
+					</div>
+					<div class="button"> -->
+						<!-- <div class="xbutton blue" @click="showSuccess('middle')" >提醒我
+							<img src="../../../assets/img/icon_active_time@2x.png">
+						</div> -->
+<!-- 						<div class="xbutton hui buttwo" @click="showCancel">取消提醒</div>
+						
+					</div>					
+				</div> -->
+				<!-- 抢购中 -->
+				<div class="price">
+					<div class="price-left">
+						<div class="money">
+							<strong class="redc" style="font-size:0.4rem;">￥98</strong>
+							<del style="font-size:0.29rem;">￥199</del>							
+						</div>
+						<p class="remind">已有5996人设置提醒</p>
 					</div>
 					<div class="button">
+						<div class="xbutton hui buttwo">取消提醒</div>
 						
-					</div>
-
+					</div>					
 				</div>
-
+					
 			</div>
-	
+			
 		</div>
-		  
+		<!-- 弹出设置-提醒我 -->
+<!-- 		<div class="popup">
+			 <toast v-model="showPositionValue" type="text" :time="2600" is-show-mask :position="position" class="showsuccess">
+			 	<img src="../../../assets/img/icon_common_duihao@2x.png" class="duihao">
+			 	<strong class="txchengg">设置提醒成功</strong>
+			 	<p class="sanfenzhong">将在开抢前三分钟提醒您</p>
+			 </toast>
+		</div> -->
+		<div class="popup">
+			 <toast v-model="showPositionCancel" type="text" :time="2600" is-show-mask :position="position" class="showsuccess">
+			 	<img src="../../../assets/img/icon_common_tanhao@2x.png" class="duihao">
+			 	<strong class="txchengg">取消提醒成功</strong>
+			 	
+			 </toast>
+		</div>
 
 	</div>
 
 </template>
 
 <script>
+	import { XButton,Toast,Scroller} from 'vux'
 	export default {
+		components:{
+			Toast,
+			XButton,
+			Scroller
+		},
 		data() {
 			return {
-
+				position: 'default',
+				showPositionValue: false,//提醒成功
+				showPositionCancel:false,//取消提醒
+			}
+		},
+		methods:{
+			showSuccess (position) {
+			     this.position = position
+			     this.showPositionValue = true
+			   },
+			showCancel(position) {
+				this.position = position
+				this.showPositionCancel = true
 			}
 		}
 
@@ -111,6 +166,9 @@
 			height: 1.33rem;
 			background-color: #1C1B20;
 			box-sizing: border-box;
+			.chuxian{
+			overflow:visible !important;
+			}
 			ul {
 				width: 100%;
 				height: 100%;
@@ -148,6 +206,19 @@
 		/*红色的样式*/
 		.red {
 			background: #FB0036;
+		}
+		.redc {
+			color: #FB0036;
+		}
+		.blue {
+			
+			background-color: #2096F2;
+		}
+		.bluec {
+			color: #2096F2;
+		}
+		.hui {
+			background-color: #ccc;
 		}
 		/*浮动样式*/
 		.left {
@@ -197,6 +268,15 @@
 				background-color: pink;
 				float: left;
 				margin-top: 0.08rem;
+				/*抢光了*/
+				.sellout {
+					margin: 0.50rem;
+					img {
+						width: 1.87rem;
+						height: 1.87rem;
+					}
+					
+				}
 			}
 			.commdetails {
 				float: left;
@@ -218,10 +298,11 @@
 					width: 100%;
 					margin-top: 1.07rem;
 					overflow: hidden;
+
 					.price-left {
 						float: left;
 						width: 3.07rem;
-
+						/*height: 0.91rem;*/
 						.money {
 							overflow: hidden;
 
@@ -235,16 +316,74 @@
 								font-size:0.29rem;
 								float: left;
 								margin-left: 0.13rem;
+								margin-top: 0.06rem;
 								
 							}
+							.remind {
+								font-size: 0.29rem;
+							} 
+						}
+
+					}
+					.button .xbutton	{
+						width: 2.13rem;
+						height: 0.67rem;
+						float: right;
+						border-radius: 0.4rem;						
+						margin-top: 0.13rem;						
+						font-size: 0.32rem;
+						color: #fff;
+						text-align: center;
+						overflow: hidden;
+						img {
+							width: 0.32rem;
+							height: 0.32rem;
+							margin-right: 0.08rem;
+							margin-top: 0.16rem;
 						}
 					}
+					.button .buttwo {
+						line-height: 2
+					}					
+					
 				}
 			}
 
-
+		}
+		/*弹出设置-提醒我*/
+		.popup {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			.showsuccess {
+				overflow: hidden;
+				.duihao {
+					width: 0.8rem;
+					height: 0.8rem;
+					margin: 0.06rem 0 0.06rem;
+				}
+			}
+			strong {
+				display: block;
+				width: 2.4rem;
+				font-size: 0.4rem;
+				/*margin: 0.28rem 0.68rem 0.12rem;*/
+			}
+			.sanfenzhong {
+				font-size: 0.27rem;
+				/*margin: 0 0.4rem;*/
+				color: #E8E8E8;
+			}
+			.weui-toast{
+				width: 3.73rem !important;
+				height: 2.67rem;
+			}	
+			.weui-toast__content strong{
+				width: auto !important;
+			}
 
 		}
+
 
 
 
