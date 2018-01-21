@@ -37,7 +37,8 @@
 		<div class="purchase">
 			<span class="left">限时限量抢购</span>
 			<span class="left mar">尖货低价抢</span>
-			<p class="right bawu">距本场开始  <span class="black">22</span >:<span class="black">34</span>:<span class="black">45</span></p>
+			<!-- <p class="right bawu">距本场开始  <span class="black">22</span >:<span class="black">34</span>:<span class="black">45</span></p> -->
+			<p class="right bawu">距本场结束  <span class="black">22</span >:<span class="black">34</span>:<span class="black">45</span></p>
 		</div>
 	  </div>
 		<!-- 中间内容部分 -->
@@ -74,10 +75,18 @@
 							<strong class="redc" style="font-size:0.4rem;">￥98</strong>
 							<del style="font-size:0.29rem;">￥199</del>							
 						</div>
-						<p class="remind">已有5996人设置提醒</p>
+						<p class="jindt">
+							<span class="bar-bg">
+								<span class="barpo">已售666件</span>
+								<span class="bar-on">
+									
+								</span>
+							</span>
+						</p>
 					</div>
 					<div class="button">
-						<div class="xbutton hui buttwo">取消提醒</div>
+						<!-- <div class="xbutton buttwo red">立即抢购</div> -->
+						<div class="xbutton buttwo hui">已抢光</div>
 						
 					</div>					
 				</div>
@@ -296,16 +305,17 @@
 				}
 				.price {
 					width: 100%;
-					margin-top: 1.07rem;
+					margin-top: 0.8rem;
 					overflow: hidden;
 
 					.price-left {
 						float: left;
-						width: 3.07rem;
+						width: 3.66rem;
+						height: 1.2rem;
 						/*height: 0.91rem;*/
 						.money {
 							overflow: hidden;
-
+							margin-bottom: 0.1rem;
 							strong {
 								float: left;
 								
@@ -323,6 +333,49 @@
 								font-size: 0.29rem;
 							} 
 						}
+						/* 进度条 */
+						.jindt {
+							width: 3.2rem;
+							height: 0.36rem;
+							background-color:#FFBFFF;
+							border-radius: 0.3rem;
+							font-size: 0.12rem;
+							color: #fff;
+							line-height: 1;
+							// padding-left: 0.3rem;
+
+							.bar-bg{
+							  width:100%;
+							  height:0.36rem;
+							  display:block;
+							  border-radius:0.3rem;
+							  position: relative;
+
+							  .barpo {
+							  	position: absolute;
+							  	top: 0;
+							  	left: 0.2rem;
+							  }
+							  
+							  .bar-on{
+							    width:10%;
+							    display:block;/* 设为block */
+							    border-radius:0.3rem;
+							    height:0.36rem; /* okay 基本上就这样 剩下的就交给动画来控制了 */
+							    // animation:bar 7s ease  infinite; /* 设置动画持续时间为7s 反复播放 */
+							    background:linear-gradient(-45deg, rgba(251, 0, 54, 1) 0%,transparent 30%,rgba(252, 96, 118, 1) 60%,rgba(255, 154, 68, 1) 80% ,transparent 100%)							    
+							  }
+							  // @keyframes bar{
+							  //   0%{
+							  //     width:0;
+							  //   }
+							  //   100%{
+							  //     width:100%;
+							  //   }
+							    
+							  // }
+							}
+						}
 
 					}
 					.button .xbutton	{
@@ -330,7 +383,7 @@
 						height: 0.67rem;
 						float: right;
 						border-radius: 0.4rem;						
-						margin-top: 0.13rem;						
+						margin-top: 0.30rem;						
 						font-size: 0.32rem;
 						color: #fff;
 						text-align: center;
